@@ -25,14 +25,14 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include "infohashtable.h"
+#include "../include/infoHashtable.h"
 
 /**
  * @brief check if frist value is equal to the second value
  * 
  * @return bool 
  */
-bool infoEqual (TInfo val1, TInfo val2){
+bool infoEqual (TInfoHashtable val1, TInfoHashtable val2){
     // to implement
 
     return true;
@@ -43,7 +43,7 @@ bool infoEqual (TInfo val1, TInfo val2){
  * 
  * @return bool 
  */
-bool infoGreater (TInfo val1, TInfo val2){
+bool infoGreater (TInfoHashtable val1, TInfoHashtable val2){
     // to implement
 
     return true;
@@ -54,7 +54,7 @@ bool infoGreater (TInfo val1, TInfo val2){
  * 
  * @return bool 
  */
-bool infoLess (TInfo val1, TInfo val2){
+bool infoLess (TInfoHashtable val1, TInfoHashtable val2){
     // to implement
 
     return true;
@@ -64,14 +64,12 @@ bool infoLess (TInfo val1, TInfo val2){
  * @brief structured print of the value
  * 
  */
-void infoPrint (TInfo val1){
+void infoPrint (TInfoHashtable val1){
     // to implement
-    
-    return true;
 }
 
 
-unsigned int keyHash (TKey key){
+unsigned int keyHash (TKeyHashtable key){
     // to implement
     
     return 0;

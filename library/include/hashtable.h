@@ -43,7 +43,7 @@ typedef struct SHashTable
 /**
  * @brief Creation of a new HashTable
  * 
- * @param n size of hashtable
+ * @param n number of hashtable bucket
  * @return THashTable* 
  */
 THashTable *hashTableCreate (int n);
@@ -62,7 +62,7 @@ void hashTableDestroy (THashTable* ht);
  * @param key key to find
  * @return TValue* 
  */
-TValue *hashTableSearch (THashTable* ht, TKey key);
+TValueHashtable *hashTableSearch (THashTable* ht, TKeyHashtable key);
 
 /**
  * @brief Insert a new key and value in a HashTable
@@ -71,7 +71,7 @@ TValue *hashTableSearch (THashTable* ht, TKey key);
  * @param key key to insert
  * @param value value to insert
  */
-void hashTableInsert (THashTable* ht, TKey key, TValue value);
+void hashTableInsert (THashTable* ht, TKeyHashtable key, TValueHashtable value);
 
 /**
  * @brief Delete a key in a HashTable
@@ -79,7 +79,7 @@ void hashTableInsert (THashTable* ht, TKey key, TValue value);
  * @param ht pointer of HashTable
  * @param key key to delete
  */
-void hashTableDelete (THashTable* ht, TKey key);
+void hashTableDelete (THashTable* ht, TKeyHashtable key);
 
 /**
  * @brief Print a HashTable

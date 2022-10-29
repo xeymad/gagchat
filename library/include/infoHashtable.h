@@ -30,50 +30,52 @@
 #ifndef INFO_HASHTABLE_H
 #define INFO_HASHTABLE_H
 
+#include "stdbool.h"
+
 /**
  * @brief type of HashTable
  * 
  */
-typedef int TKey;
-typedef float TValue;
+typedef int TKeyHashtable;
+typedef int TValueHashtable;
 
 /**
  * @brief definition of HashTable
  * 
  */
 typedef struct {
-    TKey key;
-    TValue value;
-} TInfo;
+    TKeyHashtable key;
+    TValueHashtable value;
+} TInfoHashtable;
 
 /**
  * @brief check if frist value is equal to the second value
  * 
  * @return bool 
  */
-bool infoEqual (TInfo, TInfo);
+bool infoEqual (TInfoHashtable, TInfoHashtable);
 
 /**
  * @brief check if frist value is greater to the second value
  * 
  * @return bool 
  */
-bool infoGreater (TInfo, TInfo);
+bool infoGreater (TInfoHashtable, TInfoHashtable);
 
 /**
  * @brief check if frist value is less to the second value
  * 
  * @return bool 
  */
-bool infoLess (TInfo, TInfo);
+bool infoLess (TInfoHashtable, TInfoHashtable);
 
 /**
  * @brief structured print of the value
  * 
  */
-void infoPrint (TInfo);
+void infoPrint (TInfoHashtable);
 
 
-unsigned int keyHash (TKey);
+unsigned int keyHash (TKeyHashtable);
 
 #endif

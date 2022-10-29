@@ -30,16 +30,16 @@
  * @brief type of List
  * 
  */
-typedef int TKey;
-typedef int TValue;
+typedef int TKeyList;
+typedef int TValueList;
 
 /**
  * @brief definition of List
  * 
  */
 struct SInfoList {
-    TKey key;
-    TValue value;
+    TKeyList key;
+    TValueList value;
 };
 typedef struct SInfoList TInfoList;
 
@@ -47,13 +47,13 @@ typedef struct SInfoList TInfoList;
  * @brief create List from a key
  * 
  */
-TInfoList infoListCreateKey(TKey key);
+TInfoList infoListCreateKey(TKeyList key);
 
 /**
  * @brief create List from a key and value
  * 
  */
-TInfoList infoListCreate(TKey, TValue);
+TInfoList infoListCreate(TKeyList, TValueList);
 
 /**
  * @brief check if frist value is equal to the second value

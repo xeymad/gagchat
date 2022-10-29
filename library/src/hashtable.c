@@ -23,3 +23,113 @@
  * 
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <assert.h>
+#include "../include/infoList.h"
+#include "../include/list.h"
+#include "../include/hashtable.h"
+
+unsigned int keyHash(TKeyHashtable key)
+{
+    return (unsigned int)key;
+}
+
+/* 
+ * Operazioni su THashTable
+ */
+
+/**
+ * @brief Creation of a new HashTable
+ * 
+ * @param n number of hashtable bucket
+ * @return THashTable* 
+ */
+THashTable *hashTableCreate(int n)
+{
+    THashTable *ht = malloc(sizeof(THashTable));
+    assert(ht != NULL);
+
+    ht->bucket = malloc(n * sizeof(TList));
+    assert(ht->bucket != NULL);
+
+    for (int i = 0; i < n; i++)
+        ht->bucket[i] = listCreate();
+    ht->n_bucket = n;
+    return ht;
+}
+
+/**
+ * @brief destroy the HashTable
+ * 
+ * @param ht pointer of HashTable
+ */
+void hashTableDestroy(THashTable *ht)
+{
+    for (int i = 0; i < ht->n_bucket; i++)
+        ht->bucket[i] = listDestroy(ht->bucket[i]);
+    free(ht->bucket);
+    free(ht);
+}
+
+/**
+ * @brief search in a HashTable
+ * 
+ * @param ht pointer of HashTable
+ * @param key key to find
+ * @return TValue* 
+ */
+TValueHashtable *hashTableSearch(THashTable *ht, TKeyHashtable key)
+{
+    unsigned h = keyHash(key) % ht->n_bucket;
+    TInfoList info = infoListCreateKey(key);
+    THLNode *node = listSearch(ht->bucket[h], info);
+    if (node != NULL)
+        return &node->info.value;
+    return NULL;
+}
+
+/**
+ * @brief Insert a new key and value in a HashTable
+ * 
+ * @param ht pointer of HashTable
+ * @param key key to insert
+ * @param value value to insert
+ */
+void hashTableInsert(THashTable *ht, TKeyHashtable key, TValueHashtable value)
+{
+    unsigned h = keyHash(key) % ht->n_bucket;
+    TInfoList info = infoListCreateKey(key);
+    info.value = value;
+    THLNode *node = listSearch(ht->bucket[h], info);
+    if (node != NULL)
+        node->info.value = value;
+    else
+        ht->bucket[h] = listInsert(ht->bucket[h], info);
+}
+
+/**
+ * @brief Delete a key in a HashTable
+ * 
+ * @param ht pointer of HashTable
+ * @param key key to delete
+ */
+void hashTableDelete(THashTable *ht, TKeyHashtable key)
+{
+    unsigned h = keyHash(key) % ht->n_bucket;
+    TInfoList t = infoListCreateKey(key);
+    listDelete(ht->bucket[h], t);
+}
+
+/**
+ * @brief Print a HashTable
+ * 
+ * @param ht pointer of HashTable
+ */
+void hashTablePrint(THashTable *ht)
+{
+    for (int i = 0; i < ht->n_bucket; i++)
+        for (THLNode *node = ht->bucket[i]; node != NULL; node = node->link)
+            infoListPrint(node->info);
+}
