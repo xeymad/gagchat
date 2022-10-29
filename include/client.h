@@ -28,3 +28,13 @@
  * 
  */
 void* client_message_receiver(void *args);
+
+/**
+ * @brief sends a message to the specified user using 
+ * the server's tcp socket.
+ * 
+ * @param tcp_socket the server's socket.
+ * @param to_user user to forward message.
+ * @param message the message text to forward.
+ */
+void client_message_sender(int tcp_socket, char* to_user, char* message);
