@@ -24,8 +24,10 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include "message.h"
 
 int main(int argc, char** argv){
-    printf("HelloWorld!\n");
+    Message m = message_constructor("userName","nice one this time!");
+    printf("%s: %s\n",m.user,m.text);
     return EXIT_SUCCESS;
 }
