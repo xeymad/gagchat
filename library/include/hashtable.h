@@ -43,4 +43,4 @@ void hashTableInsert (THashTable* ht, TKey key, TValue value);
 void hashTableDelete (THashTable* ht, TKey key);
 void hashTablePrint(THashTable* ht);
 
-#endif /* THT_H */
+#endif 
