@@ -29,21 +29,64 @@
 #include "infoList.h"
 #include "array.h"
 
+/**
+ * @brief Struct of List
+ * 
+ */
 typedef struct SHLNode THLNode;
-
 struct SHLNode {
     TInfoList info;
     THLNode *link;
 };
 typedef THLNode* TList;
 
+/**
+ * @brief Creation of a new List
+ * 
+ * @return TList 
+ */
 TList listCreate();
-TList listDestroy(TList);
-TList listInsert(TList, TInfoList);
-THLNode *listSearch(TList, TInfoList);
-TList listDelete(TList, TInfoList);
-void listPrint(TList);
 
-TList mergeList(TList,TList,int,TArray *);
+/**
+ * @brief 
+ * 
+ * @param list pointer of List
+ * @return TList 
+ */
+TList listDestroy(TList list);
+
+/**
+ * @brief 
+ * 
+ * @param list pointer of List
+ * @param info value of List
+ * @return TList 
+ */
+TList listInsert(TList list, TInfoList info);
+
+/**
+ * @brief 
+ * 
+ * @param list pointer of List
+ * @param info value of List
+ * @return THLNode* 
+ */
+THLNode *listSearch(TList list, TInfoList info);
+
+/**
+ * @brief 
+ * 
+ * @param list pointer of List
+ * @param info value of List
+ * @return TList 
+ */
+TList listDelete(TList list, TInfoList info);
+
+/**
+ * @brief 
+ * 
+ * @param list pointer of List
+ */
+void listPrint(TList list);
 
 #endif

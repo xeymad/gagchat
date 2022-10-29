@@ -31,14 +31,14 @@
 #define INFO_HASHTABLE_H
 
 /**
- * @brief type of hashtable
+ * @brief type of HashTable
  * 
  */
 typedef int TKey;
 typedef float TValue;
 
 /**
- * @brief definition of
+ * @brief definition of HashTable
  * 
  */
 typedef struct {

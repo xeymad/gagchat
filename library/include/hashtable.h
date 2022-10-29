@@ -30,17 +30,62 @@
 #include "infoList.h"
 #include "list.h"
 
+/**
+ * @brief Struct of Hashtable
+ * 
+ */
 typedef struct SHashTable
 {
     TList *bucket;
     int n_bucket;
 } THashTable;
 
+/**
+ * @brief Creation of a new HashTable
+ * 
+ * @param n size of hashtable
+ * @return THashTable* 
+ */
 THashTable *hashTableCreate (int n);
+
+/**
+ * @brief destroy the HashTable
+ * 
+ * @param ht pointer of HashTable
+ */
 void hashTableDestroy (THashTable* ht);
+
+/**
+ * @brief search in a HashTable
+ * 
+ * @param ht pointer of HashTable
+ * @param key key to find
+ * @return TValue* 
+ */
 TValue *hashTableSearch (THashTable* ht, TKey key);
+
+/**
+ * @brief Insert a new key and value in a HashTable
+ * 
+ * @param ht pointer of HashTable
+ * @param key key to insert
+ * @param value value to insert
+ */
 void hashTableInsert (THashTable* ht, TKey key, TValue value);
+
+/**
+ * @brief Delete a key in a HashTable
+ * 
+ * @param ht pointer of HashTable
+ * @param key key to delete
+ */
 void hashTableDelete (THashTable* ht, TKey key);
+
+/**
+ * @brief Print a HashTable
+ * 
+ * @param ht pointer of HashTable
+ */
 void hashTablePrint(THashTable* ht);
 
 #endif 

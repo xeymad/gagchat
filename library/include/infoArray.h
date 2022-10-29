@@ -27,18 +27,43 @@
  * TInfoArray: tipo elementare
  */
 
-#ifndef INFOARRAY_H
-#define INFOARRAY_H
+#ifndef INFO_ARRAY_H
+#define INFO_ARRAY_H
 
+/**
+ * @brief type of Array
+ * 
+ */
 typedef int TInfoArray;
 
-TInfoArray infoArrayCreate(int value);
-int infoArrayEqual(TInfoArray, TInfoArray);
-int infoArrayGreater(TInfoArray, TInfoArray);
-int infoArrayLess(TInfoArray, TInfoArray);
+/**
+ * @brief check if frist value is equal to the second value
+ * 
+ * @return bool 
+ */
+bool infoArrayEqual(TInfoArray, TInfoArray);
+
+/**
+ * @brief check if frist value is greater to the second value
+ * 
+ * @return bool 
+ */
+bool infoArrayGreater(TInfoArray, TInfoArray);
+
+/**
+ * @brief check if frist value is less to the second value
+ * 
+ * @return bool 
+ */
+bool infoArrayLess(TInfoArray, TInfoArray);
+
+/**
+ * @brief structured print of the value
+ * 
+ */
 void infoArrayPrint(TInfoArray);
 
-#endif /* TINFOARRAY_H */
+#endif
 
 
 

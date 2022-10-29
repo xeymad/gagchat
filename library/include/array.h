@@ -32,16 +32,53 @@
 
 #include "infoArray.h"
 
+/**
+ * @brief Struct of Array
+ * 
+ */
 typedef struct {
     TInfoArray* items; // puntatore agli elementi dell'array
     int length;   // lunghezza array    
     int size;     // dimensione allocata (>= length)
 } TArray;
 
+/**
+ * @brief Creation of a new Array
+ * 
+ * @param length size of Array
+ * @return TArray 
+ */
 TArray arrayCreate (int length);
+
+/**
+ * @brief destroy the Array
+ * 
+ * @param a pointer of Array
+ */
 void arrayDestroy (TArray *a);
+
+/**
+ * @brief resize the Array
+ * 
+ * @param a pointer of Array
+ * @param length size of Array
+ */
 void arrayResize (TArray *a, int length);
+
+/**
+ * @brief 
+ * 
+ * @param a pointer of Array
+ */
 void arrayPrint (TArray *a);
+
+/**
+ * @brief 
+ * 
+ * @param a pointer of Array
+ * @param item item to insert
+ * @return TArray 
+ */
 TArray arrayInsert(TArray *a,int item);
 
 #endif /* TARRAY_H */

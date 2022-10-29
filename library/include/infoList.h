@@ -23,23 +23,63 @@
  * 
  */
 
-#ifndef INFOLIST_H
-#define INFOLIST_H
+#ifndef INFO_LIST_H
+#define INFO_LIST_H
 
+/**
+ * @brief type of List
+ * 
+ */
 typedef int TKey;
 typedef int TValue;
 
+/**
+ * @brief definition of List
+ * 
+ */
 struct SInfoList {
     TKey key;
     TValue value;
 };
 typedef struct SInfoList TInfoList;
 
+/**
+ * @brief create List from a key
+ * 
+ */
 TInfoList infoListCreateKey(TKey key);
+
+/**
+ * @brief create List from a key and value
+ * 
+ */
 TInfoList infoListCreate(TKey, TValue);
+
+/**
+ * @brief check if frist value is equal to the second value
+ * 
+ * @return bool 
+ */
 int infoListEqual (TInfoList, TInfoList);
+
+/**
+ * @brief check if frist value is greater to the second value
+ * 
+ * @return bool 
+ */
 int infoListGreater (TInfoList, TInfoList);
+
+/**
+ * @brief check if frist value is less to the second value
+ * 
+ * @return bool 
+ */
 int infoListLess (TInfoList, TInfoList);
+
+/**
+ * @brief structured print of the value
+ * 
+ */
 void infoListPrint (TInfoList);
 
 #endif
