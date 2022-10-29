@@ -1,5 +1,5 @@
 /**
- * @file hashtable.h
+ * @file infoHashtable.h
  * @author Gianluca (g.canzolino3@studenti.unisa.it)
  * @brief 
  * @version 0.1
@@ -23,24 +23,57 @@
  * 
  */
 
-#ifndef HASHTABLE_H
-#define HASHTABLE_H
+/*
+ * definition of comparator for hashtable
+ */
 
-#include "infoHashtable.h"
-#include "infoList.h"
-#include "list.h"
+#ifndef INFO_HASHTABLE_H
+#define INFO_HASHTABLE_H
 
-typedef struct SHashTable
-{
-    TList *bucket;
-    int n_bucket;
-} THashTable;
+/**
+ * @brief type of hashtable
+ * 
+ */
+typedef int TKey;
+typedef float TValue;
 
-THashTable *hashTableCreate (int n);
-void hashTableDestroy (THashTable* ht);
-TValue *hashTableSearch (THashTable* ht, TKey key);
-void hashTableInsert (THashTable* ht, TKey key, TValue value);
-void hashTableDelete (THashTable* ht, TKey key);
-void hashTablePrint(THashTable* ht);
+/**
+ * @brief definition of
+ * 
+ */
+typedef struct {
+    TKey key;
+    TValue value;
+} TInfo;
 
-#endif /* THT_H */
+/**
+ * @brief check if frist value is equal to the second value
+ * 
+ * @return bool 
+ */
+bool infoEqual (TInfo, TInfo);
+
+/**
+ * @brief check if frist value is greater to the second value
+ * 
+ * @return bool 
+ */
+bool infoGreater (TInfo, TInfo);
+
+/**
+ * @brief check if frist value is less to the second value
+ * 
+ * @return bool 
+ */
+bool infoLess (TInfo, TInfo);
+
+/**
+ * @brief structured print of the value
+ * 
+ */
+void infoPrint (TInfo);
+
+
+unsigned int keyHash (TKey);
+
+#endif

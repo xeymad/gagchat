@@ -1,5 +1,5 @@
 /**
- * @file hashtable.h
+ * @file infohashtable.c
  * @author Gianluca (g.canzolino3@studenti.unisa.it)
  * @brief 
  * @version 0.1
@@ -23,24 +23,56 @@
  * 
  */
 
-#ifndef HASHTABLE_H
-#define HASHTABLE_H
+#include <stdlib.h>
+#include <stdbool.h>
+#include "infohashtable.h"
 
-#include "infoHashtable.h"
-#include "infoList.h"
-#include "list.h"
+/**
+ * @brief check if frist value is equal to the second value
+ * 
+ * @return bool 
+ */
+bool infoEqual (TInfo val1, TInfo val2){
+    // to implement
 
-typedef struct SHashTable
-{
-    TList *bucket;
-    int n_bucket;
-} THashTable;
+    return true;
+}
 
-THashTable *hashTableCreate (int n);
-void hashTableDestroy (THashTable* ht);
-TValue *hashTableSearch (THashTable* ht, TKey key);
-void hashTableInsert (THashTable* ht, TKey key, TValue value);
-void hashTableDelete (THashTable* ht, TKey key);
-void hashTablePrint(THashTable* ht);
+/**
+ * @brief check if frist value is greater to the second value
+ * 
+ * @return bool 
+ */
+bool infoGreater (TInfo val1, TInfo val2){
+    // to implement
 
-#endif /* THT_H */
+    return true;
+}
+
+/**
+ * @brief check if frist value is less to the second value
+ * 
+ * @return bool 
+ */
+bool infoLess (TInfo val1, TInfo val2){
+    // to implement
+
+    return true;
+}
+
+/**
+ * @brief structured print of the value
+ * 
+ */
+void infoPrint (TInfo val1){
+    // to implement
+    
+    return true;
+}
+
+
+unsigned int keyHash (TKey key){
+    // to implement
+    
+    return 0;
+}

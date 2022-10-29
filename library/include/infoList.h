@@ -1,5 +1,5 @@
 /**
- * @file hashtable.h
+ * @file infoList.h
  * @author Gianluca (g.canzolino3@studenti.unisa.it)
  * @brief 
  * @version 0.1
@@ -23,24 +23,23 @@
  * 
  */
 
-#ifndef HASHTABLE_H
-#define HASHTABLE_H
+#ifndef INFOLIST_H
+#define INFOLIST_H
 
-#include "infoHashtable.h"
-#include "infoList.h"
-#include "list.h"
+typedef int TKey;
+typedef int TValue;
 
-typedef struct SHashTable
-{
-    TList *bucket;
-    int n_bucket;
-} THashTable;
+struct SInfoList {
+    TKey key;
+    TValue value;
+};
+typedef struct SInfoList TInfoList;
 
-THashTable *hashTableCreate (int n);
-void hashTableDestroy (THashTable* ht);
-TValue *hashTableSearch (THashTable* ht, TKey key);
-void hashTableInsert (THashTable* ht, TKey key, TValue value);
-void hashTableDelete (THashTable* ht, TKey key);
-void hashTablePrint(THashTable* ht);
+TInfoList infoListCreateKey(TKey key);
+TInfoList infoListCreate(TKey, TValue);
+int infoListEqual (TInfoList, TInfoList);
+int infoListGreater (TInfoList, TInfoList);
+int infoListLess (TInfoList, TInfoList);
+void infoListPrint (TInfoList);
 
-#endif /* THT_H */
+#endif

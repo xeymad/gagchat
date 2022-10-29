@@ -1,5 +1,5 @@
 /**
- * @file hashtable.h
+ * @file array.h
  * @author Gianluca (g.canzolino3@studenti.unisa.it)
  * @brief 
  * @version 0.1
@@ -23,24 +23,26 @@
  * 
  */
 
-#ifndef HASHTABLE_H
-#define HASHTABLE_H
+/*
+ * TArray: array dinamico
+ */
 
-#include "infoHashtable.h"
-#include "infoList.h"
-#include "list.h"
+#ifndef TARRAY_H
+#define TARRAY_H
 
-typedef struct SHashTable
-{
-    TList *bucket;
-    int n_bucket;
-} THashTable;
+#include "infoArray.h"
 
-THashTable *hashTableCreate (int n);
-void hashTableDestroy (THashTable* ht);
-TValue *hashTableSearch (THashTable* ht, TKey key);
-void hashTableInsert (THashTable* ht, TKey key, TValue value);
-void hashTableDelete (THashTable* ht, TKey key);
-void hashTablePrint(THashTable* ht);
+typedef struct {
+    TInfoArray* items; // puntatore agli elementi dell'array
+    int length;   // lunghezza array    
+    int size;     // dimensione allocata (>= length)
+} TArray;
 
-#endif /* THT_H */
+TArray arrayCreate (int length);
+void arrayDestroy (TArray *a);
+void arrayResize (TArray *a, int length);
+void arrayPrint (TArray *a);
+TArray arrayInsert(TArray *a,int item);
+
+#endif /* TARRAY_H */
+

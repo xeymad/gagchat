@@ -1,5 +1,5 @@
 /**
- * @file infohashtable.h
+ * @file infoArray.h
  * @author Gianluca (g.canzolino3@studenti.unisa.it)
  * @brief 
  * @version 0.1
@@ -24,56 +24,21 @@
  */
 
 /*
- * definition of comparator for hashtable
+ * TInfoArray: tipo elementare
  */
 
-#ifndef INFO_HASHTABLE_H
-#define INFO_HASHTABLE_H
+#ifndef INFOARRAY_H
+#define INFOARRAY_H
 
-/**
- * @brief type of hashtable
- * 
- */
-typedef int TKey;
-typedef float TValue;
+typedef int TInfoArray;
 
-/**
- * @brief definition of
- * 
- */
-typedef struct {
-    TKey key;
-    TValue value;
-} TInfo;
+TInfoArray infoArrayCreate(int value);
+int infoArrayEqual(TInfoArray, TInfoArray);
+int infoArrayGreater(TInfoArray, TInfoArray);
+int infoArrayLess(TInfoArray, TInfoArray);
+void infoArrayPrint(TInfoArray);
 
-/**
- * @brief check if frist value is equal to the second value
- * 
- * @return bool 
- */
-bool infoEqual (TInfo, TInfo);
-
-/**
- * @brief check if frist value is greater to the second value
- * 
- * @return bool 
- */
-bool infoGreater (TInfo, TInfo);
-
-/**
- * @brief check if frist value is less to the second value
- * 
- * @return bool 
- */
-bool infoLess (TInfo, TInfo);
-
-/**
- * @brief structured print of the value
- * 
- */
-void infoPrint (TInfo);
+#endif /* TINFOARRAY_H */
 
 
-unsigned int keyHash (TKey);
 
-#endif
