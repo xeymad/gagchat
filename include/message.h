@@ -33,15 +33,25 @@
  */
 typedef struct SMessage{
     char user[USR_MAXLEN]; //Username is a string with a maximum length of 256 characters.
-    char text[TXT_MAXLEN]; //Message is a string with a maximum length of 4096 characters.
-    int code;
+    char text[TXT_MAXLEN]; //Message text is a string with a maximum length of 4096 characters.
+    int code; //Error code is represented by integer.
 } Message;
 
 /**
- * @brief Creates a message.
+ * @brief Creates a basic exchangeable message.
  * 
- * @param user string with a maximum length of 256 characters.
- * @param text string with a maximum length of 4096 characters.
+ * @param user Username
+ * @param text Message text
  * @return Message 
  */
 Message message_constructor(char *user, char* text);
+
+/**
+ * @brief Creates an error message.
+ * 
+ * @param user Username
+ * @param text Message text
+ * @param code Error code
+ * @return Message 
+ */
+Message message_err_constructor(char *user, char* text, int code);
