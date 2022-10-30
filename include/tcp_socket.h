@@ -31,6 +31,9 @@
 #ifndef SERV_PORT
     #define SERV_PORT 3000 //Server open port
 #endif
+#ifndef LISTENQ
+    #define LISTENQ 10 //Server open port
+#endif
 
 typedef enum EConnType{CLIENT, SERVER} ConnType;
 

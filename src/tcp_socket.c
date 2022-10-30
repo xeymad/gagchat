@@ -30,22 +30,26 @@
 TCPSocket* tcp_socket_create(ConnType type, char* server_ip){
     TCPSocket* tcp_socket = malloc(sizeof(TCPSocket));
     assert(tcp_socket!=NULL);
+    tcp_socket->sockfd = socket (AF_INET, SOCK_STREAM, 0);
+    assert(tcp_socket->sockfd>=0);
+    memset(&(tcp_socket->servaddr), 0, sizeof(tcp_socket->servaddr));
     if(type==CLIENT){
-        tcp_socket->sockfd = socket (AF_INET, SOCK_STREAM, 0);
-        assert(tcp_socket->sockfd>=0);
-        //Creation of the socket
-        memset(&(tcp_socket->servaddr), 0, sizeof(tcp_socket->servaddr));
+        //Client socket
         tcp_socket->servaddr.sin_family = AF_INET;
         tcp_socket->servaddr.sin_addr.s_addr= inet_addr(server_ip);
         tcp_socket->servaddr.sin_port =  htons(SERV_PORT);
+        return tcp_socket;
     }
-    //TODO: server impl
+    //preparation of the socket address 
+    tcp_socket->servaddr.sin_family = AF_INET;
+    tcp_socket->servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    tcp_socket->servaddr.sin_port = htons(SERV_PORT);
     return tcp_socket;
 }
 
 void tcp_socket_server_listen(TCPSocket* tcp_socket){
-    //TODO: server impl
-    return;
+    bind (tcp_socket->sockfd, (struct sockaddr *) &(tcp_socket->servaddr), sizeof(tcp_socket->servaddr));
+    listen (tcp_socket->sockfd, LISTENQ);
 }
 
 void tcp_socket_client_connect(TCPSocket* tcp_socket){
