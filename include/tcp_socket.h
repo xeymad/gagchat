@@ -26,6 +26,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include "message.h"
 
 
 #ifndef SERV_PORT
@@ -36,7 +37,6 @@
 #endif
 
 typedef enum EConnType{CLIENT, SERVER} ConnType;
-
 
 typedef struct STCPSocket{
     int sockfd; //File Descriptor of the socket
@@ -66,6 +66,24 @@ void tcp_socket_server_listen(TCPSocket* tcp_socket);
  * @param tcp_socket pointer to TCPSocket struct.
  */
 void tcp_socket_client_connect(TCPSocket* tcp_socket);
+
+/**
+ * @brief Sends a Message on TCPSocket.
+ * 
+ * @param tcp_socket pointer to TCPSocket.
+ * @param message the Message to send.
+ * @return int On success, these calls return the number of bytes sent. On
+    error, -1 is returned, and errno is set to indicate the error.
+ */
+int tcp_socket_send_message(TCPSocket* tcp_socket, Message* message);
+
+/**
+ * @brief Receives a Message from TCPSocket.
+ * 
+ * @param tcp_socket pointer to TCPSocket
+ * @return Message* pointer to received message
+ */
+Message* tcp_socket_recv_message(TCPSocket* tcp_socket);
 
 /**
  * @brief Destroys a TCPSocket.

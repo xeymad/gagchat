@@ -40,7 +40,7 @@ TCPSocket* tcp_socket_create(ConnType type, char* server_ip){
         tcp_socket->servaddr.sin_port =  htons(SERV_PORT);
         return tcp_socket;
     }
-    //preparation of the socket address 
+    //Server socket
     tcp_socket->servaddr.sin_family = AF_INET;
     tcp_socket->servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     tcp_socket->servaddr.sin_port = htons(SERV_PORT);
@@ -55,6 +55,17 @@ void tcp_socket_server_listen(TCPSocket* tcp_socket){
 void tcp_socket_client_connect(TCPSocket* tcp_socket){
     connect(tcp_socket->sockfd, (struct sockaddr *) &(tcp_socket->servaddr), sizeof(tcp_socket->servaddr));
     assert(tcp_socket->sockfd>=0);
+}
+
+int tcp_socket_send_message(TCPSocket* tcp_socket, Message* message){
+    return send(tcp_socket->sockfd, (void*)message, sizeof(Message), 0);
+}
+
+Message* tcp_socket_recv_message(TCPSocket* tcp_socket){
+    Message* received;
+    int ret = recv(tcp_socket->sockfd, (void *)received, sizeof(Message),0);
+    assert(ret!=0);
+    return message_err_constructor(received->user,received->text,received->code);
 }
 
 void tcp_socket_destroy(TCPSocket* tcp_socket){

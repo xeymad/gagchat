@@ -24,7 +24,6 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "message.h"
 #include "tcp_socket.h"
 
 int main(int argc, char** argv){
