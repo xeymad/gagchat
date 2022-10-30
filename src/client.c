@@ -31,6 +31,7 @@ int main(int argc, char** argv){
     //Note: the following code was tested with 'echoServer.c'
     TCPSocket* sock = tcp_socket_create(CLIENT,"127.0.0.1");
     tcp_socket_client_connect(sock);
+    tcp_socket_destroy(sock);
     Message* msg = message_err_constructor("userName","nice one this time!",3);
     printf("%s: %s\n%d\n",msg->user,msg->text,msg->code);
     message_destroy(msg);
