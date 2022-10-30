@@ -61,6 +61,14 @@ TCPSocket* tcp_socket_create(ConnType type, char* server_ip);
 void tcp_socket_server_listen(TCPSocket* tcp_socket);
 
 /**
+ * @brief Accepts a connection from a requesting client.
+ * 
+ * @param tcp_socket pointer to TCPSocket struct.
+ * @return int the connection file descriptor.
+ */
+int tcp_socket_server_accept(TCPSocket* tcp_socket);
+
+/**
  * @brief Connects the client to the specified TCPSocket.
  * 
  * @param tcp_socket pointer to TCPSocket struct.
@@ -70,20 +78,24 @@ void tcp_socket_client_connect(TCPSocket* tcp_socket);
 /**
  * @brief Sends a Message on TCPSocket.
  * 
- * @param tcp_socket pointer to TCPSocket.
+ * @param connection_fd connection file descriptor. If client, it is
+ * param sockfd of TCPSocket. If server, it is obtained by the output of
+ * tcp_socket_server_accept function.
  * @param message the Message to send.
  * @return int On success, these calls return the number of bytes sent. On
-    error, -1 is returned, and errno is set to indicate the error.
+ * error, -1 is returned, and errno is set to indicate the error.
  */
-int tcp_socket_send_message(TCPSocket* tcp_socket, Message* message);
+int tcp_socket_send_message(int connection_fd, Message* message);
 
 /**
  * @brief Receives a Message from TCPSocket.
  * 
- * @param tcp_socket pointer to TCPSocket
- * @return Message* pointer to received message
+ * @param connection_fd connection file descriptor. If client, it is
+ * param sockfd of TCPSocket. If server, it is obtained by the output of
+ * tcp_socket_server_accept function.
+ * @return Message* pointer to received message.
  */
-Message* tcp_socket_recv_message(TCPSocket* tcp_socket);
+Message* tcp_socket_recv_message(int connection_fd);
 
 /**
  * @brief Destroys a TCPSocket.

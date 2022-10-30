@@ -23,6 +23,7 @@
  * 
  */
 #include "tcp_socket.h"
+#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
@@ -52,22 +53,29 @@ void tcp_socket_server_listen(TCPSocket* tcp_socket){
     listen (tcp_socket->sockfd, LISTENQ);
 }
 
+int tcp_socket_server_accept(TCPSocket* tcp_socket){
+    struct sockaddr_in cliaddr;
+    int clilen = sizeof(cliaddr);
+    return accept (tcp_socket->sockfd, (struct sockaddr *) &cliaddr, &clilen);
+}
+
 void tcp_socket_client_connect(TCPSocket* tcp_socket){
     connect(tcp_socket->sockfd, (struct sockaddr *) &(tcp_socket->servaddr), sizeof(tcp_socket->servaddr));
     assert(tcp_socket->sockfd>=0);
 }
 
-int tcp_socket_send_message(TCPSocket* tcp_socket, Message* message){
-    return send(tcp_socket->sockfd, (void*)message, sizeof(Message), 0);
+int tcp_socket_send_message(int connection_fd, Message* message){
+    return send(connection_fd, (void*)message, sizeof(Message), 0);
 }
 
-Message* tcp_socket_recv_message(TCPSocket* tcp_socket){
+Message* tcp_socket_recv_message(int connection_fd){
     Message* received;
-    int ret = recv(tcp_socket->sockfd, (void *)received, sizeof(Message),0);
+    int ret = recv(connection_fd, (void *)received, sizeof(Message),0);
     assert(ret!=0);
     return message_err_constructor(received->user,received->text,received->code);
 }
 
 void tcp_socket_destroy(TCPSocket* tcp_socket){
+    close(tcp_socket->sockfd);
     free(tcp_socket);
 }

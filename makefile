@@ -3,10 +3,12 @@ null_var = "Do null, write \"make compile_server\" or \"make compile_client\""
 inc = include/
 src = src/
 
-server_h = server.h
+server_h = $(inc)server.h
 server_o = server.o
-dependence_server_h = utils.h
-dependence_server_o = utils.o
+server_c = $(src)server.c
+dependence_server_h = $(inc)message.h $(inc)tcp_socket.h
+dependence_server_o = message.o tcp_socket.o
+dependence_server_c = $(src)message.c $(src)tcp_socket.c
 
 client_h = $(inc)client.h
 client_o = client.o
@@ -19,10 +21,14 @@ dependence_client_c = $(src)message.c $(src)tcp_socket.c
 null:
 	echo 
 
-# compile_server: $(server_o) $(dependence_server_o)
-# 	$(C) -o server $(server_o) $(dependence_server_o)
+compile_server: $(server_o) $(dependence_server_o)
+	$(C) -c -I $(inc) $(server_c)
+	$(C) -o server $(server_o) $(dependence_server_o)
 
-# $(server_o) : $(dependence_server_h) 
+$(server_o) : $(dependence_server_h)
+
+$(dependence_server_o) : $(dependence_server_h) $(dependence_server_c)
+	$(C) -c -I $(inc) $(dependence_server_c)
 
 compile_client: $(client_o) $(dependence_client_o)
 	$(C) -c -I $(inc) $(client_c)
