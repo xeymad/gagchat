@@ -25,9 +25,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "include/hashtable.h"
-#include "include/infoHashtable.h"
-#include "include/array.h"
+#include "hashtable.h"
+#include "infoHashtable.h"
+#include "array.h"
 
 int main(int argc, char** argv){
     

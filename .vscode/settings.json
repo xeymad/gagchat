@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "hashtable.h": "c",
+        "infolist.h": "c",
+        "stdio.h": "c",
+        "array.h": "c",
+        "list.h": "c",
+        "infohashtable.h": "c"
+    }
+}

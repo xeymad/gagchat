@@ -25,7 +25,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../include/infoHashtable.h"
+#include "infoHashtable.h"
 
 /**
  * @brief check if frist value is equal to the second value

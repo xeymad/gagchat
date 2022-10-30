@@ -24,7 +24,7 @@
  */
 
 #include <stdio.h>
-#include "../include/infoList.h"
+#include "infoList.h"
 
 TInfoList infoListCreateKey(TKeyList key) {
     TInfoList info;

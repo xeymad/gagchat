@@ -1,9 +1,9 @@
 /**
- * @file infoArray.h
+ * @file infoArray.c
  * @author Gianluca (g.canzolino3@studenti.unisa.it)
  * @brief 
  * @version 0.1
- * @date 2022-10-29
+ * @date 2022-10-30
  * 
  * @copyright Copyright (c) 2022 - All Rights Reserved
  * 
@@ -27,45 +27,25 @@
  * TInfoArray: tipo elementare
  */
 
-#ifndef INFO_ARRAY_H
-#define INFO_ARRAY_H
+#include <stdio.h>
+#include "infoArray.h"
 
-#include "stdbool.h"
+TInfoArray infoArrayCreate(int value) {
+    return value;
+}
 
-/**
- * @brief type of Array
- * 
- */
-typedef int TInfoArray;
+bool infoArrayEqual(TInfoArray info1, TInfoArray info2) {
+    return info1 == info2;
+}
 
-/**
- * @brief check if frist value is equal to the second value
- * 
- * @return bool 
- */
-bool infoArrayEqual(TInfoArray, TInfoArray);
+bool infoArrayGreater(TInfoArray info1, TInfoArray info2) {
+    return info1 > info2;
+}
 
-/**
- * @brief check if frist value is greater to the second value
- * 
- * @return bool 
- */
-bool infoArrayGreater(TInfoArray, TInfoArray);
+bool infoArrayLess(TInfoArray info1, TInfoArray info2) {
+    return info1 < info2;
+}
 
-/**
- * @brief check if frist value is less to the second value
- * 
- * @return bool 
- */
-bool infoArrayLess(TInfoArray, TInfoArray);
-
-/**
- * @brief structured print of the value
- * 
- */
-void infoArrayPrint(TInfoArray);
-
-#endif
-
-
-
+void infoArrayPrint(TInfoArray info) {
+    printf("%d\n", info);
+}

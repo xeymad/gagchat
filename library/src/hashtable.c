@@ -27,14 +27,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
-#include "../include/infoList.h"
-#include "../include/list.h"
-#include "../include/hashtable.h"
-
-unsigned int keyHash(TKeyHashtable key)
-{
-    return (unsigned int)key;
-}
+#include "infoList.h"
+#include "list.h"
+#include "hashtable.h"
+#include "infoHashtable.h"
 
 /* 
  * Operazioni su THashTable
