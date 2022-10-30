@@ -23,29 +23,36 @@
  * 
  */
 #include "message.h"
+#include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 
-Message message_constructor(char *user, char* text){
-    Message msg;
+Message* message_constructor(char *user, char* text){
+    Message* msg = malloc(sizeof(Message));
+    assert(msg != NULL);
     int len_user = strlen(user);
     assert(len_user<USR_MAXLEN);
     int len_text = strlen(text);
     assert(len_text<TXT_MAXLEN);
-    strncpy(msg.user,user,len_user);
-    strncpy(msg.text,text,len_text);
-    msg.code = 0;
+    strncpy(msg->user,user,len_user);
+    strncpy(msg->text,text,len_text);
+    msg->code = 0;
     return msg;
 }
 
-Message message_err_constructor(char *user, char* text, int code){
-    Message msg;
+Message* message_err_constructor(char *user, char* text, int code){
+    Message* msg = malloc(sizeof(Message));
+    assert(msg != NULL);
     int len_user = strlen(user);
     assert(len_user<USR_MAXLEN);
     int len_text = strlen(text);
     assert(len_text<TXT_MAXLEN);
-    strncpy(msg.user,user,len_user);
-    strncpy(msg.text,text,len_text);
-    msg.code = code;
+    strncpy(msg->user,user,len_user);
+    strncpy(msg->text,text,len_text);
+    msg->code = code;
     return msg;
+}
+
+void message_destroy(Message* message){
+    free(message);
 }

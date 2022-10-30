@@ -23,9 +23,12 @@
  * 
  */
 
-
-#define USR_MAXLEN 256 
-#define TXT_MAXLEN 4096 
+#ifndef USR_MAXLEN
+    #define USR_MAXLEN 256 
+#endif
+#ifndef TXT_MAXLEN
+    #define TXT_MAXLEN 4096 
+#endif
 
 /**
  * @brief struct exchanged by parties for gagchat
@@ -38,20 +41,29 @@ typedef struct SMessage{
 } Message;
 
 /**
- * @brief Creates a basic exchangeable message.
+ * @brief Creates a basic exchangeable message 
+ * and returns its pointer.
  * 
  * @param user Username
  * @param text Message text
  * @return Message 
  */
-Message message_constructor(char *user, char* text);
+Message* message_constructor(char *user, char* text);
 
 /**
- * @brief Creates an error message.
+ * @brief Creates an error message and returns its
+ * pointer.
  * 
  * @param user Username
  * @param text Message text
  * @param code Error code
  * @return Message 
  */
-Message message_err_constructor(char *user, char* text, int code);
+Message* message_err_constructor(char *user, char* text, int code);
+
+/**
+ * @brief Destroys a Message.
+ * 
+ * @param message the Message reference to destroy.
+ */
+void message_destroy(Message* message);

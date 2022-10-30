@@ -48,3 +48,10 @@ TCPSocket* tcp_socket_create(char* server_ip);
  * @param tcp_socket pointer to TCPSocket struct.
  */
 void tcp_socket_connect(TCPSocket* tcp_socket);
+
+/**
+ * @brief Destroys a TCPSocket.
+ * 
+ * @param tcp_socket the TCPSocket reference to destroy.
+ */
+void tcp_socket_destroy(TCPSocket* tcp_socket);

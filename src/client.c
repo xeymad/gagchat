@@ -27,7 +27,8 @@
 #include "message.h"
 
 int main(int argc, char** argv){
-    Message m = message_constructor("userName","nice one this time!");
-    printf("%s: %s\n",m.user,m.text);
+    Message* msg = message_err_constructor("userName","nice one this time!",3);
+    printf("%s: %s\n%d\n",msg->user,msg->text,msg->code);
+    message_destroy(msg);
     return EXIT_SUCCESS;
 }
