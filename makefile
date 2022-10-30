@@ -11,9 +11,9 @@ dependence_server_o = utils.o
 client_h = $(inc)client.h
 client_o = client.o
 client_c = $(src)client.c
-dependence_client_h = $(inc)message.h
-dependence_client_o = message.o
-dependence_client_c = $(src)message.c
+dependence_client_h = $(inc)message.h $(inc)tcp_socket.h
+dependence_client_o = message.o tcp_socket.o
+dependence_client_c = $(src)message.c $(src)tcp_socket.c
 
 
 null:

@@ -1,7 +1,7 @@
 /**
  * @file tcp_socket.h
  * @author Giuseppe Gambardella (g.gambardella23@studenti.unisa.it)
- * @brief Implementation of tcp socket.
+ * @brief Implementation of tcp socket both for client and server.
  * @version 0.1
  * @date 2022-10-29
  * 
@@ -22,11 +22,17 @@
  * along with gagchat. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
+#include <sys/types.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
 
 #ifndef SERV_PORT
     #define SERV_PORT 3000 //Server open port
 #endif
+
+typedef enum EConnType{CLIENT, SERVER} ConnType;
 
 
 typedef struct STCPSocket{
@@ -37,17 +43,26 @@ typedef struct STCPSocket{
 /**
  * @brief Creates a TCPSocket and pass its pointer.
  * 
- * @param server_ip The server ip formatted as string.
- * @return TCPSocket* pointer to TCPSocket.
+ * @param type the TCPSocket type (client or server)
+ * @param server_ip if type = CLIENT, is mandatory to specify
+ * the server's ip address formatted as string.
+ * @return TCPSocket* pointer to TCPSocket struct
  */
-TCPSocket* tcp_socket_create(char* server_ip);
+TCPSocket* tcp_socket_create(ConnType type, char* server_ip);
+
+/**
+ * @brief Configures the server in listening mode.
+ * 
+ * @param tcp_socket pointer to TCPSocket struct.
+ */
+void tcp_socket_server_listen(TCPSocket* tcp_socket);
 
 /**
  * @brief Connects the client to the specified TCPSocket.
  * 
  * @param tcp_socket pointer to TCPSocket struct.
  */
-void tcp_socket_connect(TCPSocket* tcp_socket);
+void tcp_socket_client_connect(TCPSocket* tcp_socket);
 
 /**
  * @brief Destroys a TCPSocket.
