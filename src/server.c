@@ -51,6 +51,7 @@ void* server_manage_client(void* arg){
     }
     while(1);
     printf("Server has confirmed username %s\n",username);
+    close(connfd);
 }
 
 int main(int argc, char **argv)
