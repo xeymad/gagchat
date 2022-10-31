@@ -39,5 +39,12 @@ $(client_o) : $(dependence_client_h)
 $(dependence_client_o) : $(dependence_client_h) $(dependence_client_c)
 	$(C) -c -I $(inc) $(dependence_client_c)
 
-clean: 
-	rm server client *.o
+compile_libraries: 
+	-cd ./library && $(MAKE) all_libraries
+
+clean:
+	-rm server client *.o 
+	-cd ./library && $(MAKE) clean
+	
+	
+	
