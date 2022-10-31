@@ -1,4 +1,3 @@
-# Thanks to Job Vranish (https://spin.atomicobject.com/2016/08/26/makefile-c-projects/)
 TARGET_EXEC := test
 
 BUILD_DIR := ./build
