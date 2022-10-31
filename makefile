@@ -23,7 +23,7 @@ null:
 
 compile_server: $(server_o) $(dependence_server_o)
 	$(C) -c -I $(inc) $(server_c)
-	$(C) -o server $(server_o) $(dependence_server_o)
+	$(C) -o server $(server_o) $(dependence_server_o) -lpthread
 
 $(server_o) : $(dependence_server_h)
 
@@ -32,7 +32,7 @@ $(dependence_server_o) : $(dependence_server_h) $(dependence_server_c)
 
 compile_client: $(client_o) $(dependence_client_o)
 	$(C) -c -I $(inc) $(client_c)
-	$(C) -o client $(client_o) $(dependence_client_o)
+	$(C) -o client $(client_o) $(dependence_client_o) -lpthread
 
 $(client_o) : $(dependence_client_h)
 

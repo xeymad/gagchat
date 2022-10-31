@@ -69,10 +69,10 @@ int tcp_socket_send_message(int connection_fd, Message* message){
 }
 
 Message* tcp_socket_recv_message(int connection_fd){
-    Message* received;
+    Message* received = malloc(sizeof(Message));
     int ret = recv(connection_fd, (void *)received, sizeof(Message),0);
     assert(ret!=0);
-    return message_err_constructor(received->user,received->text,received->code);
+    return received;
 }
 
 void tcp_socket_destroy(TCPSocket* tcp_socket){
