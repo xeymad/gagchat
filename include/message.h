@@ -34,7 +34,7 @@
  * @brief Message Codes for protocol.
  * 
  */
-#define MESSAGE 0           // Normal message directed to user.
+#define MESSAGE        0    // Normal message directed to user.
 #define MSG_CLI_CREATE 1    // Request for creating a new user.
 #define MSG_SRV_USRACK 2    // User is accepted by the server.
 #define MSG_SRV_USRNCK 3    // User is NOT accepted by the server.
@@ -58,8 +58,7 @@ typedef struct SMessage{
 Message* message_create();
 
 /**
- * @brief Constructs a basic exchangeable message 
- * and returns its pointer.
+ * @brief Constructs a basic exchangeable message.
  * 
  * @param user Username
  * @param text Message text
@@ -68,8 +67,7 @@ Message* message_create();
 void message_constructor(Message* message,char *user, char* text);
 
 /**
- * @brief Constructs a code message and returns its
- * pointer.
+ * @brief Constructs a code message.
  * 
  * @param user Username
  * @param text Message text

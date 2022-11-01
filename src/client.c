@@ -51,7 +51,7 @@ int main(int argc, char** argv){
         printf("%s: %s\t%d\n",msg->user,msg->text,msg->code);
         code = msg->code;
     } while(code!=MSG_SRV_USRACK);
-    //tcp_socket_destroy(sock);
+    tcp_socket_destroy(sock);
     message_destroy(msg);
     return EXIT_SUCCESS;
 }

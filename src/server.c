@@ -29,10 +29,13 @@
 #include <errno.h>
 #include "tcp_socket.h"
 #include "server.h"
+#include "hashtable.h"
+
+THashTable* ht;
 
 int server_check_username_exists(char *username){
-    //TODO: insert server logic.
-    return 1;
+    //TODO: insert mutex.
+    return (hashTableSearch(ht,username)!=NULL);
 }
 
 void* server_manage_client(void* arg){
@@ -51,16 +54,19 @@ void* server_manage_client(void* arg){
         tcp_socket_send_message(connfd, msg);
     }
     while(1);
+    // Authentication OK. Server now inserts User in hashtable.
     strncpy(username,msg->user,strlen(msg->user));
     message_code_constructor(msg,"Server","User Accepted",MSG_SRV_USRACK);
     printf("Server has accepted username %s\n",username);
     tcp_socket_send_message(connfd, msg);
+    hashTableInsert(ht,username,connfd);
     close(connfd);
 }
 
 int main(int argc, char **argv)
 {
     pthread_t tid;
+    ht = hashTableCreate(LISTENQ);
     TCPSocket *sock = tcp_socket_create(SERVER, "");
     tcp_socket_server_listen(sock);
     printf("%s\n", "Server running...waiting for connections.");
