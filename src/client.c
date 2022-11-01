@@ -24,6 +24,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <pthread.h>
 #include "tcp_socket.h"
 
@@ -42,6 +43,7 @@ int main(int argc, char** argv){
         printf(">");
         fflush(stdout);
         fgets(username,USR_MAXLEN,stdin);
+        username[strcspn(username, " \n")] = '\0';
         message_code_constructor(msg, username,"Nice one this time!",MSG_CLI_CREATE);
         printf("%s: %s\t%d\n",msg->user,msg->text,msg->code);
         tcp_socket_send_message(sock->sockfd,msg);
