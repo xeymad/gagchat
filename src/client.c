@@ -25,17 +25,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
+#include <errno.h>
 #include <pthread.h>
 #include "tcp_socket.h"
 
+TCPSocket* sock;
 
+static void client_destroy_connection(int signo){
+    if(signo == SIGINT){
+        printf("\n\nClosing connection\n");
+        fflush(stdout);
+        tcp_socket_destroy(sock);
+        exit(EXIT_SUCCESS);
+    }
+}
 
 int main(int argc, char** argv){
+    sock = tcp_socket_create(CLIENT,"127.0.0.1");
+    tcp_socket_client_connect(sock);
+    if (signal(SIGINT, client_destroy_connection) == SIG_ERR) {
+		fprintf(stderr, "Can't catch SIGINT: %s", strerror(errno));
+		exit(1);
+	}
     char username[USR_MAXLEN];
     //Note: the following code was tested with 'echoServer.c'
     Message* msg = message_create();
-    TCPSocket* sock = tcp_socket_create(CLIENT,"127.0.0.1");
-    tcp_socket_client_connect(sock);
     // Username creation.
     printf("Please Enter a Username\n");
     int code;
@@ -44,14 +59,12 @@ int main(int argc, char** argv){
         fflush(stdout);
         fgets(username,USR_MAXLEN,stdin);
         username[strcspn(username, " \n")] = '\0';
-        message_code_constructor(msg, username,"Nice one this time!",MSG_CLI_CREATE);
-        printf("%s: %s\t%d\n",msg->user,msg->text,msg->code);
+        message_code_constructor(msg, username,"Nice one this time!", MSG_CLI_CREATE);
         tcp_socket_send_message(sock->sockfd,msg);
         tcp_socket_recv_message(sock->sockfd,msg);
         printf("%s: %s\t%d\n",msg->user,msg->text,msg->code);
         code = msg->code;
     } while(code!=MSG_SRV_USRACK);
-    tcp_socket_destroy(sock);
     message_destroy(msg);
     return EXIT_SUCCESS;
 }

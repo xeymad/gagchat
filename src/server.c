@@ -23,15 +23,27 @@
  *
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <pthread.h>
+#include <signal.h>
 #include <errno.h>
 #include "tcp_socket.h"
 #include "server.h"
 #include "hashtable.h"
 
 THashTable* ht;
+TCPSocket *sock;
+
+static void server_destroy_connection(int signo){
+    if(signo == SIGINT){
+        printf("\n\nClosing connection\n");
+        fflush(stdout);
+        tcp_socket_destroy(sock);
+        exit(EXIT_SUCCESS);
+    }
+}
 
 int server_check_username_exists(char *username){
     //TODO: insert mutex.
@@ -67,9 +79,13 @@ int main(int argc, char **argv)
 {
     pthread_t tid;
     ht = hashTableCreate(LISTENQ);
-    TCPSocket *sock = tcp_socket_create(SERVER, "");
+    sock = tcp_socket_create(SERVER, "");
     tcp_socket_server_listen(sock);
     printf("%s\n", "Server running...waiting for connections.");
+    if (signal(SIGINT, server_destroy_connection) == SIG_ERR) {
+		fprintf(stderr, "Can't catch SIGINT: %s", strerror(errno));
+		exit(1);
+	}
     int connfd;
     while (1)
     {

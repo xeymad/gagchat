@@ -40,3 +40,8 @@ void* client_message_receiver(void *args);
  * @param message the message text to forward.
  */
 void client_message_sender(int tcp_socket, char* to_user, char* message);
+
+/**
+ * @brief Signal Handler for CTRL+C event.
+ */
+static void client_destroy_connection(int signo);

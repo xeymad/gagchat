@@ -38,3 +38,7 @@ int server_check_username_exists(char *username);
  */
 void* server_manage_client(void* arg);
 
+/**
+ * @brief Signal Handler for CTRL+C event.
+ */
+static void server_destroy_connection(int signo);
