@@ -93,9 +93,10 @@ int tcp_socket_send_message(int connection_fd, Message* message);
  * @param connection_fd connection file descriptor. If client, it is
  * param sockfd of TCPSocket. If server, it is obtained by the output of
  * tcp_socket_server_accept function.
- * @return Message* pointer to received message.
+ * @param message pointer to the message to receive.
+ * @return void
  */
-Message* tcp_socket_recv_message(int connection_fd);
+void tcp_socket_recv_message(int connection_fd, Message* message);
 
 /**
  * @brief Destroys a TCPSocket.

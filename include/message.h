@@ -31,6 +31,16 @@
 #endif
 
 /**
+ * @brief Message Codes for protocol.
+ * 
+ */
+#define MESSAGE 0           // Normal message directed to user.
+#define MSG_CLI_CREATE 1    // Request for creating a new user.
+#define MSG_SRV_USRACK 2    // User is accepted by the server.
+#define MSG_SRV_USRNCK 3    // User is NOT accepted by the server.
+
+
+/**
  * @brief struct exchanged by parties for gagchat
  * 
  */
@@ -41,25 +51,32 @@ typedef struct SMessage{
 } Message;
 
 /**
- * @brief Creates a basic exchangeable message 
+ * @brief Creates an empty message.
+ * 
+ * @return Message* pointer to the Empty message.
+ */
+Message* message_create();
+
+/**
+ * @brief Constructs a basic exchangeable message 
  * and returns its pointer.
  * 
  * @param user Username
  * @param text Message text
- * @return Message 
+ * @return void
  */
-Message* message_constructor(char *user, char* text);
+void message_constructor(Message* message,char *user, char* text);
 
 /**
- * @brief Creates an error message and returns its
+ * @brief Constructs a code message and returns its
  * pointer.
  * 
  * @param user Username
  * @param text Message text
- * @param code Error code
- * @return Message 
+ * @param code code to append
+ * @return void
  */
-Message* message_err_constructor(char *user, char* text, int code);
+void message_code_constructor(Message* message, char *user, char* text, int code);
 
 /**
  * @brief Destroys a Message.

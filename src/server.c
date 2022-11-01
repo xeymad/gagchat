@@ -32,25 +32,29 @@
 
 int server_check_username_exists(char *username){
     //TODO: insert server logic.
-    return 0;
+    return 1;
 }
 
 void* server_manage_client(void* arg){
     int rc;
-    int connfd = *((int*)arg);
-    Message* msg;
+    int connfd = (int)arg;
+    Message* msg = message_create();
     char username[USR_MAXLEN];
     // Authentication phase.
     do{
-        msg = tcp_socket_recv_message(connfd);
-        printf("%s: %s\n%d\n", msg->user, msg->text, msg->code);
+        tcp_socket_recv_message(connfd, msg);
+        printf("%s: %s\t%d\n", msg->user, msg->text, msg->code);
         if(!server_check_username_exists(msg->user)){
-            strncpy(username,msg->user,strlen(msg->user));
             break;
         }
+        message_code_constructor(msg,"Server","Requested User is not available. Try again.",MSG_SRV_USRNCK);
+        tcp_socket_send_message(connfd, msg);
     }
     while(1);
-    printf("Server has confirmed username %s\n",username);
+    strncpy(username,msg->user,strlen(msg->user));
+    message_code_constructor(msg,"Server","User Accepted",MSG_SRV_USRACK);
+    printf("Server has accepted username %s\n",username);
+    tcp_socket_send_message(connfd, msg);
     close(connfd);
 }
 
@@ -60,12 +64,16 @@ int main(int argc, char **argv)
     TCPSocket *sock = tcp_socket_create(SERVER, "");
     tcp_socket_server_listen(sock);
     printf("%s\n", "Server running...waiting for connections.");
+    int connfd;
     while (1)
     {
-        int connfd = tcp_socket_server_accept(sock);
-        printf("%s\n", "Received request...");
+        if((connfd = tcp_socket_server_accept(sock)) < 0){
+            fprintf(stderr, "Accept connection error with errno %d\n", errno);
+            continue;
+        }
+        printf("Received request with connfd %d\n",connfd);
         fflush(stdout);
-        if(pthread_create(&tid, NULL, server_manage_client, &connfd) != 0){
+        if(pthread_create(&tid, NULL, server_manage_client, (void *)connfd) != 0){
             fprintf(stderr, "Pthread creation error with errno %d\n", errno);
         }
     }

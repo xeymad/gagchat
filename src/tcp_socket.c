@@ -24,6 +24,7 @@
  */
 #include "tcp_socket.h"
 #include <unistd.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
@@ -68,11 +69,9 @@ int tcp_socket_send_message(int connection_fd, Message* message){
     return send(connection_fd, (void*)message, sizeof(Message), 0);
 }
 
-Message* tcp_socket_recv_message(int connection_fd){
-    Message* received = malloc(sizeof(Message));
-    int ret = recv(connection_fd, (void *)received, sizeof(Message),0);
+void tcp_socket_recv_message(int connection_fd, Message* message){
+    int ret = recv(connection_fd, (void *)message, sizeof(Message),0);
     assert(ret!=0);
-    return received;
 }
 
 void tcp_socket_destroy(TCPSocket* tcp_socket){

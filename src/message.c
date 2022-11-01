@@ -27,30 +27,30 @@
 #include <string.h>
 #include <assert.h>
 
-Message* message_constructor(char *user, char* text){
+Message* message_create(){
     Message* msg = malloc(sizeof(Message));
     assert(msg != NULL);
-    int len_user = strlen(user);
-    assert(len_user<USR_MAXLEN);
-    int len_text = strlen(text);
-    assert(len_text<TXT_MAXLEN);
-    strncpy(msg->user,user,len_user);
-    strncpy(msg->text,text,len_text);
-    msg->code = 0;
     return msg;
 }
 
-Message* message_err_constructor(char *user, char* text, int code){
-    Message* msg = malloc(sizeof(Message));
-    assert(msg != NULL);
+void message_constructor(Message* msg, char *user, char* text){
     int len_user = strlen(user);
     assert(len_user<USR_MAXLEN);
     int len_text = strlen(text);
     assert(len_text<TXT_MAXLEN);
-    strncpy(msg->user,user,len_user);
-    strncpy(msg->text,text,len_text);
+    strncpy(msg->user,user,len_user+1);
+    strncpy(msg->text,text,len_text+1);
+    msg->code = MESSAGE;
+}
+
+void message_code_constructor(Message* msg, char *user, char* text, int code){
+    int len_user = strlen(user);
+    assert(len_user<USR_MAXLEN);
+    int len_text = strlen(text);
+    assert(len_text<TXT_MAXLEN);
+    strncpy(msg->user,user,len_user+1);
+    strncpy(msg->text,text,len_text+1);
     msg->code = code;
-    return msg;
 }
 
 void message_destroy(Message* message){
