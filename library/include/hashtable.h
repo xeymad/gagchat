@@ -34,19 +34,24 @@
  * @brief Struct of Hashtable
  * 
  */
+typedef struct SBucket
+{
+    TKeyHashtable key;
+    TValueHashtable value;
+} TBucket;
+
 typedef struct SHashTable
 {
-    TList *bucket;
+    TBucket *bucket;
     int n_bucket;
 } THashTable;
 
 /**
  * @brief Creation of a new HashTable
  * 
- * @param n number of hashtable bucket
  * @return THashTable* 
  */
-THashTable *hashTableCreate (int n);
+THashTable *hashTableCreate();
 
 /**
  * @brief destroy the HashTable
@@ -60,9 +65,9 @@ void hashTableDestroy (THashTable* ht);
  * 
  * @param ht pointer of HashTable
  * @param key key to find
- * @return TValue* 
+ * @return TValueHashtable 
  */
-TValueHashtable *hashTableSearch (THashTable* ht, TKeyHashtable key);
+TValueHashtable hashTableSearch (THashTable* ht, TKeyHashtable key);
 
 /**
  * @brief Insert a new key and value in a HashTable

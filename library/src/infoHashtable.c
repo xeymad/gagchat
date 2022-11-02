@@ -33,9 +33,8 @@
  * @return bool 
  */
 bool infoEqual (TInfoHashtable val1, TInfoHashtable val2){
-    // to implement
-
-    return true;
+    // deprecated
+    return false;
 }
 
 /**
@@ -44,9 +43,8 @@ bool infoEqual (TInfoHashtable val1, TInfoHashtable val2){
  * @return bool 
  */
 bool infoGreater (TInfoHashtable val1, TInfoHashtable val2){
-    // to implement
-
-    return true;
+    // deprecated
+    return false;
 }
 
 /**
@@ -55,9 +53,8 @@ bool infoGreater (TInfoHashtable val1, TInfoHashtable val2){
  * @return bool 
  */
 bool infoLess (TInfoHashtable val1, TInfoHashtable val2){
-    // to implement
-
-    return true;
+    // deprecated
+    return false;
 }
 
 /**
@@ -65,12 +62,51 @@ bool infoLess (TInfoHashtable val1, TInfoHashtable val2){
  * 
  */
 void infoPrint (TInfoHashtable val1){
-    // to implement
+    // deprecated
 }
 
 
-unsigned int keyHash (TKeyHashtable key){
-    // to implement
+u_int64_t keyHash (TKeyHashtable key){
+    u_int64_t hash = FNV_OFFSET;
     
-    return 0;
+    //h(x)
+    for (const char* p = key; *p; p++) {
+        hash ^= (u_int64_t)(unsigned char)(*p);
+        hash *= FNV_PRIME;
+    }
+
+    return hash;
 }
+
+u_int64_t keyHashD (TKeyHashtable key){
+    
+    u_int64_t hash2 = FNV_OFFSET;
+
+    //d(x)
+    for (const char* p = key; *p; p++) {
+        hash2 ^= (u_int64_t)(unsigned char)(*p);
+        hash2 *= FNV_PRIME_2;
+    }
+
+    //printf("key: %s -- h(x): %lu - d(x) = %lu\n", key, hash, hash2);
+    return hash2;
+}
+
+u_int64_t keyHashExpande (TKeyHashtable key, u_int64_t hash, int j){
+    
+    u_int64_t hash2 = FNV_OFFSET;
+
+    //d(x)
+    for (const char* p = key; *p; p++) {
+        hash2 ^= (u_int64_t)(unsigned char)(*p);
+        hash2 *= FNV_PRIME_2;
+    }
+
+    //printf("key: %s -- h(x): %lu - d(x) = %lu\n", key, hash, hash2);
+    return hash + j*hash2;
+}
+
+
+
+
+

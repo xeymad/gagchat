@@ -24,6 +24,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include "infoList.h"
 
 TInfoList infoListCreateKey(TKeyList key) {
@@ -42,7 +43,9 @@ TInfoList infoListCreate(TKeyList key, TValueList value) {
 }
 
 int infoListEqual(TInfoList info1, TInfoList info2) {
-    return info1.key == info2.key;
+    return strcmp(info1.key, info2.key);
+    
+    //return info1.key == info2.key;
 }
 
 int infoListGreater(TInfoList info1, TInfoList info2) {
@@ -54,5 +57,5 @@ int infoListLess(TInfoList info1, TInfoList info2) {
 }
 
 void infoListPrint(TInfoList info) {
-    printf("%d\t%d\n", info.key, info.value);
+    printf("%s\t%d\n", info.key, info.value);
 }

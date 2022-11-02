@@ -83,6 +83,7 @@ TList listInsert(TList l, TInfoList info)
 THLNode *listSearch(TList list, TInfoList info)
 {
     THLNode *node = list;
+
     while (node != NULL && !infoListEqual(info, node->info))
         node = node->link;
     return node;

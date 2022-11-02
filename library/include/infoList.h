@@ -30,7 +30,7 @@
  * @brief type of List
  * 
  */
-typedef int TKeyList;
+typedef char* TKeyList;
 typedef int TValueList;
 
 /**

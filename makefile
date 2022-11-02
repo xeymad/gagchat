@@ -19,6 +19,7 @@ dependence_client_h = $(inc)message.h $(inc)tcp_socket.h
 dependence_client_o = message.o tcp_socket.o
 dependence_client_c = $(src)message.c $(src)tcp_socket.c
 
+compile: compile_client compile_server compile_libraries
 
 null:
 	echo 
