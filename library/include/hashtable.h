@@ -26,6 +26,15 @@
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
 
+//Fowle-Noll-Vo hash function
+#define FNV_OFFSET 14695981039346656037UL
+#define FNV_PRIME 1099511628211UL
+#define FNV_PRIME_2 10995116282UL
+#define CAPACITY 19 // for test to change //2048
+#define MAX_LOAD 0.75
+#define GROW_FACTOR 2
+#define MAX_KEY_SIZE 64
+
 #include "infoHashtable.h"
 #include "infoList.h"
 #include "list.h"
@@ -43,7 +52,9 @@ typedef struct SBucket
 typedef struct SHashTable
 {
     TBucket *bucket;
+    int *used;
     int n_bucket;
+    int n_used;
 } THashTable;
 
 /**
@@ -52,6 +63,14 @@ typedef struct SHashTable
  * @return THashTable* 
  */
 THashTable *hashTableCreate();
+
+/**
+ * @brief Resize hashtable
+ * 
+ * @param ht pointer of HashTable
+ * @param n new size
+ */
+void hashTableResize(THashTable *ht, int n);
 
 /**
  * @brief destroy the HashTable
@@ -92,5 +111,28 @@ void hashTableDelete (THashTable* ht, TKeyHashtable key);
  * @param ht pointer of HashTable
  */
 void hashTablePrint(THashTable* ht);
+
+
+/**
+ * @brief hash a key (function h(x))
+ * 
+ * @return u_int64_t 
+ */
+u_int64_t keyHash (TKeyHashtable);
+
+/**
+ * @brief hash a key (function d(x))
+ * 
+ * @return u_int64_t 
+ */
+u_int64_t keyHashD (TKeyHashtable);
+
+/**
+ * @brief double hashing return hash = h(x) + j*d(x)
+ * 
+ * @return u_int64_t 
+ */
+u_int64_t keyHashExpande (TKeyHashtable, u_int64_t, int);
+
 
 #endif 

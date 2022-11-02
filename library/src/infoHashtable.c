@@ -66,47 +66,5 @@ void infoPrint (TInfoHashtable val1){
 }
 
 
-u_int64_t keyHash (TKeyHashtable key){
-    u_int64_t hash = FNV_OFFSET;
-    
-    //h(x)
-    for (const char* p = key; *p; p++) {
-        hash ^= (u_int64_t)(unsigned char)(*p);
-        hash *= FNV_PRIME;
-    }
-
-    return hash;
-}
-
-u_int64_t keyHashD (TKeyHashtable key){
-    
-    u_int64_t hash2 = FNV_OFFSET;
-
-    //d(x)
-    for (const char* p = key; *p; p++) {
-        hash2 ^= (u_int64_t)(unsigned char)(*p);
-        hash2 *= FNV_PRIME_2;
-    }
-
-    //printf("key: %s -- h(x): %lu - d(x) = %lu\n", key, hash, hash2);
-    return hash2;
-}
-
-u_int64_t keyHashExpande (TKeyHashtable key, u_int64_t hash, int j){
-    
-    u_int64_t hash2 = FNV_OFFSET;
-
-    //d(x)
-    for (const char* p = key; *p; p++) {
-        hash2 ^= (u_int64_t)(unsigned char)(*p);
-        hash2 *= FNV_PRIME_2;
-    }
-
-    //printf("key: %s -- h(x): %lu - d(x) = %lu\n", key, hash, hash2);
-    return hash + j*hash2;
-}
-
-
-
 
 

@@ -25,9 +25,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "hashtable.h"
 #include "infoHashtable.h"
 #include "array.h"
+#include <time.h>
 
 typedef struct {
     int v1;
@@ -39,6 +41,93 @@ typedef struct {
     TList lista;
 } test;
 
+
+int main(int argc, char** argv){
+    char key[12][6];
+
+    strcpy(key[0], "ciao");
+    strcpy(key[1], "lista");
+    strcpy(key[2], "peppe");
+    strcpy(key[3], "text");
+    strcpy(key[4], "pino");
+    strcpy(key[5], "giuse");
+    strcpy(key[6], "mario");
+    strcpy(key[7], "bohri");
+    strcpy(key[8], "mano");
+    strcpy(key[9], "perra");
+    strcpy(key[10], "barra");
+    strcpy(key[11], "lapto");
+
+    int v = 2;
+
+    THashTable *ht = hashTableCreate();
+
+    for(int i=0; i<12; i++)
+    {
+
+        printf("Inserisco %d %s\n", i, key[i]);
+
+        hashTableInsert(ht, key[i], (void *)&v);
+        //hashTablePrint(ht);
+
+        //printf("\n\n");
+    }
+
+    hashTableDelete(ht, key[0]);
+    hashTableDelete(ht, key[4]);
+    hashTableDelete(ht, key[6]);
+
+    printf("Valore associato a %s: %d\n",key[9], *(int *)hashTableSearch(ht, key[9]));
+
+    hashTableResize(ht, CAPACITY+1);
+
+    printf("Valore associato a %s: %d\n",key[9], *(int *)hashTableSearch(ht, key[9]));
+
+    //printf("Valore associato a %s: %d\n",testare, *(int *)hashTableSearch(ht, testare));
+}
+
+/*
+int main(int argc, char** argv){
+    srand(time(NULL));
+    char *string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    char *randomString = NULL;
+
+    randomString = malloc(sizeof(char) * (6));
+
+    int v = 2;
+
+    THashTable *ht = hashTableCreate();
+
+    short key = 0;
+
+    char *testare = malloc(sizeof(char) * (6));
+
+    for(int i=0; i<10; i++)
+    {
+        for(int j=0; j<6; j++){
+            key = rand() % strlen(string);          
+            randomString[j] = string[key];
+        }
+
+        randomString[6] = '\0';
+
+        if(i == 5){
+            strcpy(testare, randomString);
+        }
+
+        printf("Inserisco %d %s\n", i, randomString);
+
+        hashTableInsert(ht, randomString, (void *)&v);
+
+        hashTablePrint(ht);
+
+        printf("\n\n");
+    }
+
+    printf("Valore associato a %s: %d\n",testare, *(int *)hashTableSearch(ht, testare));
+}*/
+
+/*
 int main(int argc, char** argv){
     THashTable *ht = hashTableCreate();
 
@@ -121,6 +210,7 @@ int main(int argc, char** argv){
     hashTablePrint(ht);
 
     hashTableDestroy(ht);
-    */
+    ///
     return EXIT_SUCCESS;
 }
+*/

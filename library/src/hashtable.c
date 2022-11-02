@@ -48,15 +48,55 @@ THashTable *hashTableCreate()
     assert(ht != NULL);
 
     ht->bucket = malloc(CAPACITY * sizeof(TBucket));
-    assert(ht->bucket != NULL);
+    ht->used = malloc(CAPACITY * sizeof(int));
+    assert(ht->bucket != NULL && ht->used != NULL);
 
     for (int i = 0; i < CAPACITY; i++)
     {
         ht->bucket[i].value = NULL;
+        ht->used[i] = 0;
     }
 
     ht->n_bucket = CAPACITY;
+    ht->n_used = 0;
+
     return ht;
+}
+
+/**
+ * @brief resizing Hashtable
+ * 
+ * @param ht pointer of HashTable
+ * @param n new size
+ */
+void hashTableResize(THashTable *ht, int n)
+{
+    TBucket *bucket = ht->bucket;
+    int *used = ht->used;
+    int n_bucket = ht->n_bucket;
+
+    ht->bucket = malloc(n * sizeof(TBucket));
+    ht->used = malloc(n * sizeof(int));
+    assert(ht->bucket != NULL && ht->used != NULL);
+
+    ht->n_bucket = n;
+    ht->n_used = 0;
+
+    for (int i = 0; i < n; i++)
+    {
+        ht->used[i] = 0;
+    }
+
+    for (int i = 0; i < n_bucket; i++)
+    {
+        if (used[i] && bucket[i].key != NULL)
+        {
+            hashTableInsert(ht, bucket[i].key, bucket[i].value);
+        }
+    }
+
+    free(bucket);
+    free(used);
 }
 
 /**
@@ -67,6 +107,7 @@ THashTable *hashTableCreate()
 void hashTableDestroy(THashTable *ht)
 {
     free(ht->bucket);
+    free(ht->used);
     free(ht);
 }
 
@@ -84,15 +125,18 @@ TValueHashtable hashTableSearch(THashTable *ht, TKeyHashtable key)
 
     for (int tmp = 0; tmp < ht->n_bucket; tmp++)
     {
-        if (ht->bucket[h].value == NULL)
+        if (!ht->used[h])
         {
             return NULL;
         }
         else
         {
-            if (strcmp(ht->bucket[h].key, key) == 0)
+            if (ht->bucket[h].key != NULL)
             {
-                return ht->bucket[h].value;
+                if (strcmp(ht->bucket[h].key, key) == 0)
+                {
+                    return ht->bucket[h].value;
+                }
             }
         }
         h = (h + dx) % ht->n_bucket;
@@ -108,24 +152,35 @@ TValueHashtable hashTableSearch(THashTable *ht, TKeyHashtable key)
  */
 void hashTableInsert(THashTable *ht, TKeyHashtable key, TValueHashtable value)
 {
+    if (ht->n_used >= ht->n_bucket * MAX_LOAD)
+    {
+        hashTableResize(ht, ht->n_bucket * GROW_FACTOR + 1);
+    }
+
     u_int64_t h = keyHash(key) % ht->n_bucket;
     u_int64_t dx = keyHashD(key);
 
     for (int tmp = 0; tmp < ht->n_bucket; tmp++)
     {
 
-        if (ht->bucket[h].value == NULL)
+        if (ht->bucket[h].key == NULL)
         {
-            ht->bucket[h].key = key;
+            ht->bucket[h].key = malloc(strlen(key) * sizeof(ht->bucket[h]));
+            strcpy(ht->bucket[h].key, key);
             ht->bucket[h].value = value;
+            ht->used[h] = 1;
+            ht->n_used++;
             return;
         }
         else
         {
             if (strcmp(ht->bucket[h].key, key) == 0)
             {
-                ht->bucket[h].key = key;
+                ht->bucket[h].key = malloc(strlen(key) * sizeof(ht->bucket[h]));
+                strcpy(ht->bucket[h].key, key);
                 ht->bucket[h].value = value;
+                ht->used[h] = 1;
+                ht->n_used++;
                 return;
             }
         }
@@ -146,7 +201,7 @@ void hashTableDelete(THashTable *ht, TKeyHashtable key)
 
     for (int tmp = 0; tmp < ht->n_bucket; tmp++)
     {
-        if (ht->bucket[h].value == NULL)
+        if (!ht->used[h])
         {
             return;
         }
@@ -154,8 +209,11 @@ void hashTableDelete(THashTable *ht, TKeyHashtable key)
         {
             if (strcmp(ht->bucket[h].key, key) == 0)
             {
+                free(ht->bucket[h].key);
                 ht->bucket[h].key = NULL;
                 ht->bucket[h].value = NULL;
+                ht->n_used--;
+                // ht->used[h] = 0;
             }
         }
         h = (h + dx) % ht->n_bucket;
@@ -172,6 +230,51 @@ void hashTablePrint(THashTable *ht)
     for (int i = 0; i < ht->n_bucket; i++)
     {
         printf("bucket[%d] = key -> %s; value -> %p\n", i, ht->bucket[i].key, ht->bucket[i].value);
-     
     }
+}
+
+u_int64_t keyHash(TKeyHashtable key)
+{
+    u_int64_t hash = FNV_OFFSET;
+
+    // h(x)
+    for (const char *p = key; *p; p++)
+    {
+        hash ^= (u_int64_t)(unsigned char)(*p);
+        hash *= FNV_PRIME;
+    }
+
+    return hash;
+}
+
+u_int64_t keyHashD(TKeyHashtable key)
+{
+
+    u_int64_t hash2 = FNV_OFFSET;
+
+    // d(x)
+    for (const char *p = key; *p; p++)
+    {
+        hash2 ^= (u_int64_t)(unsigned char)(*p);
+        hash2 *= FNV_PRIME_2;
+    }
+
+    // printf("key: %s -- h(x): %lu - d(x) = %lu\n", key, hash, hash2);
+    return hash2;
+}
+
+u_int64_t keyHashExpande(TKeyHashtable key, u_int64_t hash, int j)
+{
+
+    u_int64_t hash2 = FNV_OFFSET;
+
+    // d(x)
+    for (const char *p = key; *p; p++)
+    {
+        hash2 ^= (u_int64_t)(unsigned char)(*p);
+        hash2 *= FNV_PRIME_2;
+    }
+
+    // printf("key: %s -- h(x): %lu - d(x) = %lu\n", key, hash, hash2);
+    return hash + j * hash2;
 }

@@ -32,12 +32,6 @@
 
 #include "stdbool.h"
 
-//Fowle-Noll-Vo hash function
-#define FNV_OFFSET 14695981039346656037UL
-#define FNV_PRIME 1099511628211UL
-#define FNV_PRIME_2 10995116282UL
-#define CAPACITY 17 // for test to change //2048
-
 /**
  * @brief type of HashTable
  * 
@@ -80,26 +74,5 @@ bool infoLess (TInfoHashtable, TInfoHashtable);
  * 
  */
 void infoPrint (TInfoHashtable);
-
-/**
- * @brief hash a key (function h(x))
- * 
- * @return u_int64_t 
- */
-u_int64_t keyHash (TKeyHashtable);
-
-/**
- * @brief hash a key (function d(x))
- * 
- * @return u_int64_t 
- */
-u_int64_t keyHashD (TKeyHashtable);
-
-/**
- * @brief double hashing return hash = h(x) + j*d(x)
- * 
- * @return u_int64_t 
- */
-u_int64_t keyHashExpande (TKeyHashtable, u_int64_t, int);
 
 #endif
