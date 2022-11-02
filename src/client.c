@@ -33,13 +33,15 @@
 TCPSocket* sock;
 
 void* client_message_receiver(void *args){
-    Message* msg;
-    // while(1){
-    //     tcp_socket_recv_message(sock->sockfd, msg);
-    //     printf("\033[1;31m");
-    //     printf("%s: %s\t%d\n",msg->user,msg->text,msg->code);
-    //     printf("\033[0m\n");
-    // }
+    Message* msg = message_create();
+    while(1){
+        int ret = tcp_socket_recv_message(sock->sockfd, msg);
+        printf("ret is %d and errno %d\n",ret,errno);
+        printf("\033[1;31m");
+        printf("%s: %s\t%d\n",msg->user,msg->text,msg->code);
+        printf("\033[0m\n");
+        sleep(4);
+    }
 }
 
 static void client_destroy_connection(int signo){
