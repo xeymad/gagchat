@@ -69,9 +69,8 @@ int tcp_socket_send_message(int connection_fd, Message* message){
     return send(connection_fd, (void*)message, sizeof(Message), 0);
 }
 
-void tcp_socket_recv_message(int connection_fd, Message* message){
-    int ret = recv(connection_fd, (void *)message, sizeof(Message),0);
-    assert(ret!=0);
+int tcp_socket_recv_message(int connection_fd, Message* message){
+    return recv(connection_fd, (void *)message, sizeof(Message),0);
 }
 
 void tcp_socket_destroy(TCPSocket* tcp_socket){

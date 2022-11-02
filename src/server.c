@@ -54,7 +54,7 @@ void* server_manage_client(void* arg){
     int rc;
     int connfd = (int)arg;
     Message* msg = message_create();
-    char username[USR_MAXLEN];
+    char* username = malloc(USR_MAXLEN);
     // Authentication phase.
     do{
         tcp_socket_recv_message(connfd, msg);
@@ -71,7 +71,7 @@ void* server_manage_client(void* arg){
     message_code_constructor(msg,"Server","User Accepted",MSG_SRV_USRACK);
     printf("Server has accepted username %s\n",username);
     tcp_socket_send_message(connfd, msg);
-    hashTableInsert(ht,username,connfd);
+    hashTableInsert(ht,username,&connfd);
     close(connfd);
 }
 

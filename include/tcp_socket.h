@@ -82,7 +82,7 @@ void tcp_socket_client_connect(TCPSocket* tcp_socket);
  * param sockfd of TCPSocket. If server, it is obtained by the output of
  * tcp_socket_server_accept function.
  * @param message the Message to send.
- * @return int On success, these calls return the number of bytes sent. On
+ * @return int On success, returns the number of bytes sent. On
  * error, -1 is returned, and errno is set to indicate the error.
  */
 int tcp_socket_send_message(int connection_fd, Message* message);
@@ -94,9 +94,11 @@ int tcp_socket_send_message(int connection_fd, Message* message);
  * param sockfd of TCPSocket. If server, it is obtained by the output of
  * tcp_socket_server_accept function.
  * @param message pointer to the message to receive.
- * @return void
+ * @return int returns the number of bytes received, or -1 if an
+ * error occurred.  In the event of an error, errno is set to
+ * indicate the error.
  */
-void tcp_socket_recv_message(int connection_fd, Message* message);
+int tcp_socket_recv_message(int connection_fd, Message* message);
 
 /**
  * @brief Destroys a TCPSocket.

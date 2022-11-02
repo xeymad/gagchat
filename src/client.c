@@ -32,6 +32,16 @@
 
 TCPSocket* sock;
 
+void* client_message_receiver(void *args){
+    Message* msg;
+    // while(1){
+    //     tcp_socket_recv_message(sock->sockfd, msg);
+    //     printf("\033[1;31m");
+    //     printf("%s: %s\t%d\n",msg->user,msg->text,msg->code);
+    //     printf("\033[0m\n");
+    // }
+}
+
 static void client_destroy_connection(int signo){
     if(signo == SIGINT){
         printf("\n\nClosing connection\n");
@@ -55,7 +65,7 @@ int main(int argc, char** argv){
     printf("Please Enter a Username\n");
     int code;
     do{
-        printf(">");
+        printf("> ");
         fflush(stdout);
         fgets(username,USR_MAXLEN,stdin);
         username[strcspn(username, " \n")] = '\0';
@@ -65,6 +75,11 @@ int main(int argc, char** argv){
         printf("%s: %s\t%d\n",msg->user,msg->text,msg->code);
         code = msg->code;
     } while(code!=MSG_SRV_USRACK);
+    pthread_t tid;
+    if(pthread_create(&tid, NULL, client_message_receiver, NULL) != 0){
+        fprintf(stderr, "Pthread creation error with errno %d\n", errno);
+    }
+    pthread_join(tid,NULL);
     message_destroy(msg);
     return EXIT_SUCCESS;
 }
