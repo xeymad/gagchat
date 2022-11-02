@@ -47,6 +47,7 @@ void* server_manage_client(void* arg){
     ThreadArgs* args = (ThreadArgs*)arg;
     Message* msg = message_create();
     char username[USR_MAXLEN];
+    int len_username;
     // Authentication phase.
     do{
         tcp_socket_recv_message(args->connection_fd, msg);
@@ -59,16 +60,23 @@ void* server_manage_client(void* arg){
     while(1);
     // Authentication OK. Server now inserts User in hashtable.
     strncpy(username,msg->user,strlen(msg->user));
+    len_username = strlen(username) + 1;
     message_code_constructor(msg,"Server","User Accepted",MSG_SRV_USRACK);
     printf("Server has accepted username %s\n",username);
     tcp_socket_send_message(args->connection_fd, msg);
     pthread_mutex_lock(args->lock);
     hashTableInsert(args->ht,username,&args->connection_fd);
     pthread_mutex_unlock(args->lock);
-    while (1)
-    {
-        pause();
-    }
+    // User insert ok. Now let's dispatch.
+    do{
+        tcp_socket_recv_message(args->connection_fd, msg);
+        int *destination_fd;
+        printf("%s: %s\t%d\n", msg->user, msg->text, msg->code);
+        if((msg->code==MESSAGE) && ((destination_fd = hashTableSearch(args->ht, msg->user)) != NULL)){
+            strncpy(msg->user,username,len_username);
+            tcp_socket_send_message(*destination_fd,msg);
+        }
+    } while (1);
     close(args->connection_fd);
 }
 

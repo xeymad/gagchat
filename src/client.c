@@ -36,11 +36,12 @@ void* client_message_receiver(void *args){
     Message* msg = message_create();
     while(1){
         int ret = tcp_socket_recv_message(sock->sockfd, msg);
-        printf("ret is %d and errno %d\n",ret,errno);
+        //printf("ret is %d and errno %d\n",ret,errno);
         printf("\033[1;31m");
-        printf("%s: %s\t%d\n",msg->user,msg->text,msg->code);
+        printf("\r%s: %s\t\n",msg->user,msg->text);
         printf("\033[0m\n");
-        sleep(4);
+        printf("> ");
+        fflush(stdout);
     }
 }
 
@@ -81,7 +82,21 @@ int main(int argc, char** argv){
     if(pthread_create(&tid, NULL, client_message_receiver, NULL) != 0){
         fprintf(stderr, "Pthread creation error with errno %d\n", errno);
     }
-    pthread_join(tid,NULL);
+    char text[TXT_MAXLEN];
+    do{
+        printf("Please insert user to send message\n");
+        printf("> ");
+        fflush(stdout);
+        fgets(username,USR_MAXLEN,stdin);
+        printf("Please insert text\n");
+        printf("> ");
+        fflush(stdout);
+        username[strcspn(username, " \n")] = '\0';
+        fgets(text,TXT_MAXLEN,stdin);
+        text[strcspn(text, "\n")] = '\0';
+        message_constructor(msg,username,text);
+        tcp_socket_send_message(sock->sockfd,msg);
+    }while(1);
     message_destroy(msg);
     return EXIT_SUCCESS;
 }
