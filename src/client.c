@@ -34,12 +34,12 @@ TCPSocket* sock;
 
 void* client_message_receiver(void *args){
     Message* msg;
-    while(1){
-        tcp_socket_recv_message(sock->sockfd, msg);
-        printf("\033[1;31m");
-        printf("%s: %s\t%d\n",msg->user,msg->text,msg->code);
-        printf("\033[0m\n");
-    }
+    // while(1){
+    //     tcp_socket_recv_message(sock->sockfd, msg);
+    //     printf("\033[1;31m");
+    //     printf("%s: %s\t%d\n",msg->user,msg->text,msg->code);
+    //     printf("\033[0m\n");
+    // }
 }
 
 static void client_destroy_connection(int signo){
@@ -65,7 +65,7 @@ int main(int argc, char** argv){
     printf("Please Enter a Username\n");
     int code;
     do{
-        printf(">");
+        printf("> ");
         fflush(stdout);
         fgets(username,USR_MAXLEN,stdin);
         username[strcspn(username, " \n")] = '\0';
