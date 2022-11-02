@@ -233,6 +233,11 @@ void hashTablePrint(THashTable *ht)
     }
 }
 
+/**
+ * @brief hash a key (function h(x))
+ * 
+ * @return u_int64_t 
+ */
 u_int64_t keyHash(TKeyHashtable key)
 {
     u_int64_t hash = FNV_OFFSET;
@@ -247,9 +252,13 @@ u_int64_t keyHash(TKeyHashtable key)
     return hash;
 }
 
+/**
+ * @brief hash a key (function d(x))
+ * 
+ * @return u_int64_t 
+ */
 u_int64_t keyHashD(TKeyHashtable key)
 {
-
     u_int64_t hash2 = FNV_OFFSET;
 
     // d(x)
@@ -263,9 +272,13 @@ u_int64_t keyHashD(TKeyHashtable key)
     return hash2;
 }
 
+/**
+ * @brief double hashing return hash = h(x) + j*d(x)
+ * 
+ * @return u_int64_t 
+ */
 u_int64_t keyHashExpande(TKeyHashtable key, u_int64_t hash, int j)
 {
-
     u_int64_t hash2 = FNV_OFFSET;
 
     // d(x)
