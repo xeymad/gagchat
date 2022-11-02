@@ -24,10 +24,10 @@
  */
 
 #ifndef USR_MAXLEN
-    #define USR_MAXLEN 256 
+    #define USR_MAXLEN 64 
 #endif
 #ifndef TXT_MAXLEN
-    #define TXT_MAXLEN 4096 
+    #define TXT_MAXLEN 1024 
 #endif
 
 /**
@@ -45,8 +45,8 @@
  * 
  */
 typedef struct SMessage{
-    char user[USR_MAXLEN]; //Username is a string with a maximum length of 256 characters.
-    char text[TXT_MAXLEN]; //Message text is a string with a maximum length of 4096 characters.
+    char user[USR_MAXLEN]; //Username is a string with a maximum length of 64 characters.
+    char text[TXT_MAXLEN]; //Message text is a string with a maximum length of 1024 characters.
     int code; //Error code is represented by integer.
 } Message;
 
