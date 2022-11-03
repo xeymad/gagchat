@@ -90,9 +90,17 @@ void* server_manage_client(void* arg){
         }
         int *destination_fd;
         printf("%s: %s\t%d\n", msg->user, msg->text, msg->code);
-        if((msg->code==MESSAGE) && ((destination_fd = hashTableSearch(args->ht, msg->user)) != NULL)){
-            strncpy(msg->user,username,len_username);
-            tcp_socket_send_message(*destination_fd,msg);
+        if(msg->code==MESSAGE){
+            destination_fd = hashTableSearch(args->ht, msg->user);
+            if(destination_fd == NULL){
+                printf("[ServerInfo]: User %s unreachable\n",msg->user);
+                message_code_constructor(msg,"Server","Requested user not reacheable",MSG_SRV_USRNRC);
+                tcp_socket_send_message(args->connection_fd,msg);
+            }
+            else{
+                strncpy(msg->user,username,len_username);
+                tcp_socket_send_message(*destination_fd,msg);
+            }
         }
     } while (1);
     close(args->connection_fd);

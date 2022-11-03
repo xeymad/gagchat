@@ -38,6 +38,7 @@
 #define MSG_CLI_CREATE 1    // Request for creating a new user.
 #define MSG_SRV_USRACK 2    // User is accepted by the server.
 #define MSG_SRV_USRNCK 3    // User is NOT accepted by the server.
+#define MSG_SRV_USRNRC 4    // User is NOT reachable from the server.
 
 
 /**
