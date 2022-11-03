@@ -26,55 +26,35 @@
 #ifndef INFO_LIST_H
 #define INFO_LIST_H
 
+#ifndef USR_MAXLEN
+    #define USR_MAXLEN 64 
+#endif
+
+#ifndef TXT_MAXLEN
+    #define TXT_MAXLEN 1024 
+#endif
+
+#ifndef MESSAGE_STRUCT
+    typedef struct SMessage{
+        char user[USR_MAXLEN]; //Username is a string with a maximum length of 64 characters.
+        char text[TXT_MAXLEN]; //Message text is a string with a maximum length of 1024 characters.
+        int code; //Error code is represented by integer.
+    } Message;
+#endif
+
 /**
  * @brief type of List
  * 
  */
-typedef char* TKeyList;
-typedef int TValueList;
+typedef Message TInfoList;
 
 /**
- * @brief definition of List
- * 
- */
-struct SInfoList {
-    TKeyList key;
-    TValueList value;
-};
-typedef struct SInfoList TInfoList;
-
-/**
- * @brief create List from a key
- * 
- */
-TInfoList infoListCreateKey(TKeyList key);
-
-/**
- * @brief create List from a key and value
- * 
- */
-TInfoList infoListCreate(TKeyList, TValueList);
-
-/**
- * @brief check if frist value is equal to the second value
+ * @brief check if all the information of frist value 
+ *        are the same of the second value
  * 
  * @return bool 
  */
 int infoListEqual (TInfoList, TInfoList);
-
-/**
- * @brief check if frist value is greater to the second value
- * 
- * @return bool 
- */
-int infoListGreater (TInfoList, TInfoList);
-
-/**
- * @brief check if frist value is less to the second value
- * 
- * @return bool 
- */
-int infoListLess (TInfoList, TInfoList);
 
 /**
  * @brief structured print of the value

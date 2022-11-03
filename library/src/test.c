@@ -26,14 +26,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "hashtable.h"
-#include "infoHashtable.h"
-#include "array.h"
+#include "infoList.h"
+#include "list.h"
 #include <time.h>
 
 typedef struct {
     int v1;
-    char* v2;
+    int v2;
 } prova;
 
 typedef struct {
@@ -43,174 +42,33 @@ typedef struct {
 
 
 int main(int argc, char** argv){
-    char key[12][6];
+    TList list = listCreate();
 
-    strcpy(key[0], "ciao");
-    strcpy(key[1], "lista");
-    strcpy(key[2], "peppe");
-    strcpy(key[3], "text");
-    strcpy(key[4], "pino");
-    strcpy(key[5], "giuse");
-    strcpy(key[6], "mario");
-    strcpy(key[7], "bohri");
-    strcpy(key[8], "mano");
-    strcpy(key[9], "perra");
-    strcpy(key[10], "barra");
-    strcpy(key[11], "lapto");
+    Message mess, mess2;
 
-    int v = 2;
+    strcpy(mess.user, "Pippo");
+    strcpy(mess.text, "Ciao come stai?");
+    mess.code = 2;
 
-    THashTable *ht = hashTableCreate();
+    strcpy(mess2.user, "Pluto");
+    strcpy(mess2.text, "Sto bene");
+    mess2.code = 3;
 
-    for(int i=0; i<12; i++)
-    {
+    list = listInsert(list, mess);
+    list = listInsert(list, mess2);
 
-        printf("Inserisco %d %s\n", i, key[i]);
+    printf("Ciao\n");
 
-        hashTableInsert(ht, key[i], (void *)&v);
-        //hashTablePrint(ht);
+    listPrint(list);
 
-        //printf("\n\n");
-    }
+    Message mess3;
 
-    hashTableDelete(ht, key[0]);
-    hashTableDelete(ht, key[4]);
-    hashTableDelete(ht, key[6]);
+    strcpy(mess3.user, "Pippo");
+    strcpy(mess3.text, "Come va?");
+    mess3.code = 2;
 
-    printf("Valore associato a %s: %d\n",key[9], *(int *)hashTableSearch(ht, key[9]));
-
-    hashTableResize(ht, CAPACITY+1);
-
-    printf("Valore associato a %s: %d\n",key[9], *(int *)hashTableSearch(ht, key[9]));
-
+    THLNode* n = listSearch(list, mess3);
+    if(n != NULL)
+    printf("Trovato user %s text %s\n", n->info.user, n->info.text);
     //printf("Valore associato a %s: %d\n",testare, *(int *)hashTableSearch(ht, testare));
 }
-
-/*
-int main(int argc, char** argv){
-    srand(time(NULL));
-    char *string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    char *randomString = NULL;
-
-    randomString = malloc(sizeof(char) * (6));
-
-    int v = 2;
-
-    THashTable *ht = hashTableCreate();
-
-    short key = 0;
-
-    char *testare = malloc(sizeof(char) * (6));
-
-    for(int i=0; i<10; i++)
-    {
-        for(int j=0; j<6; j++){
-            key = rand() % strlen(string);          
-            randomString[j] = string[key];
-        }
-
-        randomString[6] = '\0';
-
-        if(i == 5){
-            strcpy(testare, randomString);
-        }
-
-        printf("Inserisco %d %s\n", i, randomString);
-
-        hashTableInsert(ht, randomString, (void *)&v);
-
-        hashTablePrint(ht);
-
-        printf("\n\n");
-    }
-
-    printf("Valore associato a %s: %d\n",testare, *(int *)hashTableSearch(ht, testare));
-}*/
-
-/*
-int main(int argc, char** argv){
-    THashTable *ht = hashTableCreate();
-
-    char key1[6] = "ciao";
-    char key2[6] = "lista";
-    char key3[6] = "peppe";
-    char key4[6] = "text";
-    char key5[6] = "pino";
-    char key6[6] = "giuse";
-    char key7[6] = "mario";
-    char key8[6] = "bohri";
-    char key9[6] = "mano";
-    char key10[6] = "perra";
-    char key11[6] = "barra";
-    char key12[6] = "lapto";
-
-    int v = 2;
-
-    prova x;
-    x.v1 = 2;
-    x.v2 = "peppe";
-
-    test z;
-
-    z.lista=listCreate();
-
-    TInfoList info;
-    info.key="ciao";
-    info.value=10;
-
-    z.lista=listInsert(z.lista, info);
-
-    TInfoList info2;
-    info2.key="peppe";
-    info2.value=20;
-    z.lista=listInsert(z.lista, info2);
-
-    hashTableInsert(ht, key1, (void *)&x);
-
-    hashTableInsert(ht, key2, (void *)&z);
-    hashTableInsert(ht, key3, (void *)&v);
-    hashTableInsert(ht, key4, (void *)&v);
-    hashTableInsert(ht, key5, (void *)&v);
-    hashTableInsert(ht, key6, (void *)&v);
-    hashTableInsert(ht, key7, (void *)&v);
-    hashTableInsert(ht, key8, (void *)&v);
-    hashTableInsert(ht, key9, (void *)&v);
-    hashTableInsert(ht, key10, (void *)&v);
-    hashTableInsert(ht, key11, (void *)&v);
-    hashTableInsert(ht, key12, (void *)&v);
-
-    test *k = (test *)hashTableSearch(ht, key2);
-
-    listPrint(k->lista);
-
-    hashTablePrint(ht);
-    
-    /*
-    printf("\n\n\nCerco:\n");
-
-    printf("%s %d %s\n", ht->bucket[13].key, ((prova *)ht->bucket[13].value)->v1, ((prova *)ht->bucket[13].value)->v2);
-        
-    x.v1 = 3;
-    x.v2 = "giorgio";
-
-    hashTableInsert(ht, key1, (void *)&x);
-
-    printf("%s %d %s\n", ht->bucket[13].key, ((prova *)ht->bucket[13].value)->v1, ((prova *)ht->bucket[13].value)->v2);
-     
-    prova *y = (prova *)hashTableSearch(ht, key1);
-    
-    printf("y: v1->%d \t v2->%s\n", y->v1, y->v2);
-    
-
-
-    hashTablePrint(ht);
-
-    hashTableDelete(ht, key1);
-
-    hashTablePrint(ht);
-
-    hashTableDestroy(ht);
-    ///
-    return EXIT_SUCCESS;
-}
-*/

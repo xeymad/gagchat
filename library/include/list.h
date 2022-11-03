@@ -48,7 +48,7 @@ typedef THLNode* TList;
 TList listCreate();
 
 /**
- * @brief 
+ * @brief Destroy a List
  * 
  * @param list pointer of List
  * @return TList 
@@ -56,7 +56,7 @@ TList listCreate();
 TList listDestroy(TList list);
 
 /**
- * @brief 
+ * @brief Insert a new value in the List
  * 
  * @param list pointer of List
  * @param info value of List
@@ -65,7 +65,7 @@ TList listDestroy(TList list);
 TList listInsert(TList list, TInfoList info);
 
 /**
- * @brief 
+ * @brief Search an element into the List
  * 
  * @param list pointer of List
  * @param info value of List
@@ -74,7 +74,7 @@ TList listInsert(TList list, TInfoList info);
 THLNode *listSearch(TList list, TInfoList info);
 
 /**
- * @brief 
+ * @brief Delete an element from a list
  * 
  * @param list pointer of List
  * @param info value of List
@@ -83,7 +83,7 @@ THLNode *listSearch(TList list, TInfoList info);
 TList listDelete(TList list, TInfoList info);
 
 /**
- * @brief 
+ * @brief Print of an entire List
  * 
  * @param list pointer of List
  */

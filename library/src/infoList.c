@@ -1,61 +1,60 @@
 /**
  * @file infoList.c
  * @author Gianluca (g.canzolino3@studenti.unisa.it)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2022-10-29
- * 
+ *
  * @copyright Copyright (c) 2022 - All Rights Reserved
- * 
+ *
  * This file is part of gagchat.
  * gagchat is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * gagchat is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with gagchat. If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 #include <stdio.h>
 #include <string.h>
 #include "infoList.h"
 
-TInfoList infoListCreateKey(TKeyList key) {
-    TInfoList info;
-    info.key = key;
+/**
+ * @brief check if all the information of frist value 
+ *        are the same of the second value
+ * 
+ * @return bool 
+ */
+int infoListEqual(TInfoList info1, TInfoList info2)
+{
+    if (info1.user != NULL && info1.user != NULL && strcmp(info1.user, info2.user) == 0)
+    {
+        if (info1.text != NULL && info1.text != NULL && strcmp(info1.text, info2.text) == 0)
+        {
+            if (info1.code == info2.code)
+            {
+                return 1;
+            }
+        }
+    }
 
-    return info;
+    return 0;
 }
 
-TInfoList infoListCreate(TKeyList key, TValueList value) {
-    TInfoList info;
-    info.key = key;
-    info.value = value;
-
-    return info;
-}
-
-int infoListEqual(TInfoList info1, TInfoList info2) {
-    return strcmp(info1.key, info2.key);
-    
-    //return info1.key == info2.key;
-}
-
-int infoListGreater(TInfoList info1, TInfoList info2) {
-    return info1.key > info2.key;
-}
-
-int infoListLess(TInfoList info1, TInfoList info2) {
-    return info1.key < info2.key;
-}
-
-void infoListPrint(TInfoList info) {
-    printf("%s\t%d\n", info.key, info.value);
+/**
+ * @brief structured print of the value
+ * 
+ */
+void infoListPrint(TInfoList info)
+{
+    printf("User %s\nMessage %s\nCode %d\n\n",
+           info.user, info.text, info.code);
 }
