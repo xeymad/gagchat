@@ -26,14 +26,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <pthread.h>
 #include <signal.h>
 #include <errno.h>
 #include "tcp_socket.h"
 #include "server.h"
-#include "hashtable.h"
 
-THashTable* ht;
 TCPSocket *sock;
 
 static void server_destroy_connection(int signo){
@@ -45,40 +42,59 @@ static void server_destroy_connection(int signo){
     }
 }
 
-int server_check_username_exists(char *username){
-    //TODO: insert mutex.
-    return (hashTableSearch(ht,username)!=NULL);
-}
-
 void* server_manage_client(void* arg){
-    int rc;
-    int connfd = (int)arg;
+    ThreadArgs* args = (ThreadArgs*)arg;
     Message* msg = message_create();
-    char* username = malloc(USR_MAXLEN);
+    char username[USR_MAXLEN];
+    int len_username;
     // Authentication phase.
     do{
-        tcp_socket_recv_message(connfd, msg);
+        tcp_socket_recv_message(args->connection_fd, msg);
         printf("%s: %s\t%d\n", msg->user, msg->text, msg->code);
-        if(!server_check_username_exists(msg->user)){
+        if((msg->code==MSG_CLI_CREATE) && (hashTableSearch(args->ht,msg->user) == NULL))
             break;
-        }
         message_code_constructor(msg,"Server","Requested User is not available. Try again.",MSG_SRV_USRNCK);
-        tcp_socket_send_message(connfd, msg);
+        tcp_socket_send_message(args->connection_fd, msg);
     }
     while(1);
     // Authentication OK. Server now inserts User in hashtable.
     strncpy(username,msg->user,strlen(msg->user));
+    len_username = strlen(username) + 1;
     message_code_constructor(msg,"Server","User Accepted",MSG_SRV_USRACK);
     printf("Server has accepted username %s\n",username);
-    tcp_socket_send_message(connfd, msg);
-    hashTableInsert(ht,username,&connfd);
-    close(connfd);
+    tcp_socket_send_message(args->connection_fd, msg);
+    pthread_mutex_lock(args->lock);
+    hashTableInsert(args->ht,username,&args->connection_fd);
+    pthread_mutex_unlock(args->lock);
+    // User insert ok. Now let's dispatch.
+    do{
+        if(tcp_socket_recv_message(args->connection_fd, msg) <=0){
+            // Client has disconnected. Free resources and remove occurrance from hashtable.
+            printf("[ServerInfo]: Disconnecting user %s\n", username);
+            pthread_mutex_lock(args->lock);
+            hashTableDelete(args->ht,username);
+            pthread_mutex_unlock(args->lock);
+            close(args->connection_fd);
+            message_destroy(msg);
+            free(args);
+            args = NULL;
+            return NULL;
+        }
+        int *destination_fd;
+        printf("%s: %s\t%d\n", msg->user, msg->text, msg->code);
+        if((msg->code==MESSAGE) && ((destination_fd = hashTableSearch(args->ht, msg->user)) != NULL)){
+            strncpy(msg->user,username,len_username);
+            tcp_socket_send_message(*destination_fd,msg);
+        }
+    } while (1);
+    close(args->connection_fd);
 }
 
 int main(int argc, char **argv)
 {
     pthread_t tid;
-    ht = hashTableCreate(LISTENQ);
+    pthread_mutex_t lock;
+    THashTable* ht = hashTableCreate(LISTENQ);
     sock = tcp_socket_create(SERVER, "");
     tcp_socket_server_listen(sock);
     printf("%s\n", "Server running...waiting for connections.");
@@ -86,16 +102,25 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Can't catch SIGINT: %s", strerror(errno));
 		exit(1);
 	}
-    int connfd;
+    if (pthread_mutex_init(&lock, NULL) != 0)
+    {
+        fprintf(stderr,"Mutex init failed with errno %d\n", errno);
+        exit(2);
+    }
+    int connection_fd;
     while (1)
     {
-        if((connfd = tcp_socket_server_accept(sock)) < 0){
+        if((connection_fd = tcp_socket_server_accept(sock)) < 0){
             fprintf(stderr, "Accept connection error with errno %d\n", errno);
             continue;
         }
-        printf("Received request with connfd %d\n",connfd);
+        printf("Received request with connfd %d\n",connection_fd);
         fflush(stdout);
-        if(pthread_create(&tid, NULL, server_manage_client, (void *)connfd) != 0){
+        ThreadArgs* t_args = malloc(sizeof(ThreadArgs));
+        t_args->connection_fd = connection_fd;
+        t_args->ht = ht;
+        t_args->lock = &lock;
+        if(pthread_create(&tid, NULL, server_manage_client, (void *)t_args) != 0){
             fprintf(stderr, "Pthread creation error with errno %d\n", errno);
         }
     }

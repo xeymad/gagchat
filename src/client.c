@@ -33,13 +33,19 @@
 TCPSocket* sock;
 
 void* client_message_receiver(void *args){
-    Message* msg;
-    // while(1){
-    //     tcp_socket_recv_message(sock->sockfd, msg);
-    //     printf("\033[1;31m");
-    //     printf("%s: %s\t%d\n",msg->user,msg->text,msg->code);
-    //     printf("\033[0m\n");
-    // }
+    Message* msg = message_create();
+    while(1){
+        int ret = tcp_socket_recv_message(sock->sockfd, msg);
+        if(ret<=0){
+            fprintf(stderr, "\n\nServer has disconnected anomally\n");
+            exit(2);
+        }
+        printf("\033[1;31m");
+        printf("\r%s: %s\t\n",msg->user,msg->text);
+        printf("\033[0m\n");
+        printf("> ");
+        fflush(stdout);
+    }
 }
 
 static void client_destroy_connection(int signo){
@@ -79,7 +85,22 @@ int main(int argc, char** argv){
     if(pthread_create(&tid, NULL, client_message_receiver, NULL) != 0){
         fprintf(stderr, "Pthread creation error with errno %d\n", errno);
     }
-    pthread_join(tid,NULL);
-    message_destroy(msg);
-    return EXIT_SUCCESS;
+    char text[TXT_MAXLEN];
+    do{
+        printf("Please insert user to send message\n");
+        printf("> ");
+        fflush(stdout);
+        fgets(username,USR_MAXLEN,stdin);
+        printf("Please insert text\n");
+        printf("> ");
+        fflush(stdout);
+        username[strcspn(username, " \n")] = '\0';
+        fgets(text,TXT_MAXLEN,stdin);
+        text[strcspn(text, "\n")] = '\0';
+        message_constructor(msg,username,text);
+        if(tcp_socket_send_message(sock->sockfd,msg) <= 0){
+            fprintf(stderr, "\n\nServer has disconnected anomally\n");
+            exit(2);
+        }
+    }while(1);
 }

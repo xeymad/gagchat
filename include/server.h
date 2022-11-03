@@ -22,15 +22,18 @@
  * along with gagchat. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
+#include <pthread.h>
+#include "hashtable.h"
 
 /**
- * @brief checks the specified username already exists in
- * the server's connections.
+ * @brief Struct exchanged by Threads.
  * 
- * @param username requested username
- * @return int 0 if it does not exists, 1 otherwise.
  */
-int server_check_username_exists(char *username);
+typedef struct SThreadArgs{
+    int connection_fd;
+    THashTable* ht;
+    pthread_mutex_t* lock;
+} ThreadArgs;
 
 /**
  * @brief Thread for managing a generic client.
