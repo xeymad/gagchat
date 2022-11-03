@@ -49,7 +49,15 @@ void* server_manage_client(void* arg){
     int len_username;
     // Authentication phase.
     do{
-        tcp_socket_recv_message(args->connection_fd, msg);
+        if(tcp_socket_recv_message(args->connection_fd, msg) <=0){
+            // Client has disconnected prematurely.
+            printf("[ServerInfo]: Client has disconnected prematurely\n");
+            close(args->connection_fd);
+            message_destroy(msg);
+            free(args);
+            args = NULL;
+            return NULL;
+        }
         printf("%s: %s\t%d\n", msg->user, msg->text, msg->code);
         if((msg->code==MSG_CLI_CREATE) && (hashTableSearch(args->ht,msg->user) == NULL))
             break;
@@ -61,7 +69,7 @@ void* server_manage_client(void* arg){
     strncpy(username,msg->user,strlen(msg->user));
     len_username = strlen(username) + 1;
     message_code_constructor(msg,"Server","User Accepted",MSG_SRV_USRACK);
-    printf("Server has accepted username %s\n",username);
+    printf("[ServerInfo]: accepted username %s\n",username);
     tcp_socket_send_message(args->connection_fd, msg);
     pthread_mutex_lock(args->lock);
     hashTableInsert(args->ht,username,&args->connection_fd);
@@ -117,6 +125,10 @@ int main(int argc, char **argv)
         printf("Received request with connfd %d\n",connection_fd);
         fflush(stdout);
         ThreadArgs* t_args = malloc(sizeof(ThreadArgs));
+        if(t_args==NULL){
+            fprintf(stderr, "No such memory to allocate\n");
+            continue;
+        }
         t_args->connection_fd = connection_fd;
         t_args->ht = ht;
         t_args->lock = &lock;

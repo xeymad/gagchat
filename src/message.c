@@ -55,4 +55,5 @@ void message_code_constructor(Message* msg, char *user, char* text, int code){
 
 void message_destroy(Message* message){
     free(message);
+    message = NULL;
 }
