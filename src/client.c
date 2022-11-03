@@ -36,7 +36,10 @@ void* client_message_receiver(void *args){
     Message* msg = message_create();
     while(1){
         int ret = tcp_socket_recv_message(sock->sockfd, msg);
-        //printf("ret is %d and errno %d\n",ret,errno);
+        if(ret<=0){
+            fprintf(stderr, "\n\nServer has disconnected anomally\n");
+            exit(2);
+        }
         printf("\033[1;31m");
         printf("\r%s: %s\t\n",msg->user,msg->text);
         printf("\033[0m\n");
@@ -95,8 +98,9 @@ int main(int argc, char** argv){
         fgets(text,TXT_MAXLEN,stdin);
         text[strcspn(text, "\n")] = '\0';
         message_constructor(msg,username,text);
-        tcp_socket_send_message(sock->sockfd,msg);
+        if(tcp_socket_send_message(sock->sockfd,msg) <= 0){
+            fprintf(stderr, "\n\nServer has disconnected anomally\n");
+            exit(2);
+        }
     }while(1);
-    message_destroy(msg);
-    return EXIT_SUCCESS;
 }

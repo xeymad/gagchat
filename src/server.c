@@ -43,7 +43,6 @@ static void server_destroy_connection(int signo){
 }
 
 void* server_manage_client(void* arg){
-    int rc;
     ThreadArgs* args = (ThreadArgs*)arg;
     Message* msg = message_create();
     char username[USR_MAXLEN];
@@ -69,7 +68,18 @@ void* server_manage_client(void* arg){
     pthread_mutex_unlock(args->lock);
     // User insert ok. Now let's dispatch.
     do{
-        tcp_socket_recv_message(args->connection_fd, msg);
+        if(tcp_socket_recv_message(args->connection_fd, msg) <=0){
+            // Client has disconnected. Free resources and remove occurrance from hashtable.
+            printf("[ServerInfo]: Disconnecting user %s\n", username);
+            pthread_mutex_lock(args->lock);
+            hashTableDelete(args->ht,username);
+            pthread_mutex_unlock(args->lock);
+            close(args->connection_fd);
+            message_destroy(msg);
+            free(args);
+            args = NULL;
+            return NULL;
+        }
         int *destination_fd;
         printf("%s: %s\t%d\n", msg->user, msg->text, msg->code);
         if((msg->code==MESSAGE) && ((destination_fd = hashTableSearch(args->ht, msg->user)) != NULL)){
