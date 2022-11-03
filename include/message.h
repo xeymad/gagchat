@@ -44,11 +44,14 @@
  * @brief struct exchanged by parties for gagchat
  * 
  */
-typedef struct SMessage{
-    char user[USR_MAXLEN]; //Username is a string with a maximum length of 64 characters.
-    char text[TXT_MAXLEN]; //Message text is a string with a maximum length of 1024 characters.
-    int code; //Error code is represented by integer.
-} Message;
+#ifndef MESSAGE_STRUCT
+    #define MESSAGE_STRUCT
+    typedef struct SMessage{
+        char user[USR_MAXLEN]; //Username is a string with a maximum length of 64 characters.
+        char text[TXT_MAXLEN]; //Message text is a string with a maximum length of 1024 characters.
+        int code; //Error code is represented by integer.
+    } Message;
+#endif
 
 /**
  * @brief Creates an empty message.

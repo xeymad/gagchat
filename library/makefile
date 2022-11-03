@@ -32,7 +32,7 @@ $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 
 # Build step for C source
 $(BUILD_DIR)/%.o: %.c
-	mkdir -p $(dir $@)
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
