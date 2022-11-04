@@ -26,49 +26,83 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "infoList.h"
-#include "list.h"
 #include <time.h>
+#include <stdbool.h>
 
-typedef struct {
-    int v1;
-    int v2;
-} prova;
-
-typedef struct {
-    int v1;
-    TList lista;
-} test;
-
+//#include "message.h"
+#include "gui.h"
+#include "queue.h"
 
 int main(int argc, char** argv){
-    TList list = listCreate();
+    Message msg;
+    strcpy(msg.user, "User1");
+    strcpy(msg.text, "Ciao come stai?");
+    msg.code = 1;
 
-    Message mess, mess2;
+    TQueue* q = queueCreate(10);
 
-    strcpy(mess.user, "Pippo");
-    strcpy(mess.text, "Ciao come stai?");
-    mess.code = 2;
+    queueAdd(q, msg);
 
-    strcpy(mess2.user, "Pluto");
-    strcpy(mess2.text, "Sto bene");
-    mess2.code = 3;
+    strcpy(msg.user, "User2");
+    strcpy(msg.text, "Merdaccia che sei, lotaaaaa merdaaaa lotaaaa schiet giggi merda");
+    msg.code = 1;
 
-    list = listInsert(list, mess);
-    list = listInsert(list, mess2);
+    queueAdd(q, msg);
 
-    printf("Ciao\n");
+    strcpy(msg.user, "User1");
+    strcpy(msg.text, "Ohhhh chin e corn");
+    msg.code = 1;
 
-    listPrint(list);
+    queueAdd(q, msg);
 
-    Message mess3;
 
-    strcpy(mess3.user, "Pippo");
-    strcpy(mess3.text, "Come va?");
-    mess3.code = 2;
+    printf("\n\n\n");
 
-    THLNode* n = listSearch(list, mess3);
-    if(n != NULL)
-    printf("Trovato user %s text %s\n", n->info.user, n->info.text);
-    //printf("Valore associato a %s: %d\n",testare, *(int *)hashTableSearch(ht, testare));
+    strcpy(msg.user, "User2");
+    strcpy(msg.text, "Cocco bello, sei un pisello, non bello ma simpatichello. Scherzo sei una lota");
+    msg.code = 1;
+    for(int i=0; i<8; i++){
+        queueAdd(q, msg);
+    }
+
+    //queuePrint(q);
+    
+    gui_print(queueRemove(q), true);
+    gui_print(queueRemove(q), false);
+    gui_print(queueRemove(q), true);
+    gui_print(queueRemove(q), false);
+    gui_print(queueRemove(q), true);
+    gui_print(queueRemove(q), true);
+    gui_print(queueRemove(q), false);
+    gui_print(queueRemove(q), true);
+
+
 }
+
+
+/*
+int main(int argc, char** argv){
+    
+    Message msg;
+    strcpy(msg.user, "User1");
+    strcpy(msg.text, "Ciao come stai? sdjsdjsad ashjahd jash shdbasnd hasd hagsd");
+    msg.code = 1;
+
+    gui_print(msg, true);
+
+    Message msg2;
+    strcpy(msg2.user, "User2");
+    strcpy(msg2.text, "Sto bene, volevo dirti che qua fa caldo e freddo, non so se vestirmi a cipolla o ad aglio. Ho molta voglia di parlare, nun teng nient a c fa, tu tutto a posto?");
+    msg2.code = 1;
+
+    gui_print(msg2, false);
+
+    Message msg3;
+    strcpy(msg3.user, "User1");
+    strcpy(msg3.text, "Ah sono contento, anche io sto bene, fin troppo che ti vorrei malmenare");
+    msg3.code = 1;
+    gui_print(msg3, true);
+
+
+}
+*/

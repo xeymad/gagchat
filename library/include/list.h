@@ -27,7 +27,6 @@
 #define LIST_H
 
 #include "infoList.h"
-#include "array.h"
 
 /**
  * @brief Struct of List

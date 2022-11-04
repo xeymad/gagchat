@@ -1,9 +1,9 @@
 /**
- * @file infoArray.h
+ * @file queue.h
  * @author Gianluca (g.canzolino3@studenti.unisa.it)
  * @brief 
  * @version 0.1
- * @date 2022-10-29
+ * @date 2022-11-03
  * 
  * @copyright Copyright (c) 2022 - All Rights Reserved
  * 
@@ -24,48 +24,38 @@
  */
 
 /*
- * TInfoArray: tipo elementare
+ * TQueue: implementazione di una coda attraverso un array dinamico
  */
 
-#ifndef INFO_ARRAY_H
-#define INFO_ARRAY_H
+#ifndef QUEUE_H
+#define QUEUE_H
 
-#include "stdbool.h"
+#include "message.h"
 
 /**
- * @brief type of Array
+ * @brief Struct of the queue
  * 
  */
-typedef int TInfoArray;
+typedef struct {
+    int n_element; // numero di elementi
+    int front; // indice front
+    int back; // indice back
+    int size;
+    Message **array; 
+} TQueue;
 
-/**
- * @brief check if frist value is equal to the second value
- * 
- * @return bool 
- */
-bool infoArrayEqual(TInfoArray, TInfoArray);
+TQueue* queueCreate();
 
-/**
- * @brief check if frist value is greater to the second value
- * 
- * @return bool 
- */
-bool infoArrayGreater(TInfoArray, TInfoArray);
+void queueDestroy (TQueue *q);
 
-/**
- * @brief check if frist value is less to the second value
- * 
- * @return bool 
- */
-bool infoArrayLess(TInfoArray, TInfoArray);
+void queueAdd (TQueue *q, Message x);
 
-/**
- * @brief structured print of the value
- * 
- */
-void infoArrayPrint(TInfoArray);
+Message* queueRemove (TQueue *q);
+
+Message* queueFront (TQueue *q);
+
+int queueIsEmpty (TQueue *q);
+
+void queuePrint(TQueue* q);
 
 #endif
-
-
-

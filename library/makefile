@@ -18,7 +18,9 @@ INC_DIRS := $(shell find $(INC_DIR) -type d)
 INC_FLAGS := $(addprefix -I ,$(INC_DIRS))
 
 # List of flag for C compiler
-CFLAGS := $(INC_FLAGS) 
+CFLAGS := $(INC_FLAGS)
+
+LDFLAGS := -lm
 
 # Build All Libraries
 .DELETE_ON_ERROR:

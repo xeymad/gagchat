@@ -23,11 +23,17 @@
  * 
  */
 
+#ifndef MESSAGE_H
+#define MESSAGE_H
+
 #ifndef USR_MAXLEN
     #define USR_MAXLEN 64 
 #endif
 #ifndef TXT_MAXLEN
     #define TXT_MAXLEN 1024 
+#endif
+#ifndef MSG_MAXLEN
+    #define MSG_MAXLEN 32 
 #endif
 
 /**
@@ -86,3 +92,5 @@ void message_code_constructor(Message* message, char *user, char* text, int code
  * @param message the Message reference to destroy.
  */
 void message_destroy(Message* message);
+
+#endif
