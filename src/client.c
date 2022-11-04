@@ -103,5 +103,5 @@ int main(int argc, char** argv){
             fprintf(stderr, "\n\nServer has disconnected anomally\n");
             exit(2);
         }
-    }while(1);
+    } while(1);
 }

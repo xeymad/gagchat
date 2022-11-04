@@ -207,12 +207,13 @@ void hashTableDelete(THashTable *ht, TKeyHashtable key)
         }
         else
         {
-            if (strcmp(ht->bucket[h].key, key) == 0)
+            if (ht->bucket[h].key!=NULL && strcmp(ht->bucket[h].key, key) == 0)
             {
                 free(ht->bucket[h].key);
                 ht->bucket[h].key = NULL;
                 ht->bucket[h].value = NULL;
                 ht->n_used--;
+                return;
                 // ht->used[h] = 0;
             }
         }
@@ -229,7 +230,7 @@ void hashTablePrint(THashTable *ht)
 {
     for (int i = 0; i < ht->n_bucket; i++)
     {
-        printf("bucket[%d] = key -> %s; value -> %p\n", i, ht->bucket[i].key, ht->bucket[i].value);
+        printf("bucket[%d] = key -> %s; value -> %p; used -> %d\n", i, ht->bucket[i].key, ht->bucket[i].value, ht->used[i]);
     }
 }
 
