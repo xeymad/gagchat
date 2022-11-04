@@ -8,9 +8,9 @@ INC_DIR := ./include
 SRCS := $(shell find $(SRC_DIRS) -name '*.c')
 
 # String substitution for every C file.
-# As an example, hello.c turns into ./build/hello.o
-OBJS_O := $(SRCS:.c=.o)
-OBJS := $(OBJS_O:%=$(BUILD_DIR)/%)
+# As an example, hello.c turns into hello.o
+OBJS_FILE := $(patsubst $(SRC_DIRS)/%.c,%.o,$(SRCS))
+OBJS_PATH := $(patsubst %,$(BUILD_DIR)/%,$(OBJS_FILE))
 
 # Every folder in ./include will need to be passed to GCC so that it can find header files
 INC_DIRS := $(shell find $(INC_DIR) -type d)
@@ -22,24 +22,30 @@ CFLAGS := $(INC_FLAGS)
 
 LDFLAGS := -lm
 
+print_all:
+	@echo $(OBJS_PATH)
+	@echo $(OBJS_FILE)
+
 # Build All Libraries
 .DELETE_ON_ERROR:
-all_libraries : $(OBJS)
+all_libraries : $(OBJS_PATH)
 
 # The final build step.
-test: $(BUILD_DIR)/$(TARGET_EXEC)
-
-$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
-	$(CC) $(OBJS) -o $@ $(LDFLAGS)
+test: all_libraries
+	$(CC) -c -I $(INC_DIR) $(TARGET_EXEC).c
+	$(CC) $(TARGET_EXEC).o $(OBJS_PATH) -o $(TARGET_EXEC) $(LDFLAGS)
+	@rm $(TARGET_EXEC).o
 
 # Build step for C source
-$(BUILD_DIR)/%.o: %.c
+$(BUILD_DIR)/%.o: $(SRC_DIRS)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
 .PHONY: clean
 clean:
-	-rm -r $(BUILD_DIR)
+	-rm -f -r $(BUILD_DIR)
+	-rm -f $(TARGET_EXEC).o
+	-rm -f $(TARGET_EXEC)
 	
 	

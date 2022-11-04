@@ -5,49 +5,47 @@ src = src/
 linc = library/include/
 lsrc = library/src/
 
+BUILD_LIBRARIES_DIR_H := ./library/include
+BUILD_LIBRARIES_DIR_O := ./library/build
+
+OBJS := $(shell find $(BUILD_LIBRARIES_DIR_O) -name '*.o')
+HEADERS := $(shell find $(BUILD_LIBRARIES_DIR_H) -name '*.o')
+
+
 server_h = $(inc)server.h
 server_o = server.o
 server_c = $(src)server.c
-dependence_server_h = $(inc)message.h $(inc)tcp_socket.h $(linc)hashtable.h $(linc)infoList.h $(linc)infoHashtable.h $(linc)list.h
-dependence_server_o = message.o tcp_socket.o hashtable.o infoList.o infoHashtable.o list.o
-dependence_server_c = $(src)message.c $(src)tcp_socket.c $(lsrc)hashtable.c $(lsrc)infoList.c $(lsrc)infoHashtable.c $(lsrc)list.c
 
 client_h = $(inc)client.h
 client_o = client.o
 client_c = $(src)client.c
-dependence_client_h = $(inc)message.h $(inc)tcp_socket.h
-dependence_client_o = message.o tcp_socket.o
-dependence_client_c = $(src)message.c $(src)tcp_socket.c
 
-compile: compile_client compile_server compile_libraries
+compile: compile_libraries
+	@$(MAKE) compile_server 
+	@$(MAKE) compile_client
 
 null:
 	echo 
 
-compile_server: $(server_o) $(dependence_server_o)
+compile_server: $(HEADERS) 
 	$(C) -c -I $(inc) -I $(linc) $(server_c)
-	$(C) -o server $(server_o) $(dependence_server_o) -lpthread
+	$(C) -o server $(server_o) $(OBJS) -lpthread -lm
+	@rm $(server_o)
 
-$(server_o) : $(dependence_server_h)
+$(server_o) : $(HEADERS)
 
-$(dependence_server_o) : $(dependence_server_h) $(dependence_server_c)
-	$(C) -c -I $(inc) -I $(linc) $(dependence_server_c)
+compile_client: $(HEADERS)
+	$(C) -c -I $(inc) -I $(linc) $(client_c)
+	$(C) -o client $(client_o) $(OBJS) -lpthread -lm
+	@rm $(client_o)
 
-compile_client: $(client_o) $(dependence_client_o)
-	$(C) -c -I $(inc) $(client_c)
-	$(C) -o client $(client_o) $(dependence_client_o) -lpthread
-
-$(client_o) : $(dependence_client_h)
-
-$(dependence_client_o) : $(dependence_client_h) $(dependence_client_c)
-	$(C) -c -I $(inc) $(dependence_client_c)
 
 compile_libraries: 
 	-cd ./library && $(MAKE) all_libraries
 
 clean:
-	-rm server client *.o 
-	-cd ./library && $(MAKE) clean
+	-rm -f server client *.o 
+	@cd ./library && $(MAKE) clean
 	
 	
 	
