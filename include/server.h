@@ -47,6 +47,14 @@ typedef struct SThreadArgs{
 void server_sendToAll(THashTable* ht, TBST tree, Message* message);
 
 /**
+ * @brief Sends the users list to specified client.
+ * 
+ * @param connection_fd connection file descriptor.
+ * @param users tree with all of users.
+ */
+void server_sendUsersTo(int connection_fd, TBST users);
+
+/**
  * @brief Thread for managing a generic client.
  * 
  */

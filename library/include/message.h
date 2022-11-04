@@ -45,6 +45,8 @@
 #define MSG_SRV_USRACK 2    // User is accepted by the server.
 #define MSG_SRV_USRNCK 3    // User is NOT accepted by the server.
 #define MSG_SRV_USRNRC 4    // User is NOT reachable from the server.
+#define MSG_CLI_LSTUSR 5    // Client request for the available list of users.
+#define MSG_SRV_AVLUSR 6    // Available user for client.
 
 
 /**

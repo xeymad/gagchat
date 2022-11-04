@@ -51,6 +51,15 @@ void server_sendToAll(THashTable* ht, TBST tree, Message* message){
     server_sendToAll(ht,tree->right,message);
 }
 
+void server_sendUsersTo(int connection_fd, TBST users){
+    if(users==NULL) return;
+    server_sendUsersTo(connection_fd, users->left);
+    Message msg;
+    message_code_constructor(&msg,"Server",users->info,MSG_SRV_AVLUSR);
+    tcp_socket_send_message(connection_fd, &msg);
+    server_sendUsersTo(connection_fd, users->right);
+}
+
 void* server_manage_client(void* arg){
     ThreadArgs* args = (ThreadArgs*)arg;
     Message* msg = message_create();
@@ -117,6 +126,9 @@ void* server_manage_client(void* arg){
                 strncpy(msg->user,username,len_username);
                 tcp_socket_send_message(*destination_fd,msg);
             }
+        }
+        else if(msg->code==MSG_CLI_LSTUSR){
+            server_sendUsersTo(args->connection_fd, *(TBST*)args->tree);
         }
     } while (1);
     close(args->connection_fd);
