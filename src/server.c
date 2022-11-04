@@ -30,6 +30,7 @@
 #include <errno.h>
 #include "server.h"
 #include "tcp_socket.h"
+#include "gui.h"
 
 TCPSocket *sock;
 
@@ -87,7 +88,16 @@ void* server_manage_client(void* arg){
     strncpy(username,msg->user,strlen(msg->user));
     len_username = strlen(username) + 1;
     message_code_constructor(msg,"Server","User Accepted",MSG_SRV_USRACK);
-    printf("[ServerInfo]: accepted username %s\n",username);
+    
+
+    gui_set_color(On_IWhite);
+    printf("[ServerInfo]");
+    gui_set_color(Default_Color);
+    printf(": accepted username ");
+    gui_set_color(BRed);
+    printf("%s\n",username);
+    gui_set_color(Default_Color);
+    
     tcp_socket_send_message(args->connection_fd, msg);
     pthread_mutex_lock(args->lock);
     hashTableInsert(args->ht,username,&args->connection_fd);

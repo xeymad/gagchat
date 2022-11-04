@@ -20,7 +20,8 @@ client_h = $(inc)client.h
 client_o = client.o
 client_c = $(src)client.c
 
-compile: compile_libraries
+compile: clean
+	@$(MAKE) compile_libraries
 	@$(MAKE) compile_server 
 	@$(MAKE) compile_client
 

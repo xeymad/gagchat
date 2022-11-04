@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
+#include <unistd.h>
 #include <errno.h>
 #include <pthread.h>
 #include "tcp_socket.h"
@@ -39,7 +40,10 @@ void* client_message_receiver(void *args){
         int ret = tcp_socket_recv_message(sock->sockfd, msg);
         if(ret<=0){
             fprintf(stderr, "\n\nServer has disconnected anomally\n");
-            exit(2);
+            if(raise(SIGINT) != 0)
+            {
+                fprintf(stderr, "\n\nFail to send SIG_ERR\n");
+            }
         }
         printf("\033[1;31m");
         printf("\r%s: %s\t\n",msg->user,msg->text);
@@ -103,7 +107,10 @@ int main(int argc, char** argv){
         message_constructor(msg,username,text);
         if(tcp_socket_send_message(sock->sockfd,msg) <= 0){
             fprintf(stderr, "\n\nServer has disconnected anomally\n");
-            exit(2);
+            if(raise(SIGINT) != 0)
+            {
+                fprintf(stderr, "\n\nFail to send SIG_ERR\n");
+            }
         }
     } while(1);
 }

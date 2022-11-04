@@ -36,6 +36,7 @@
 
 // Reset
 #define Color_Off  "\033[0m"       // Text Reset
+#define Default_Color  "\033[0m"       // Text Reset
 
 // Regular Colors
 #define Black  "\033[30m"        // Black
@@ -48,64 +49,71 @@
 #define White  "\033[37m"        // White
 
 // Bold
-#define BBlack  "\033[1;30m"       // Black
-#define BRed  "\033[1;31m"         // Red
-#define BGreen  "\033[1;32m"       // Green
-#define BYellow  "\033[1;33m"      // Yellow
-#define BBlue  "\033[1;34m"        // Blue
-#define BPurple  "\033[1;35m"      // Purple
-#define BCyan  "\033[1;36m"        // Cyan
-#define BWhite  "\033[1;37m"       // White
+#define BBlack  "\033[1;30m"       // Black Bold
+#define BRed  "\033[1;31m"         // Red Bold
+#define BGreen  "\033[1;32m"       // Green Bold
+#define BYellow  "\033[1;33m"      // Yellow Bold
+#define BBlue  "\033[1;34m"        // Blue Bold
+#define BPurple  "\033[1;35m"      // Purple Bold
+#define BCyan  "\033[1;36m"        // Cyan Bold
+#define BWhite  "\033[1;37m"       // White Bold
 
 // Underline
-#define UBlack  "\033[4;30m"       // Black
-#define URed  "\033[4;31m"         // Red
-#define UGreen  "\033[4;32m"       // Green
-#define UYellow  "\033[4;33m"      // Yellow
-#define UBlue  "\033[4;34m"        // Blue
-#define UPurple  "\033[4;35m"      // Purple
-#define UCyan  "\033[4;36m"        // Cyan
-#define UWhite  "\033[4;37m"       // White
+#define UBlack  "\033[4;30m"       // Black Underlined
+#define URed  "\033[4;31m"         // Red Underlined
+#define UGreen  "\033[4;32m"       // Green Underlined
+#define UYellow  "\033[4;33m"      // Yellow Underlined
+#define UBlue  "\033[4;34m"        // Blue Underlined
+#define UPurple  "\033[4;35m"      // Purple Underlined
+#define UCyan  "\033[4;36m"        // Cyan Underlined
+#define UWhite  "\033[4;37m"       // White Underlined
 
 // Background
-#define On_Black  "\033[40m"       // Black
-#define On_Red  "\033[41m"         // Red
-#define On_Green  "\033[42m"       // Green
-#define On_Yellow  "\033[43m"      // Yellow
-#define On_Blue  "\033[44m"        // Blue
-#define On_Purple  "\033[45m"      // Purple
-#define On_Cyan  "\033[46m"        // Cyan
-#define On_White  "\033[47m"       // White
+#define On_Black  "\033[40m"       // Black BG
+#define On_Red  "\033[41m"         // Red BG
+#define On_Green  "\033[42m"       // Green BG
+#define On_Yellow  "\033[43m"      // Yellow BG
+#define On_Blue  "\033[44m"        // Blue BG
+#define On_Purple  "\033[45m"      // Purple BG
+#define On_Cyan  "\033[46m"        // Cyan BG
+#define On_White  "\033[47m"       // White BG
 
 // High Intensty
-#define IBlack  "\033[90m"       // Black
-#define IRed  "\033[91m"         // Red
-#define IGreen  "\033[92m"       // Green
-#define IYellow  "\033[93m"      // Yellow
-#define IBlue  "\033[94m"        // Blue
-#define IPurple  "\033[95m"      // Purple
-#define ICyan  "\033[96m"        // Cyan
-#define IWhite  "\033[97m"       // White
+#define IBlack  "\033[90m"       // Black High Intensty
+#define IRed  "\033[91m"         // Red High Intensty
+#define IGreen  "\033[92m"       // Green High Intensty
+#define IYellow  "\033[93m"      // Yellow High Intensty
+#define IBlue  "\033[94m"        // Blue High Intensty
+#define IPurple  "\033[95m"      // Purple High Intensty
+#define ICyan  "\033[96m"        // Cyan High Intensty
+#define IWhite  "\033[97m"       // White High Intensty
 
 // Bold High Intensty
-#define BIBlack  "\033[1;90m"      // Black
-#define BIRed  "\033[1;91m"        // Red
-#define BIGreen  "\033[1;92m"      // Green
-#define BIYellow  "\033[1;93m"     // Yellow
-#define BIBlue  "\033[1;94m"       // Blue
-#define BIPurple  "\033[1;95m"     // Purple
-#define BICyan  "\033[1;96m"       // Cyan
-#define BIWhite  "\033[1;97m"      // White
+#define BIBlack  "\033[1;90m"      // Black Bold High Intensty
+#define BIRed  "\033[1;91m"        // Red Bold High Intensty
+#define BIGreen  "\033[1;92m"      // Green Bold High Intensty
+#define BIYellow  "\033[1;93m"     // Yellow Bold High Intensty
+#define BIBlue  "\033[1;94m"       // Blue Bold High Intensty
+#define BIPurple  "\033[1;95m"     // Purple Bold High Intensty
+#define BICyan  "\033[1;96m"       // Cyan Bold High Intensty
+#define BIWhite  "\033[1;97m"      // White Bold High Intensty
 
 // High Intensty backgrounds
-#define On_IBlack  "\033[100m"   // Black
-#define On_IRed  "\033[101m"     // Red
-#define On_IGreen  "\033[102m"   // Green
-#define On_IYellow  "\033[103m"  // Yellow
-#define On_IBlue  "\033[104m"    // Blue
-#define On_IPurple  "\033[195m"  // Purple
-#define On_ICyan  "\033[106m"    // Cyan
-#define On_IWhite  "\033[107m"   // White
+#define On_IBlack  "\033[100m"   // Black High Intensty BG
+#define On_IRed  "\033[101m"     // Red High Intensty BG
+#define On_IGreen  "\033[102m"   // Green High Intensty BG
+#define On_IYellow  "\033[103m"  // Yellow High Intensty BG
+#define On_IBlue  "\033[104m"    // Blue High Intensty BG
+#define On_IPurple  "\033[195m"  // Purple High Intensty BG
+#define On_ICyan  "\033[106m"    // Cyan High Intensty BG
+#define On_IWhite  "\033[107m"   // White High Intensty BG
+
+/**
+ * @brief set the color of text or background, apply a text style
+ * 
+ * @param color 
+ */
+void gui_set_color(char* color);
 
 /**
  * @brief 
