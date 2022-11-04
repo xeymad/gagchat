@@ -24,6 +24,7 @@
  */
 #include <pthread.h>
 #include "hashtable.h"
+#include "TBST.h"
 
 /**
  * @brief Struct exchanged by Threads.
@@ -32,8 +33,26 @@
 typedef struct SThreadArgs{
     int connection_fd;
     THashTable* ht;
+    TBST* tree;
     pthread_mutex_t* lock;
 } ThreadArgs;
+
+/**
+ * @brief Sends a message to all clients.
+ * 
+ * @param ht the hashtable containing connections.
+ * @param tree tree list of users.
+ * @param message the message to send.
+ */
+void server_sendToAll(THashTable* ht, TBST tree, Message* message);
+
+/**
+ * @brief Sends the users list to specified client.
+ * 
+ * @param connection_fd connection file descriptor.
+ * @param users tree with all of users.
+ */
+void server_sendUsersTo(int connection_fd, TBST users);
 
 /**
  * @brief Thread for managing a generic client.

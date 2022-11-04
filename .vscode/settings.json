@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "algorithm": "c",
-        "*.tcc": "c",
-        "cmath": "c",
-        "queue.h": "c",
-        "message.h": "c"
-    }
-}

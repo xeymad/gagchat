@@ -28,8 +28,8 @@
 #include <string.h>
 #include <signal.h>
 #include <errno.h>
-#include "tcp_socket.h"
 #include "server.h"
+#include "tcp_socket.h"
 
 TCPSocket *sock;
 
@@ -40,6 +40,24 @@ static void server_destroy_connection(int signo){
         tcp_socket_destroy(sock);
         exit(EXIT_SUCCESS);
     }
+}
+
+void server_sendToAll(THashTable* ht, TBST tree, Message* message){
+    if(tree==NULL) return;
+    server_sendToAll(ht,tree->left,message);
+    char* user = tree->info;
+    int *destination_fd = hashTableSearch(ht,user);
+    tcp_socket_send_message(*destination_fd,message);
+    server_sendToAll(ht,tree->right,message);
+}
+
+void server_sendUsersTo(int connection_fd, TBST users){
+    if(users==NULL) return;
+    server_sendUsersTo(connection_fd, users->left);
+    Message msg;
+    message_code_constructor(&msg,"Server",users->info,MSG_SRV_AVLUSR);
+    tcp_socket_send_message(connection_fd, &msg);
+    server_sendUsersTo(connection_fd, users->right);
 }
 
 void* server_manage_client(void* arg){
@@ -73,6 +91,7 @@ void* server_manage_client(void* arg){
     tcp_socket_send_message(args->connection_fd, msg);
     pthread_mutex_lock(args->lock);
     hashTableInsert(args->ht,username,&args->connection_fd);
+    *(TBST*)args->tree = BSTinsertI(*(TBST*)args->tree, username);
     pthread_mutex_unlock(args->lock);
     // User insert ok. Now let's dispatch.
     do{
@@ -81,6 +100,7 @@ void* server_manage_client(void* arg){
             printf("[ServerInfo]: Disconnecting user %s\n", username);
             pthread_mutex_lock(args->lock);
             hashTableDelete(args->ht,username);
+            *(TBST*)args->tree = BSTdeleteI(*(TBST*)args->tree, username);
             pthread_mutex_unlock(args->lock);
             close(args->connection_fd);
             message_destroy(msg);
@@ -91,6 +111,11 @@ void* server_manage_client(void* arg){
         int *destination_fd;
         printf("%s: %s\t%d\n", msg->user, msg->text, msg->code);
         if(msg->code==MESSAGE){
+            if(strcmp(msg->user, "all") == 0){
+                strncpy(msg->user,username,len_username);
+                server_sendToAll(args->ht, *(TBST*)args->tree, msg);
+                continue;
+            }
             destination_fd = hashTableSearch(args->ht, msg->user);
             if(destination_fd == NULL){
                 printf("[ServerInfo]: User %s unreachable\n",msg->user);
@@ -102,15 +127,22 @@ void* server_manage_client(void* arg){
                 tcp_socket_send_message(*destination_fd,msg);
             }
         }
+        else if(msg->code==MSG_CLI_LSTUSR){
+            server_sendUsersTo(args->connection_fd, *(TBST*)args->tree);
+        }
     } while (1);
     close(args->connection_fd);
 }
+
 
 int main(int argc, char **argv)
 {
     pthread_t tid;
     pthread_mutex_t lock;
     THashTable* ht = hashTableCreate(LISTENQ);
+    TBST bst = BSTcreate();
+    hashTableInsert(ht,"Server", &ht);
+    hashTableInsert(ht,"all", &bst);
     sock = tcp_socket_create(SERVER, "");
     tcp_socket_server_listen(sock);
     printf("%s\n", "Server running...waiting for connections.");
@@ -139,6 +171,7 @@ int main(int argc, char **argv)
         }
         t_args->connection_fd = connection_fd;
         t_args->ht = ht;
+        t_args->tree = &bst;
         t_args->lock = &lock;
         if(pthread_create(&tid, NULL, server_manage_client, (void *)t_args) != 0){
             fprintf(stderr, "Pthread creation error with errno %d\n", errno);

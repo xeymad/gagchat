@@ -86,6 +86,8 @@ int main(int argc, char** argv){
     if(pthread_create(&tid, NULL, client_message_receiver, NULL) != 0){
         fprintf(stderr, "Pthread creation error with errno %d\n", errno);
     }
+    message_code_constructor(msg, username,"Nice one this time!", MSG_CLI_LSTUSR);
+    tcp_socket_send_message(sock->sockfd,msg);
     char text[TXT_MAXLEN];
     do{
         printf("Please insert user to send message\n");
@@ -103,5 +105,5 @@ int main(int argc, char** argv){
             fprintf(stderr, "\n\nServer has disconnected anomally\n");
             exit(2);
         }
-    }while(1);
+    } while(1);
 }
