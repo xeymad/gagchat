@@ -121,6 +121,16 @@ void gui_set_color(char* color);
  * @param msg 
  * @param receved 
  */
-void gui_print(Message* msg, bool receved);
+void gui_print_message(Message* msg, bool receved);
+
+void gui_print_menu(char* user);
+
+void gui_print_list_users_header();
+
+void gui_print_list_user(char* user);
+
+void gui_print_list_users_footer();
+
+void gui_clear_Screen();
 
 #endif

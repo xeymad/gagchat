@@ -84,7 +84,7 @@ void queuePrint(TQueue* q){
     int index = q->front;
     for(int i=0; i<q->n_element; i++)
     {
-        gui_print(q->array[index], true);
+        gui_print_message(q->array[index], true);
         index = (index+1)%q->size;
     }
 }

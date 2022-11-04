@@ -27,6 +27,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
+#include <unistd.h>
 
 #include "gui.h"
 
@@ -53,6 +54,17 @@ void gui_print_n_times(char* str, int n)
 }
 
 /**
+ * @brief Print the upper and lower separator of box
+ * 
+ */
+void gui_print_horizontal_line()
+{
+    printf("+");
+    gui_print_n_times("-", COLUMNS-2);
+    printf("+\n");
+}
+
+/**
  * @brief Print the upper and lower separator of the text box
  * 
  * @param received true if is a message receved, else false
@@ -72,7 +84,7 @@ void gui_print_horizontal_msg_line(bool received)
  * @param user 
  * @param received true if is a message receved, else false
  */
-void gui_print_user(char* user, bool received)
+void gui_print_user_msg(char* user, bool received)
 {
     if(received)
     {
@@ -121,12 +133,87 @@ void gui_print_msg(char* msg, bool received)
     printf("\n");
 }
 
-void gui_print(Message* msg, bool receved){
-
-    gui_print_user(msg->user, receved);
-    //printf("%.*s", 5, "=================");
+void gui_print_message(Message* msg, bool receved){
+    gui_print_user_msg(msg->user, receved);
     
     gui_print_msg(msg->text, receved);
 
     gui_set_color(Color_Off);
+}
+
+void gui_clear_Screen()
+{
+    const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J\r";
+    write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
+}
+
+void gui_print_line(char* line)
+{
+    gui_set_color(Color_Off);
+
+    printf("%*s\r| ", COLUMNS, "|");
+
+    printf("%-*.*s\n", COLUMNS-4, COLUMNS-4, line);
+        
+    gui_set_color(Color_Off);
+}
+
+void gui_print_menu(char* user){
+    char tmp[COLUMNS];
+
+    gui_clear_Screen();
+
+    gui_print_horizontal_line();
+
+    sprintf(tmp, "%sWelcome %s%s", BIWhite, Cyan, user);
+    gui_print_line(tmp);
+
+    gui_print_line(" ");
+    gui_print_line("Make your choice, insert:");
+
+    sprintf(tmp, " -%s%s%s%s", BIWhite, "show_all", Color_Off, "-> show all connected users");
+    gui_print_line(tmp);
+
+    sprintf(tmp, " -%s%s%s%s", BIWhite, "username", Color_Off, "-> open the chat with the user \"username\"");
+    gui_print_line(tmp);
+
+    gui_print_line("");
+
+    gui_print_horizontal_line();
+
+    printf("\nInsert-> ");
+    fflush(stdout);
+}
+
+void gui_print_list_users_header()
+{  
+    char tmp[COLUMNS];
+
+    gui_clear_Screen();
+
+    gui_print_horizontal_line();
+
+    sprintf(tmp, "%sList of all connected user", BIWhite);
+    gui_print_line(tmp);
+
+    gui_print_line(" ");
+
+    fflush(stdout);
+}
+
+void gui_print_list_users_footer()
+{  
+    gui_print_line(" ");
+    gui_print_horizontal_line();
+
+    printf("\nInsert-> ");
+
+    fflush(stdout);
+}
+
+void gui_print_list_user(char* user)
+{
+    char tmp[COLUMNS];
+    sprintf(tmp, " ~ %s%s", ICyan, user);
+    gui_print_line(tmp);
 }
