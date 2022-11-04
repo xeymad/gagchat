@@ -56,6 +56,6 @@ Message* queueFront (TQueue *q);
 
 int queueIsEmpty (TQueue *q);
 
-void queuePrint(TQueue* q);
+void queuePrint(TQueue* q, char* user_sender);
 
 #endif

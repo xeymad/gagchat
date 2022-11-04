@@ -67,11 +67,11 @@ void gui_print_horizontal_line()
 /**
  * @brief Print the upper and lower separator of the text box
  * 
- * @param received true if is a message receved, else false
+ * @param is_sender true if is a message receved, else false
  */
-void gui_print_horizontal_msg_line(bool received)
+void gui_print_horizontal_msg_line(bool is_sender)
 {
-    if(!received)
+    if(!is_sender)
         gui_print_n_times(" ", WIDHT_SPACE);
     printf("+");
     gui_print_n_times("-", COLUMNS-WIDHT_SPACE-2);
@@ -82,11 +82,11 @@ void gui_print_horizontal_msg_line(bool received)
  * @brief 
  * 
  * @param user 
- * @param received true if is a message receved, else false
+ * @param is_sender true if is a message receved, else false
  */
-void gui_print_user_msg(char* user, bool received)
+void gui_print_user_msg(char* user, bool is_sender)
 {
-    if(received)
+    if(is_sender)
     {
         gui_set_color(BGreen);
         printf("%s->\n", user);
@@ -100,13 +100,13 @@ void gui_print_user_msg(char* user, bool received)
     gui_set_color(Color_Off);
 }
 
-void gui_print_msg(char* msg, bool received)
+void gui_print_msg(char* msg, bool is_sender)
 {
     int len_msg = strlen(msg);
     double size = (double)len_msg / (double)(COLUMNS - WIDHT_SPACE - 4);
     int times = ceil(size);
     
-    gui_print_horizontal_msg_line(received);
+    gui_print_horizontal_msg_line(is_sender);
     int flag = 0;
     
     while(times != 0)
@@ -119,7 +119,7 @@ void gui_print_msg(char* msg, bool received)
         else
             flag = 0;
         
-        if(!received)
+        if(!is_sender)
             gui_print_n_times(" ", WIDHT_SPACE);
         printf("| %-*.*s", COLUMNS-WIDHT_SPACE-4-flag, COLUMNS-WIDHT_SPACE-4-flag, msg);
         if(flag)
@@ -129,14 +129,14 @@ void gui_print_msg(char* msg, bool received)
         times--;
     }
 
-    gui_print_horizontal_msg_line(received);
+    gui_print_horizontal_msg_line(is_sender);
     printf("\n");
 }
 
-void gui_print_message(Message* msg, bool receved){
-    gui_print_user_msg(msg->user, receved);
+void gui_print_message(Message* msg, bool is_sender){
+    gui_print_user_msg(msg->user, is_sender);
     
-    gui_print_msg(msg->text, receved);
+    gui_print_msg(msg->text, is_sender);
 
     gui_set_color(Color_Off);
 }

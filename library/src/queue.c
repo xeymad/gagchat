@@ -80,11 +80,11 @@ int queueIsEmpty (TQueue *q) {
     return q->n_element == 0;
 }
 
-void queuePrint(TQueue* q){
+void queuePrint(TQueue* q, char* user_sender){
     int index = q->front;
     for(int i=0; i<q->n_element; i++)
     {
-        gui_print_message(q->array[index], true);
+        gui_print_message(q->array[index], strcmp(q->array[index]->user, user_sender)==0);
         index = (index+1)%q->size;
     }
 }
