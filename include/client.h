@@ -22,14 +22,22 @@
  * along with gagchat. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
+#include "hashtable.h"
 
+#ifndef QUEUE_SIZE
+    #define QUEUE_SIZE 32
+#endif
 
+typedef struct SThreadArgs{
+    THashTable* ht;
+    char* selectedUser;
+} ThreadArgs;
 
 /**
  * @brief thread for message receiving.
  * 
  */
-void* client_message_receiver(void *args);
+void* client_message_receiver(void *arg);
 
 /**
  * @brief Signal Handler for CTRL+C event.

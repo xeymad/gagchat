@@ -31,7 +31,7 @@
 
 // Screen size
 #define WIDHT_SPACE 15
-#define COLUMNS 80 //num of chars in a row
+#define COLUMNS 70 //num of chars in a row
 #define ROWS 20
 
 // Reset

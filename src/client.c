@@ -30,13 +30,17 @@
 #include <errno.h>
 #include <pthread.h>
 #include "tcp_socket.h"
+#include "client.h"
+#include "queue.h"
+#include "gui.h"
 
 
 TCPSocket* sock;
 
-void* client_message_receiver(void *args){
+void* client_message_receiver(void *arg){
+    ThreadArgs* args = (ThreadArgs*)arg;
     Message* msg = message_create();
-    while(1){
+    while(1){  
         int ret = tcp_socket_recv_message(sock->sockfd, msg);
         if(ret<=0){
             fprintf(stderr, "\n\nServer has disconnected anomally\n");
@@ -45,11 +49,18 @@ void* client_message_receiver(void *args){
                 fprintf(stderr, "\n\nFail to send SIG_ERR\n");
             }
         }
-        printf("\033[1;31m");
-        printf("\r%s: %s\t\n",msg->user,msg->text);
-        printf("\033[0m\n");
-        printf("> ");
-        fflush(stdout);
+        if((strcmp(msg->user,"Server")==0) && (msg->code==MSG_SRV_AVLUSR)){
+            gui_print_list_user(msg->text);
+        }
+        TQueue* q = hashTableSearch(args->ht,msg->user);
+        if(q == NULL){
+            q = queueCreate(QUEUE_SIZE);
+            hashTableInsert(args->ht,msg->user,q);
+        }
+        queueAdd(q,*msg);
+        if(strcmp(args->selectedUser,msg->user)==0){
+            gui_print_message(msg,true);
+        }
     }
 }
 
@@ -69,6 +80,7 @@ int main(int argc, char** argv){
 		fprintf(stderr, "Can't catch SIGINT: %s", strerror(errno));
 		exit(1);
 	}
+    THashTable* ht = hashTableCreate(LISTENQ);
     char username[USR_MAXLEN];
     //Note: the following code was tested with 'echoServer.c'
     Message* msg = message_create();
@@ -86,31 +98,46 @@ int main(int argc, char** argv){
         printf("%s: %s\t%d\n",msg->user,msg->text,msg->code);
         code = msg->code;
     } while(code!=MSG_SRV_USRACK);
+    // Username creation OK.
+    gui_print_menu(username);
+    char selectedUser[USR_MAXLEN] = "";
     pthread_t tid;
-    if(pthread_create(&tid, NULL, client_message_receiver, NULL) != 0){
+    ThreadArgs* t_args = malloc(sizeof(ThreadArgs));
+    t_args->ht = ht; 
+    t_args->selectedUser = selectedUser;
+    if(pthread_create(&tid, NULL, client_message_receiver, (void *)t_args) != 0){
         fprintf(stderr, "Pthread creation error with errno %d\n", errno);
     }
     message_code_constructor(msg, username,"Nice one this time!", MSG_CLI_LSTUSR);
     tcp_socket_send_message(sock->sockfd,msg);
     char text[TXT_MAXLEN];
+    char selection[USR_MAXLEN];
     do{
-        printf("Please insert user to send message\n");
+        printf("\rPlease insert user to send message\n");
         printf("> ");
         fflush(stdout);
-        fgets(username,USR_MAXLEN,stdin);
-        printf("Please insert text\n");
+        fgets(selection,USR_MAXLEN,stdin);
+        //printf("Please insert text\n");
         printf("> ");
         fflush(stdout);
-        username[strcspn(username, " \n")] = '\0';
-        fgets(text,TXT_MAXLEN,stdin);
-        text[strcspn(text, "\n")] = '\0';
-        message_constructor(msg,username,text);
-        if(tcp_socket_send_message(sock->sockfd,msg) <= 0){
-            fprintf(stderr, "\n\nServer has disconnected anomally\n");
-            if(raise(SIGINT) != 0)
-            {
-                fprintf(stderr, "\n\nFail to send SIG_ERR\n");
+        selection[strcspn(selection, " \n")] = '\0';
+        strncpy(selectedUser,selection,strlen(selection)+1);
+
+        TQueue* q = hashTableSearch(ht,msg->user);
+        if(q!=NULL)
+            queuePrint(q,selectedUser);
+        while(strcmp(fgets(text,TXT_MAXLEN,stdin),"exit\n")!= 0){
+            text[strcspn(text, "\n")] = '\0';
+            message_constructor(msg,selection,text);
+            if(tcp_socket_send_message(sock->sockfd,msg) <= 0){
+                fprintf(stderr, "\n\nServer has disconnected anomally\n");
+                if(raise(SIGINT) != 0)
+                {
+                    fprintf(stderr, "\n\nFail to send SIG_ERR\n");
+                }
             }
+            message_constructor(msg,username,text);
+            gui_print_message(msg,false);
         }
     } while(1);
 }
