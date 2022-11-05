@@ -96,19 +96,24 @@ static void client_destroy_connection(int signo)
 int main(int argc, char **argv)
 {
     // First try to connect to the specified server.
-    sock = tcp_socket_create(CLIENT, "127.0.0.1");
+    if (argc != 2)
+    {
+        fprintf(stderr,"Usage: TCPClient <IP address of the server");
+        exit(1);
+    }
+    sock = tcp_socket_create(CLIENT, argv[1]);
     tcp_socket_client_connect(sock);
     if (signal(SIGINT, client_destroy_connection) == SIG_ERR)
     {
         fprintf(stderr, "Can't catch SIGINT: %s", strerror(errno));
-        exit(1);
+        exit(2);
     }
     // Client allocates its own sources.
     pthread_mutex_t lock;
     if (pthread_mutex_init(&lock, NULL) != 0)
     {
         fprintf(stderr, "Mutex init failed with errno %d\n", errno);
-        exit(2);
+        exit(3);
     }
     THashTable *ht = hashTableCreate(LISTENQ);
     char username[USR_MAXLEN];
@@ -147,7 +152,7 @@ int main(int argc, char **argv)
         gui_print_menu(username);
         fgets(command, USR_MAXLEN, stdin);
         command[strcspn(command, " \n")] = '\0';
-        if (strcmp(command, "show_all")==0)
+        if (strcmp(command, "show_all") == 0)
         {
             message_code_constructor(msg, username, "Nice one this time!", MSG_CLI_LSTUSR);
             tcp_socket_send_message(sock->sockfd, msg);
