@@ -84,12 +84,10 @@ void* server_manage_client(void* arg){
         tcp_socket_send_message(args->connection_fd, msg);
     }
     while(1);
-    // Authentication OK. Server now inserts User in hashtable.
+    // Authentication OK. 
     strncpy(username,msg->user,strlen(msg->user));
     len_username = strlen(username) + 1;
-    message_code_constructor(msg,"Server","User Accepted",MSG_SRV_USRACK);
-    
-
+    // Print Server information about accepted username.
     gui_set_color(On_IWhite);
     printf("[ServerInfo]");
     gui_set_color(Default_Color);
@@ -97,12 +95,13 @@ void* server_manage_client(void* arg){
     gui_set_color(BRed);
     printf("%s\n",username);
     gui_set_color(Default_Color);
-    
-    tcp_socket_send_message(args->connection_fd, msg);
+    // Server now inserts User in hashtable and ACKS the client.
     pthread_mutex_lock(args->lock);
     hashTableInsert(args->ht,username,&args->connection_fd);
     *(TBST*)args->tree = BSTinsertI(*(TBST*)args->tree, username);
     pthread_mutex_unlock(args->lock);
+    message_code_constructor(msg,"Server","User Accepted",MSG_SRV_USRACK);
+    tcp_socket_send_message(args->connection_fd, msg);
     // User insert ok. Now let's dispatch.
     do{
         if(tcp_socket_recv_message(args->connection_fd, msg) <=0){
@@ -172,7 +171,10 @@ int main(int argc, char **argv)
             fprintf(stderr, "Accept connection error with errno %d\n", errno);
             continue;
         }
-        printf("Received request with connfd %d\n",connection_fd);
+        gui_set_color(On_IWhite);
+        printf("[ServerInfo]");
+        gui_set_color(Default_Color);
+        printf(": request with connection_fd %d\n",connection_fd);
         fflush(stdout);
         ThreadArgs* t_args = malloc(sizeof(ThreadArgs));
         if(t_args==NULL){

@@ -22,6 +22,7 @@
  * along with gagchat. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
+#include <pthread.h>
 #include "hashtable.h"
 
 #ifndef QUEUE_SIZE
@@ -31,6 +32,7 @@
 typedef struct SThreadArgs{
     THashTable* ht;
     char* selectedUser;
+    pthread_mutex_t* lock;
 } ThreadArgs;
 
 /**
