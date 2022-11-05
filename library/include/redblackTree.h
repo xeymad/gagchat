@@ -1,7 +1,7 @@
 /**
  * @file redblackTree.h
  * @author Giuseppe Gambardella (g.gambardella23@studenti.unisa.it)
- * @brief RedBlack tree implementation.
+ * @brief 
  * @version 0.1
  * @date 2022-11-04
  * 
