@@ -89,6 +89,7 @@ void *client_message_receiver(void *arg)
                 // Go to the homepage
                 if (*args->menu == GUI_SHOW_USR)
                 {
+                    *args->menu = GUI_SHOW_USR;
                     gui_print_list_users_header();
                     message_code_constructor(msg, msg->user, "Retrieve all Users", MSG_CLI_LSTUSR);
                     tcp_socket_send_message(sock->sockfd, msg);
@@ -108,17 +109,18 @@ void *client_message_receiver(void *arg)
                 printf("Press any command\n");
             }
             // If a user become unreachble
-            else if (msg->code == MSG_SRV_USRNRC)
+            else if (msg->code == MSG_SRV_USRNRC && (strcmp(args->selectedUser, "all") != 0))
             {
                 // Go to or updata the page "all user"
                 strcpy(args->selectedUser, "");
                 if (*args->menu == GUI_SHOW_MSG || *args->menu == GUI_SHOW_USR)
                 {
-                    gui_print_list_users_header();
-                    message_code_constructor(msg, args->clientUser, "Retrieve all Users", MSG_CLI_LSTUSR);
-                    tcp_socket_send_message(sock->sockfd, msg);
+                    *args->menu = GUI_MENU;
+                    gui_clear_Screen();
+                    printf("User disconnected!\nPress any key to return to the menu: \n");
                 }
             }
+            continue;
         }
 
         // If there is a new user and the client lies in the "show all" pages
@@ -364,7 +366,7 @@ int main(int argc, char **argv)
             }
 
             // While the client insert "__exit" send message to the selected user
-            while (strcmp(fgets(text, TXT_MAXLEN, stdin), "__exit\n") != 0)
+            while (strcmp(fgets(text, TXT_MAXLEN, stdin), "__exit\n") != 0 && menu == GUI_SHOW_MSG)
             {
 
                 // Remove the last row
