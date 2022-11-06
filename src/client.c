@@ -109,7 +109,7 @@ void *client_message_receiver(void *arg)
                 printf("Press any command\n");
             }
             // If a user become unreachble
-            else if (msg->code == MSG_SRV_USRNRC && (strcmp(args->selectedUser, "all") != 0))
+            else if (msg->code == MSG_SRV_USRNRC && (strcmp(args->selectedUser, msg->text) == 0))
             {
                 // Go to or updata the page "all user"
                 strcpy(args->selectedUser, "");
@@ -117,7 +117,7 @@ void *client_message_receiver(void *arg)
                 {
                     *args->menu = GUI_MENU;
                     gui_clear_Screen();
-                    printf("User disconnected!\nPress any key to return to the menu: \n");
+                    printf("%s disconnected!\nPress any key to return to the menu: \n", msg->text);
                 }
             }
             continue;
