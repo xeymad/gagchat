@@ -1,7 +1,7 @@
 /**
  * @file server.c
  * @author Giuseppe Gambardella (g.gambardella23@studenti.unisa.it)
- * @brief
+ * @brief Server implementation of gagchat.
  * @version 0.1
  * @date 2022-10-30
  *

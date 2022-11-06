@@ -202,7 +202,7 @@ int main(int argc, char **argv)
     // First try to connect to the specified server.
     if (argc != 2)
     {
-        fprintf(stderr, "Usage: TCPClient <IP address of the server");
+        fprintf(stderr, "Usage: TCPClient <IP address of the server>\n");
         exit(1);
     }
 

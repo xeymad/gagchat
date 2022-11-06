@@ -1,7 +1,7 @@
 /**
  * @file client.h
  * @author Giuseppe Gambardella (g.gambardella23@studenti.unisa.it)
- * @brief 
+ * @brief Client header file
  * @version 0.1
  * @date 2022-10-28
  * 
