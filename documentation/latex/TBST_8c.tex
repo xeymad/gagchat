@@ -1,0 +1,78 @@
+\hypertarget{TBST_8c}{}\doxysection{library/src/\+T\+B\+ST.c File Reference}
+\label{TBST_8c}\index{library/src/TBST.c@{library/src/TBST.c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$assert.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}T\+Info\+B\+S\+T.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}T\+B\+S\+T.\+h\char`\"{}}\newline
+Include dependency graph for T\+B\+S\+T.\+c\+:
+% FIG 0
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{TBST_8c_a99eef4d05037979935b2561c6bba7e3c}\label{TBST_8c_a99eef4d05037979935b2561c6bba7e3c}} 
+\mbox{\hyperlink{structSBSTnode}{T\+B\+S\+Tnode}} $\ast$ {\bfseries B\+S\+Tnode\+Create} (T\+Info\+B\+ST info)
+\item 
+\mbox{\Hypertarget{TBST_8c_a771c8ea4198d8941f698e3dc4c9c908a}\label{TBST_8c_a771c8ea4198d8941f698e3dc4c9c908a}} 
+void {\bfseries B\+S\+Tnode\+Destroy} (\mbox{\hyperlink{structSBSTnode}{T\+B\+S\+Tnode}} $\ast$node)
+\item 
+\mbox{\Hypertarget{TBST_8c_aaabd2b1c3fea5db8f35c8a7938a13d7b}\label{TBST_8c_aaabd2b1c3fea5db8f35c8a7938a13d7b}} 
+\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} {\bfseries B\+S\+Tcreate} ()
+\item 
+\mbox{\Hypertarget{TBST_8c_a0a79a9ce0c109c76f980644e8290b1b8}\label{TBST_8c_a0a79a9ce0c109c76f980644e8290b1b8}} 
+\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} {\bfseries B\+S\+Tdestroy} (\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} tree)
+\item 
+\mbox{\Hypertarget{TBST_8c_ac981ef2e22b983a0198030c6a94df279}\label{TBST_8c_ac981ef2e22b983a0198030c6a94df279}} 
+\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} {\bfseries B\+S\+Tsearch} (\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} tree, T\+Info\+B\+ST info)
+\item 
+\mbox{\Hypertarget{TBST_8c_a6e7bb9ef54f58238b978cdf69df1b6e4}\label{TBST_8c_a6e7bb9ef54f58238b978cdf69df1b6e4}} 
+\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} {\bfseries B\+S\+Tmin} (\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} tree)
+\item 
+\mbox{\Hypertarget{TBST_8c_a88117d7d7c6ef775af59a5300f18e62c}\label{TBST_8c_a88117d7d7c6ef775af59a5300f18e62c}} 
+\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} {\bfseries B\+S\+Tmax} (\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} tree)
+\item 
+\mbox{\Hypertarget{TBST_8c_a97acb7ce480b92ff6995038855a3fc86}\label{TBST_8c_a97acb7ce480b92ff6995038855a3fc86}} 
+\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} {\bfseries B\+S\+Tinsert} (\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} tree, T\+Info\+B\+ST info)
+\item 
+\mbox{\Hypertarget{TBST_8c_a54b8a7e1a7307e7b587e640ee3b32090}\label{TBST_8c_a54b8a7e1a7307e7b587e640ee3b32090}} 
+\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} {\bfseries B\+S\+Tdelete} (\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} tree, T\+Info\+B\+ST info)
+\item 
+\mbox{\Hypertarget{TBST_8c_aee23c758617ff12f47aeb574f55d0178}\label{TBST_8c_aee23c758617ff12f47aeb574f55d0178}} 
+void {\bfseries B\+S\+Tprint} (\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} tree)
+\item 
+\mbox{\Hypertarget{TBST_8c_acb544c0545fab8a1b48bde78d0970b40}\label{TBST_8c_acb544c0545fab8a1b48bde78d0970b40}} 
+\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} {\bfseries B\+S\+TsearchI} (\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} tree, T\+Info\+B\+ST info)
+\item 
+\mbox{\Hypertarget{TBST_8c_ae0b86afb92b5061dbaf90a7a4f82741e}\label{TBST_8c_ae0b86afb92b5061dbaf90a7a4f82741e}} 
+\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} {\bfseries B\+S\+TinsertI} (\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} tree, T\+Info\+B\+ST info)
+\item 
+\mbox{\Hypertarget{TBST_8c_ad2ac5288af86183622fbec89e3d2e746}\label{TBST_8c_ad2ac5288af86183622fbec89e3d2e746}} 
+\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} {\bfseries B\+S\+TdeleteI} (\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} tree, T\+Info\+B\+ST info)
+\item 
+\mbox{\Hypertarget{TBST_8c_a72cd22b97a0590818b5309a55897f00c}\label{TBST_8c_a72cd22b97a0590818b5309a55897f00c}} 
+int {\bfseries B\+S\+Tdepth} (\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} tree)
+\item 
+\mbox{\Hypertarget{TBST_8c_aec075a451dc69186c2245a82f5f4b184}\label{TBST_8c_aec075a451dc69186c2245a82f5f4b184}} 
+void {\bfseries B\+S\+Tprint\+Structure1} (\mbox{\hyperlink{structSBSTnode}{T\+B\+ST}} tree, int o, T\+Info\+B\+ST $\ast$n, int $\ast$m)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Giuseppe Gambardella (\href{mailto:g.gambardella23@studenti.unisa.it}{\texttt{ g.\+gambardella23@studenti.\+unisa.\+it}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2022-\/11-\/04
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2022 -\/ All Rights Reserved
+\end{DoxyCopyright}
+This file is part of gagchat. gagchat is free software\+: you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+gagchat is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with gagchat. If not, see \href{http://www.gnu.org/licenses/}{\texttt{ http\+://www.\+gnu.\+org/licenses/}}. 

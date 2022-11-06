@@ -1,0 +1,244 @@
+\hypertarget{gui_8c}{}\doxysection{library/src/gui.c File Reference}
+\label{gui_8c}\index{library/src/gui.c@{library/src/gui.c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}gui.\+h\char`\"{}}\newline
+Include dependency graph for gui.\+c\+:
+% FIG 0
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{gui_8c_a64384afc4745aaab9a0a5f4955842b22}{gui\+\_\+set\+\_\+color}} (char $\ast$color)
+\begin{DoxyCompactList}\small\item\em set the color of text or background, apply a text style \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gui_8c_ad9b76b32c25c99d880909b5517087377}{gui\+\_\+print\+\_\+n\+\_\+times}} (char $\ast$str, int n)
+\begin{DoxyCompactList}\small\item\em Print. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gui_8c_a4fc11aeb6db6f40423a96d9423700d7f}{gui\+\_\+print\+\_\+horizontal\+\_\+line}} ()
+\begin{DoxyCompactList}\small\item\em Print the upper and lower separator of box. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gui_8c_aa8e409c81cca889ecc23189d2d54bf14}{gui\+\_\+print\+\_\+horizontal\+\_\+msg\+\_\+line}} (bool is\+\_\+sender)
+\begin{DoxyCompactList}\small\item\em Print the upper and lower separator of the text box. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gui_8c_a2e481e72133173c3548abb1a5c78958a}{gui\+\_\+print\+\_\+user\+\_\+msg}} (char $\ast$user, bool is\+\_\+sender)
+\item 
+void \mbox{\hyperlink{gui_8c_a82fd4501eaa8c5f5be84d2f0ef9cb285}{gui\+\_\+print\+\_\+msg}} (char $\ast$msg, bool is\+\_\+sender)
+\begin{DoxyCompactList}\small\item\em Print a formatted message. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gui_8c_a9062beb49b4fb912ae1e3a4454fa7072}{gui\+\_\+print\+\_\+message}} (\mbox{\hyperlink{structSMessage}{Message}} $\ast$msg, bool is\+\_\+sender)
+\begin{DoxyCompactList}\small\item\em Print formatted message into a box. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gui_8c_af3d3ae1b57b4aef9c31dbfb173cb2d8d}{gui\+\_\+clear\+\_\+\+Screen}} ()
+\begin{DoxyCompactList}\small\item\em Clear the screen. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gui_8c_a9c9dcca1d43c0731ff02d69f36cf8ea7}{gui\+\_\+print\+\_\+line}} (char $\ast$line)
+\begin{DoxyCompactList}\small\item\em Print a lina containin a string. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gui_8c_a4b59e79a4fdade34648d22d9bc6f24f8}{gui\+\_\+print\+\_\+menu}} (char $\ast$user)
+\begin{DoxyCompactList}\small\item\em Print the homepage. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gui_8c_af96b57cf9916794e2e73f938e1337182}{gui\+\_\+print\+\_\+list\+\_\+users\+\_\+header}} ()
+\begin{DoxyCompactList}\small\item\em Print the header of the users list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gui_8c_a1b4e6d638d84f2e62463a1ecd77b3a04}{gui\+\_\+print\+\_\+list\+\_\+users\+\_\+footer}} ()
+\begin{DoxyCompactList}\small\item\em Print the footer of the users list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gui_8c_a091374482aa43c9057271c8b6a6546c6}{gui\+\_\+print\+\_\+list\+\_\+user}} (char $\ast$user)
+\begin{DoxyCompactList}\small\item\em Print a line contained a user. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Gianluca (\href{mailto:g.canzolino3@studenti.unisa.it}{\texttt{ g.\+canzolino3@studenti.\+unisa.\+it}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2022-\/11-\/03
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2022 -\/ All Rights Reserved
+\end{DoxyCopyright}
+This file is part of gagchat. gagchat is free software\+: you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+gagchat is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with gagchat. If not, see \href{http://www.gnu.org/licenses/}{\texttt{ http\+://www.\+gnu.\+org/licenses/}}. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{gui_8c_af3d3ae1b57b4aef9c31dbfb173cb2d8d}\label{gui_8c_af3d3ae1b57b4aef9c31dbfb173cb2d8d}} 
+\index{gui.c@{gui.c}!gui\_clear\_Screen@{gui\_clear\_Screen}}
+\index{gui\_clear\_Screen@{gui\_clear\_Screen}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{gui\_clear\_Screen()}{gui\_clear\_Screen()}}
+{\footnotesize\ttfamily void gui\+\_\+clear\+\_\+\+Screen (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Clear the screen. 
+
+\mbox{\Hypertarget{gui_8c_a4fc11aeb6db6f40423a96d9423700d7f}\label{gui_8c_a4fc11aeb6db6f40423a96d9423700d7f}} 
+\index{gui.c@{gui.c}!gui\_print\_horizontal\_line@{gui\_print\_horizontal\_line}}
+\index{gui\_print\_horizontal\_line@{gui\_print\_horizontal\_line}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{gui\_print\_horizontal\_line()}{gui\_print\_horizontal\_line()}}
+{\footnotesize\ttfamily void gui\+\_\+print\+\_\+horizontal\+\_\+line (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Print the upper and lower separator of box. 
+
+\mbox{\Hypertarget{gui_8c_aa8e409c81cca889ecc23189d2d54bf14}\label{gui_8c_aa8e409c81cca889ecc23189d2d54bf14}} 
+\index{gui.c@{gui.c}!gui\_print\_horizontal\_msg\_line@{gui\_print\_horizontal\_msg\_line}}
+\index{gui\_print\_horizontal\_msg\_line@{gui\_print\_horizontal\_msg\_line}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{gui\_print\_horizontal\_msg\_line()}{gui\_print\_horizontal\_msg\_line()}}
+{\footnotesize\ttfamily void gui\+\_\+print\+\_\+horizontal\+\_\+msg\+\_\+line (\begin{DoxyParamCaption}\item[{bool}]{is\+\_\+sender }\end{DoxyParamCaption})}
+
+
+
+Print the upper and lower separator of the text box. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+\_\+sender} & true if is a message receved, else false \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{gui_8c_a9c9dcca1d43c0731ff02d69f36cf8ea7}\label{gui_8c_a9c9dcca1d43c0731ff02d69f36cf8ea7}} 
+\index{gui.c@{gui.c}!gui\_print\_line@{gui\_print\_line}}
+\index{gui\_print\_line@{gui\_print\_line}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{gui\_print\_line()}{gui\_print\_line()}}
+{\footnotesize\ttfamily void gui\+\_\+print\+\_\+line (\begin{DoxyParamCaption}\item[{char $\ast$}]{line }\end{DoxyParamCaption})}
+
+
+
+Print a lina containin a string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em line} & string to print \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{gui_8c_a091374482aa43c9057271c8b6a6546c6}\label{gui_8c_a091374482aa43c9057271c8b6a6546c6}} 
+\index{gui.c@{gui.c}!gui\_print\_list\_user@{gui\_print\_list\_user}}
+\index{gui\_print\_list\_user@{gui\_print\_list\_user}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{gui\_print\_list\_user()}{gui\_print\_list\_user()}}
+{\footnotesize\ttfamily void gui\+\_\+print\+\_\+list\+\_\+user (\begin{DoxyParamCaption}\item[{char $\ast$}]{user }\end{DoxyParamCaption})}
+
+
+
+Print a line contained a user. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user} & Value of the user to print \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{gui_8c_a1b4e6d638d84f2e62463a1ecd77b3a04}\label{gui_8c_a1b4e6d638d84f2e62463a1ecd77b3a04}} 
+\index{gui.c@{gui.c}!gui\_print\_list\_users\_footer@{gui\_print\_list\_users\_footer}}
+\index{gui\_print\_list\_users\_footer@{gui\_print\_list\_users\_footer}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{gui\_print\_list\_users\_footer()}{gui\_print\_list\_users\_footer()}}
+{\footnotesize\ttfamily void gui\+\_\+print\+\_\+list\+\_\+users\+\_\+footer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Print the footer of the users list. 
+
+\mbox{\Hypertarget{gui_8c_af96b57cf9916794e2e73f938e1337182}\label{gui_8c_af96b57cf9916794e2e73f938e1337182}} 
+\index{gui.c@{gui.c}!gui\_print\_list\_users\_header@{gui\_print\_list\_users\_header}}
+\index{gui\_print\_list\_users\_header@{gui\_print\_list\_users\_header}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{gui\_print\_list\_users\_header()}{gui\_print\_list\_users\_header()}}
+{\footnotesize\ttfamily void gui\+\_\+print\+\_\+list\+\_\+users\+\_\+header (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Print the header of the users list. 
+
+\mbox{\Hypertarget{gui_8c_a4b59e79a4fdade34648d22d9bc6f24f8}\label{gui_8c_a4b59e79a4fdade34648d22d9bc6f24f8}} 
+\index{gui.c@{gui.c}!gui\_print\_menu@{gui\_print\_menu}}
+\index{gui\_print\_menu@{gui\_print\_menu}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{gui\_print\_menu()}{gui\_print\_menu()}}
+{\footnotesize\ttfamily void gui\+\_\+print\+\_\+menu (\begin{DoxyParamCaption}\item[{char $\ast$}]{user }\end{DoxyParamCaption})}
+
+
+
+Print the homepage. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user} & nickname of the client user \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{gui_8c_a9062beb49b4fb912ae1e3a4454fa7072}\label{gui_8c_a9062beb49b4fb912ae1e3a4454fa7072}} 
+\index{gui.c@{gui.c}!gui\_print\_message@{gui\_print\_message}}
+\index{gui\_print\_message@{gui\_print\_message}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{gui\_print\_message()}{gui\_print\_message()}}
+{\footnotesize\ttfamily void gui\+\_\+print\+\_\+message (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSMessage}{Message}} $\ast$}]{msg,  }\item[{bool}]{is\+\_\+sender }\end{DoxyParamCaption})}
+
+
+
+Print formatted message into a box. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & message \\
+\hline
+{\em is\+\_\+sender} & true if is a message send from another user, false if received \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{gui_8c_a82fd4501eaa8c5f5be84d2f0ef9cb285}\label{gui_8c_a82fd4501eaa8c5f5be84d2f0ef9cb285}} 
+\index{gui.c@{gui.c}!gui\_print\_msg@{gui\_print\_msg}}
+\index{gui\_print\_msg@{gui\_print\_msg}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{gui\_print\_msg()}{gui\_print\_msg()}}
+{\footnotesize\ttfamily void gui\+\_\+print\+\_\+msg (\begin{DoxyParamCaption}\item[{char $\ast$}]{msg,  }\item[{bool}]{is\+\_\+sender }\end{DoxyParamCaption})}
+
+
+
+Print a formatted message. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & message \\
+\hline
+{\em is\+\_\+sender} & true if is a message send from another user, false if received \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{gui_8c_ad9b76b32c25c99d880909b5517087377}\label{gui_8c_ad9b76b32c25c99d880909b5517087377}} 
+\index{gui.c@{gui.c}!gui\_print\_n\_times@{gui\_print\_n\_times}}
+\index{gui\_print\_n\_times@{gui\_print\_n\_times}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{gui\_print\_n\_times()}{gui\_print\_n\_times()}}
+{\footnotesize\ttfamily void gui\+\_\+print\+\_\+n\+\_\+times (\begin{DoxyParamCaption}\item[{char $\ast$}]{str,  }\item[{int}]{n }\end{DoxyParamCaption})}
+
+
+
+Print. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & time the string\\
+\hline
+{\em str} & \\
+\hline
+{\em str} & string to print \\
+\hline
+{\em n} & times \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{gui_8c_a2e481e72133173c3548abb1a5c78958a}\label{gui_8c_a2e481e72133173c3548abb1a5c78958a}} 
+\index{gui.c@{gui.c}!gui\_print\_user\_msg@{gui\_print\_user\_msg}}
+\index{gui\_print\_user\_msg@{gui\_print\_user\_msg}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{gui\_print\_user\_msg()}{gui\_print\_user\_msg()}}
+{\footnotesize\ttfamily void gui\+\_\+print\+\_\+user\+\_\+msg (\begin{DoxyParamCaption}\item[{char $\ast$}]{user,  }\item[{bool}]{is\+\_\+sender }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em user} & \\
+\hline
+{\em is\+\_\+sender} & true if is a message receved, else false \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{gui_8c_a64384afc4745aaab9a0a5f4955842b22}\label{gui_8c_a64384afc4745aaab9a0a5f4955842b22}} 
+\index{gui.c@{gui.c}!gui\_set\_color@{gui\_set\_color}}
+\index{gui\_set\_color@{gui\_set\_color}!gui.c@{gui.c}}
+\doxysubsubsection{\texorpdfstring{gui\_set\_color()}{gui\_set\_color()}}
+{\footnotesize\ttfamily void gui\+\_\+set\+\_\+color (\begin{DoxyParamCaption}\item[{char $\ast$}]{color }\end{DoxyParamCaption})}
+
+
+
+set the color of text or background, apply a text style 
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & \\
+\hline
+\end{DoxyParams}

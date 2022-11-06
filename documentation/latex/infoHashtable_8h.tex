@@ -1,0 +1,115 @@
+\hypertarget{infoHashtable_8h}{}\doxysection{library/include/info\+Hashtable.h File Reference}
+\label{infoHashtable_8h}\index{library/include/infoHashtable.h@{library/include/infoHashtable.h}}
+{\ttfamily \#include \char`\"{}stdbool.\+h\char`\"{}}\newline
+Include dependency graph for info\+Hashtable.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}}
+\begin{DoxyCompactList}\small\item\em definition of Hash\+Table \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef char $\ast$ \mbox{\hyperlink{infoHashtable_8h_a7505e205aab64fa8e04a83cf150510b2}{T\+Key\+Hashtable}}
+\begin{DoxyCompactList}\small\item\em type of Hash\+Table \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{infoHashtable_8h_a7a36086dbd5f9843709058031a67ee04}\label{infoHashtable_8h_a7a36086dbd5f9843709058031a67ee04}} 
+typedef void $\ast$ {\bfseries T\+Value\+Hashtable}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{infoHashtable_8h_a317c1d9c16d8a544eff917e7d89be895}{info\+Equal}} (\mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}}, \mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}})
+\begin{DoxyCompactList}\small\item\em check if frist value is equal to the second value \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{infoHashtable_8h_af3bb698b82fd5ffe339ac344899852ed}{info\+Greater}} (\mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}}, \mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}})
+\begin{DoxyCompactList}\small\item\em check if frist value is greater to the second value \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{infoHashtable_8h_a4b218a1e0076d6930621b006c558137b}{info\+Less}} (\mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}}, \mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}})
+\begin{DoxyCompactList}\small\item\em check if frist value is less to the second value \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{infoHashtable_8h_a9cc2205b8df70d08c9240aaa1f82b17e}{info\+Print}} (\mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}})
+\begin{DoxyCompactList}\small\item\em structured print of the value \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Gianluca (\href{mailto:g.canzolino3@studenti.unisa.it}{\texttt{ g.\+canzolino3@studenti.\+unisa.\+it}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2022-\/10-\/29
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2022 -\/ All Rights Reserved
+\end{DoxyCopyright}
+This file is part of gagchat. gagchat is free software\+: you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+gagchat is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with gagchat. If not, see \href{http://www.gnu.org/licenses/}{\texttt{ http\+://www.\+gnu.\+org/licenses/}}. 
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{infoHashtable_8h_a7505e205aab64fa8e04a83cf150510b2}\label{infoHashtable_8h_a7505e205aab64fa8e04a83cf150510b2}} 
+\index{infoHashtable.h@{infoHashtable.h}!TKeyHashtable@{TKeyHashtable}}
+\index{TKeyHashtable@{TKeyHashtable}!infoHashtable.h@{infoHashtable.h}}
+\doxysubsubsection{\texorpdfstring{TKeyHashtable}{TKeyHashtable}}
+{\footnotesize\ttfamily typedef char$\ast$ \mbox{\hyperlink{infoHashtable_8h_a7505e205aab64fa8e04a83cf150510b2}{T\+Key\+Hashtable}}}
+
+
+
+type of Hash\+Table 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{infoHashtable_8h_a317c1d9c16d8a544eff917e7d89be895}\label{infoHashtable_8h_a317c1d9c16d8a544eff917e7d89be895}} 
+\index{infoHashtable.h@{infoHashtable.h}!infoEqual@{infoEqual}}
+\index{infoEqual@{infoEqual}!infoHashtable.h@{infoHashtable.h}}
+\doxysubsubsection{\texorpdfstring{infoEqual()}{infoEqual()}}
+{\footnotesize\ttfamily bool info\+Equal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}}}]{val1,  }\item[{\mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}}}]{val2 }\end{DoxyParamCaption})}
+
+
+
+check if frist value is equal to the second value 
+
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\mbox{\Hypertarget{infoHashtable_8h_af3bb698b82fd5ffe339ac344899852ed}\label{infoHashtable_8h_af3bb698b82fd5ffe339ac344899852ed}} 
+\index{infoHashtable.h@{infoHashtable.h}!infoGreater@{infoGreater}}
+\index{infoGreater@{infoGreater}!infoHashtable.h@{infoHashtable.h}}
+\doxysubsubsection{\texorpdfstring{infoGreater()}{infoGreater()}}
+{\footnotesize\ttfamily bool info\+Greater (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}}}]{val1,  }\item[{\mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}}}]{val2 }\end{DoxyParamCaption})}
+
+
+
+check if frist value is greater to the second value 
+
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\mbox{\Hypertarget{infoHashtable_8h_a4b218a1e0076d6930621b006c558137b}\label{infoHashtable_8h_a4b218a1e0076d6930621b006c558137b}} 
+\index{infoHashtable.h@{infoHashtable.h}!infoLess@{infoLess}}
+\index{infoLess@{infoLess}!infoHashtable.h@{infoHashtable.h}}
+\doxysubsubsection{\texorpdfstring{infoLess()}{infoLess()}}
+{\footnotesize\ttfamily bool info\+Less (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}}}]{val1,  }\item[{\mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}}}]{val2 }\end{DoxyParamCaption})}
+
+
+
+check if frist value is less to the second value 
+
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\mbox{\Hypertarget{infoHashtable_8h_a9cc2205b8df70d08c9240aaa1f82b17e}\label{infoHashtable_8h_a9cc2205b8df70d08c9240aaa1f82b17e}} 
+\index{infoHashtable.h@{infoHashtable.h}!infoPrint@{infoPrint}}
+\index{infoPrint@{infoPrint}!infoHashtable.h@{infoHashtable.h}}
+\doxysubsubsection{\texorpdfstring{infoPrint()}{infoPrint()}}
+{\footnotesize\ttfamily void info\+Print (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structTInfoHashtable}{T\+Info\+Hashtable}}}]{val1 }\end{DoxyParamCaption})}
+
+
+
+structured print of the value 
+

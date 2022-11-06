@@ -91,6 +91,7 @@ void *server_manage_client(void *arg)
     // Authentication phase.
     do
     {
+        // Wait for a message
         if (tcp_socket_recv_message(args->connection_fd, msg) <= 0)
         {
             // Client has disconnected prematurely.
@@ -141,6 +142,7 @@ void *server_manage_client(void *arg)
     // User insert ok. Now let's dispatch.
     do
     {
+        // Wait for a message
         if (tcp_socket_recv_message(args->connection_fd, msg) <= 0)
         {
             // Client has disconnected. Free resources and remove occurrance from hashtable.
@@ -164,13 +166,18 @@ void *server_manage_client(void *arg)
         printf("User -> %s: %s\tcode: %d\n", msg->user, msg->text, msg->code);
         if (msg->code == MESSAGE)
         {
+            // If is a message to all
             if (strcmp(msg->user, "all") == 0)
             {
+                // Forward the message to all
                 strncpy(msg->user, username, len_username);
                 server_sendToAll(args->ht, *(TBST *)args->tree, msg);
                 continue;
             }
+
+            // Otherwise, search the user in the hashtable
             destination_fd = hashTableSearch(args->ht, msg->user);
+            // If the user is not connected send to the client that the user is not reacheable
             if (destination_fd == NULL)
             {
                 gui_set_color(On_IWhite);
@@ -180,25 +187,30 @@ void *server_manage_client(void *arg)
                 message_code_constructor(msg, "Server", "Requested user not reacheable", MSG_SRV_USRNRC);
                 tcp_socket_send_message(args->connection_fd, msg);
             }
+            // Else forward the message to the selected user
             else
             {
                 strncpy(msg->user, username, len_username);
                 tcp_socket_send_message(*destination_fd, msg);
             }
         }
+        // If the code is to know all the connected user, send all the users to the client
         else if (msg->code == MSG_CLI_LSTUSR)
         {
             server_sendUsersTo(args->connection_fd, *(TBST *)args->tree);
             message_code_constructor(msg, "Server", "", MSG_END_LSTUSR);
             tcp_socket_send_message(args->connection_fd, msg);
         }
+        // If the cose is to know if an user is connected
         else if (msg->code == MSG_CLI_USR)
         {
             destination_fd = hashTableSearch(args->ht, msg->user);
+            // If the user not exists then send a message to the client with code "user not available"
             if (destination_fd == NULL)
             {
                 message_code_constructor(msg, "Server", "", MSG_SRV_USR_IS_NAVL);
             }
+            // else send a message to the client with code "user available"
             else
             {
                 strcpy(msg->text, msg->user);

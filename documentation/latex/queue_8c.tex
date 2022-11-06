@@ -1,0 +1,54 @@
+\hypertarget{queue_8c}{}\doxysection{library/src/queue.c File Reference}
+\label{queue_8c}\index{library/src/queue.c@{library/src/queue.c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$assert.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}queue.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}gui.\+h\char`\"{}}\newline
+Include dependency graph for queue.\+c\+:
+% FIG 0
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{queue_8c_a340956d88b4429bdfd828270748fd67a}\label{queue_8c_a340956d88b4429bdfd828270748fd67a}} 
+\mbox{\hyperlink{structTQueue}{T\+Queue}} $\ast$ {\bfseries queue\+Create} (int queue\+\_\+size)
+\item 
+\mbox{\Hypertarget{queue_8c_a1edece3a38dd55ea815c977be365f6d7}\label{queue_8c_a1edece3a38dd55ea815c977be365f6d7}} 
+void {\bfseries queue\+Destroy} (\mbox{\hyperlink{structTQueue}{T\+Queue}} $\ast$q)
+\item 
+\mbox{\Hypertarget{queue_8c_a0b145ea3579105f1cfe41d8206af9a09}\label{queue_8c_a0b145ea3579105f1cfe41d8206af9a09}} 
+void {\bfseries queue\+Add} (\mbox{\hyperlink{structTQueue}{T\+Queue}} $\ast$q, \mbox{\hyperlink{structSMessage}{Message}} x)
+\item 
+\mbox{\Hypertarget{queue_8c_a04f2478587b706755fe0a4acdc261bcd}\label{queue_8c_a04f2478587b706755fe0a4acdc261bcd}} 
+\mbox{\hyperlink{structSMessage}{Message}} $\ast$ {\bfseries queue\+Remove} (\mbox{\hyperlink{structTQueue}{T\+Queue}} $\ast$q)
+\item 
+\mbox{\Hypertarget{queue_8c_ab099f9517dc3899f1e8d3492c5df9358}\label{queue_8c_ab099f9517dc3899f1e8d3492c5df9358}} 
+\mbox{\hyperlink{structSMessage}{Message}} $\ast$ {\bfseries queue\+Front} (\mbox{\hyperlink{structTQueue}{T\+Queue}} $\ast$q)
+\item 
+\mbox{\Hypertarget{queue_8c_ae5899423b761fca99e895031bff5ee3a}\label{queue_8c_ae5899423b761fca99e895031bff5ee3a}} 
+int {\bfseries queue\+Is\+Empty} (\mbox{\hyperlink{structTQueue}{T\+Queue}} $\ast$q)
+\item 
+\mbox{\Hypertarget{queue_8c_a7befaaf2e8a4bd207f3e129578c4e682}\label{queue_8c_a7befaaf2e8a4bd207f3e129578c4e682}} 
+void {\bfseries queue\+Print} (\mbox{\hyperlink{structTQueue}{T\+Queue}} $\ast$q, char $\ast$user\+\_\+sender)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Gianluca (\href{mailto:g.canzolino3@studenti.unisa.it}{\texttt{ g.\+canzolino3@studenti.\+unisa.\+it}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2022-\/11-\/03
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2022 -\/ All Rights Reserved
+\end{DoxyCopyright}
+This file is part of gagchat. gagchat is free software\+: you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+gagchat is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with gagchat. If not, see \href{http://www.gnu.org/licenses/}{\texttt{ http\+://www.\+gnu.\+org/licenses/}}. 

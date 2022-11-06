@@ -1,0 +1,85 @@
+\hypertarget{client_8h}{}\doxysection{include/client.h File Reference}
+\label{client_8h}\index{include/client.h@{include/client.h}}
+
+
+Client header file.  
+
+
+{\ttfamily \#include $<$pthread.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}hashtable.\+h\char`\"{}}\newline
+Include dependency graph for client.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structSThreadArgs}{S\+Thread\+Args}}
+\begin{DoxyCompactList}\small\item\em Struct exchanged by Threads. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{client_8h_a10f05f95b5bd97e497b358d50422a3f4}\label{client_8h_a10f05f95b5bd97e497b358d50422a3f4}} 
+\#define {\bfseries G\+U\+I\+\_\+\+M\+E\+NU}~0
+\item 
+\mbox{\Hypertarget{client_8h_aa6ee95af85bf0f7939faf1314fcd612e}\label{client_8h_aa6ee95af85bf0f7939faf1314fcd612e}} 
+\#define {\bfseries G\+U\+I\+\_\+\+S\+H\+O\+W\+\_\+\+U\+SR}~1
+\item 
+\mbox{\Hypertarget{client_8h_a24d29b5e85ae0dca3a73126650fd1af3}\label{client_8h_a24d29b5e85ae0dca3a73126650fd1af3}} 
+\#define {\bfseries G\+U\+I\+\_\+\+S\+H\+O\+W\+\_\+\+M\+SG}~2
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{client_8h_a8da79677da15852ba90be81408f15cbf}\label{client_8h_a8da79677da15852ba90be81408f15cbf}} 
+typedef struct \mbox{\hyperlink{structSThreadArgs}{S\+Thread\+Args}} {\bfseries Thread\+Args}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void $\ast$ \mbox{\hyperlink{client_8h_a6f991ead3d41982e790d2c8a34bd1e0d}{client\+\_\+message\+\_\+receiver}} (void $\ast$arg)
+\begin{DoxyCompactList}\small\item\em thread for message receiving. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Client header file. 
+
+\begin{DoxyAuthor}{Author}
+Giuseppe Gambardella (\href{mailto:g.gambardella23@studenti.unisa.it}{\texttt{ g.\+gambardella23@studenti.\+unisa.\+it}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2022-\/10-\/28
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2022 -\/ All Rights Reserved
+\end{DoxyCopyright}
+This file is part of gagchat. gagchat is free software\+: you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+gagchat is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with gagchat. If not, see \href{http://www.gnu.org/licenses/}{\texttt{ http\+://www.\+gnu.\+org/licenses/}}. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{client_8h_a6f991ead3d41982e790d2c8a34bd1e0d}\label{client_8h_a6f991ead3d41982e790d2c8a34bd1e0d}} 
+\index{client.h@{client.h}!client\_message\_receiver@{client\_message\_receiver}}
+\index{client\_message\_receiver@{client\_message\_receiver}!client.h@{client.h}}
+\doxysubsubsection{\texorpdfstring{client\_message\_receiver()}{client\_message\_receiver()}}
+{\footnotesize\ttfamily void$\ast$ client\+\_\+message\+\_\+receiver (\begin{DoxyParamCaption}\item[{void $\ast$}]{arg }\end{DoxyParamCaption})}
+
+
+
+thread for message receiving. 
+
+thread for message receiving.
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & Thread\+Args var containing all the necessary information \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void$\ast$ 
+\end{DoxyReturn}
