@@ -30,22 +30,9 @@
 #include <time.h>
 #include <stdbool.h>
 
-//#include "message.h"
-#include "gui.h"
-#include "queue.h"
-
 int main(int argc, char** argv){
-    char *user = malloc(10*sizeof(char));
-    
-    sprintf(user, "Gianluca");
-
-    gui_print_menu(user);
-
-    gui_print_list_users_before();
-
-    gui_print_list_user("Peppe");
-    gui_print_list_user("Pippiniello");
-    gui_print_list_user("Faffariello");
-
-    gui_print_list_users_after();
+    char a;
+    printf("scan: ");
+    scanf("%c",&a);
+    printf("\033[1A");
 }

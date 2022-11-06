@@ -41,7 +41,7 @@ TQueue* queueCreate (int queue_size) {
     q->front = 0;
     q->back = 0;
     q->size = queue_size;
-    q->array = malloc(MSG_MAXLEN * sizeof(Message));
+    q->array = malloc(MSG_HISTORY_MAXLEN * sizeof(Message));
     return q;
 }
 

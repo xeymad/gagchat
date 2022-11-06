@@ -34,8 +34,10 @@
 
 TCPSocket *sock;
 
-static void server_destroy_connection(int signo){
-    if(signo == SIGINT){
+static void server_destroy_connection(int signo)
+{
+    if (signo == SIGINT)
+    {
         printf("\n\nClosing connection\n");
         fflush(stdout);
         tcp_socket_destroy(sock);
@@ -43,34 +45,59 @@ static void server_destroy_connection(int signo){
     }
 }
 
-void server_sendToAll(THashTable* ht, TBST tree, Message* message){
-    if(tree==NULL) return;
-    server_sendToAll(ht,tree->left,message);
-    char* user = tree->info;
-    int *destination_fd = hashTableSearch(ht,user);
-    tcp_socket_send_message(*destination_fd,message);
-    server_sendToAll(ht,tree->right,message);
+void server_sendToAll(THashTable *ht, TBST tree, Message *message)
+{
+    if (tree == NULL)
+        return;
+    server_sendToAll(ht, tree->left, message);
+    char *user = tree->info;
+    if (strcmp(user, message->user) != 0)
+    {
+        int *destination_fd = hashTableSearch(ht, user);
+        tcp_socket_send_message(*destination_fd, message);
+    }
+    server_sendToAll(ht, tree->right, message);
 }
 
-void server_sendUsersTo(int connection_fd, TBST users){
-    if(users==NULL) return;
+void server_sendUsersTo(int connection_fd, TBST users)
+{
+    if (users == NULL)
+        return;
     server_sendUsersTo(connection_fd, users->left);
     Message msg;
-    message_code_constructor(&msg,"Server",users->info,MSG_SRV_AVLUSR);
+    message_code_constructor(&msg, "Server", users->info, MSG_SRV_LSTUSR);
     tcp_socket_send_message(connection_fd, &msg);
     server_sendUsersTo(connection_fd, users->right);
 }
 
-void* server_manage_client(void* arg){
-    ThreadArgs* args = (ThreadArgs*)arg;
-    Message* msg = message_create();
-    char username[USR_MAXLEN];
+/**
+ * @brief Thread listener and management
+ *
+ * @param arg ThreadArgs var containing all the necessary information
+ * @return void*
+ */
+void *server_manage_client(void *arg)
+{
+    // Cast the arg to a pointer of ThreadArgs
+    ThreadArgs *args = (ThreadArgs *)arg;
+
+    // Create a message
+    Message *msg = message_create();
+
+    // Create a new var for username and it's length
+    char *username = malloc(USR_MAXLEN * sizeof(char));
     int len_username;
+
     // Authentication phase.
-    do{
-        if(tcp_socket_recv_message(args->connection_fd, msg) <=0){
+    do
+    {
+        if (tcp_socket_recv_message(args->connection_fd, msg) <= 0)
+        {
             // Client has disconnected prematurely.
-            printf("[ServerInfo]: Client has disconnected prematurely\n");
+            gui_set_color(On_IWhite);
+            printf("[ServerInfo]");
+            gui_set_color(Default_Color);
+            printf(": Client has disconnected prematurely\n");
             close(args->connection_fd);
             message_destroy(msg);
             free(args);
@@ -78,106 +105,166 @@ void* server_manage_client(void* arg){
             return NULL;
         }
         printf("%s: %s\t%d\n", msg->user, msg->text, msg->code);
-        if((msg->code==MSG_CLI_CREATE) && (hashTableSearch(args->ht,msg->user) == NULL))
+
+        // If is a message of type CREATE and the username doesn't exists go ahead
+        if ((msg->code == MSG_CLI_CREATE) && (hashTableSearch(args->ht, msg->user) == NULL))
             break;
-        message_code_constructor(msg,"Server","Requested User is not available. Try again.",MSG_SRV_USRNCK);
+
+        // Else send to the client to reinsert the username
+        message_code_constructor(msg, "Server", "Requested User is not available. Try again.", MSG_SRV_USRNCK);
         tcp_socket_send_message(args->connection_fd, msg);
-    }
-    while(1);
-    // Authentication OK. 
-    strncpy(username,msg->user,strlen(msg->user));
+    } while (1);
+
+    // Authentication OK.
+    strncpy(username, msg->user, strlen(msg->user));
     len_username = strlen(username) + 1;
+
     // Print Server information about accepted username.
     gui_set_color(On_IWhite);
     printf("[ServerInfo]");
     gui_set_color(Default_Color);
     printf(": accepted username ");
     gui_set_color(BRed);
-    printf("%s\n",username);
+    printf("%s\n", username);
     gui_set_color(Default_Color);
+
     // Server now inserts User in hashtable and ACKS the client.
     pthread_mutex_lock(args->lock);
-    hashTableInsert(args->ht,username,&args->connection_fd);
-    *(TBST*)args->tree = BSTinsertI(*(TBST*)args->tree, username);
+    hashTableInsert(args->ht, username, &args->connection_fd);
+    *(TBST *)args->tree = BSTinsertI(*(TBST *)args->tree, username);
     pthread_mutex_unlock(args->lock);
-    message_code_constructor(msg,"Server","User Accepted",MSG_SRV_USRACK);
+    message_code_constructor(msg, "Server", "User Accepted", MSG_SRV_USRACK);
     tcp_socket_send_message(args->connection_fd, msg);
+    message_code_constructor(msg, username, "There is a new User", MSG_SRV_NEW_USR);
+    server_sendToAll(args->ht, *(TBST *)args->tree, msg);
+
     // User insert ok. Now let's dispatch.
-    do{
-        if(tcp_socket_recv_message(args->connection_fd, msg) <=0){
+    do
+    {
+        if (tcp_socket_recv_message(args->connection_fd, msg) <= 0)
+        {
             // Client has disconnected. Free resources and remove occurrance from hashtable.
-            printf("[ServerInfo]: Disconnecting user %s\n", username);
+            gui_set_color(On_IWhite);
+            printf("[ServerInfo]");
+            gui_set_color(Default_Color);
+            printf(": Disconnecting user %s\n", username);
             pthread_mutex_lock(args->lock);
-            hashTableDelete(args->ht,username);
-            *(TBST*)args->tree = BSTdeleteI(*(TBST*)args->tree, username);
+            hashTableDelete(args->ht, username);
+            *(TBST *)args->tree = BSTdeleteI(*(TBST *)args->tree, username);
             pthread_mutex_unlock(args->lock);
             close(args->connection_fd);
+            message_code_constructor(msg, "Server", "Requested user not reacheable", MSG_SRV_USRNRC);
+            server_sendToAll(args->ht, *(TBST *)args->tree, msg);
             message_destroy(msg);
             free(args);
             args = NULL;
             return NULL;
         }
         int *destination_fd;
-        printf("%s: %s\t%d\n", msg->user, msg->text, msg->code);
-        if(msg->code==MESSAGE){
-            if(strcmp(msg->user, "all") == 0){
-                strncpy(msg->user,username,len_username);
-                server_sendToAll(args->ht, *(TBST*)args->tree, msg);
+        printf("User -> %s: %s\tcode: %d\n", msg->user, msg->text, msg->code);
+        if (msg->code == MESSAGE)
+        {
+            if (strcmp(msg->user, "all") == 0)
+            {
+                strncpy(msg->user, username, len_username);
+                server_sendToAll(args->ht, *(TBST *)args->tree, msg);
                 continue;
             }
             destination_fd = hashTableSearch(args->ht, msg->user);
-            if(destination_fd == NULL){
-                printf("[ServerInfo]: User %s unreachable\n",msg->user);
-                message_code_constructor(msg,"Server","Requested user not reacheable",MSG_SRV_USRNRC);
-                tcp_socket_send_message(args->connection_fd,msg);
+            if (destination_fd == NULL)
+            {
+                gui_set_color(On_IWhite);
+                printf("[ServerInfo]");
+                gui_set_color(Default_Color);
+                printf(": User %s unreachable\n", msg->user);
+                message_code_constructor(msg, "Server", "Requested user not reacheable", MSG_SRV_USRNRC);
+                tcp_socket_send_message(args->connection_fd, msg);
             }
-            else{
-                strncpy(msg->user,username,len_username);
-                tcp_socket_send_message(*destination_fd,msg);
+            else
+            {
+                strncpy(msg->user, username, len_username);
+                tcp_socket_send_message(*destination_fd, msg);
             }
         }
-        else if(msg->code==MSG_CLI_LSTUSR){
-            server_sendUsersTo(args->connection_fd, *(TBST*)args->tree);
+        else if (msg->code == MSG_CLI_LSTUSR)
+        {
+            server_sendUsersTo(args->connection_fd, *(TBST *)args->tree);
+            message_code_constructor(msg, "Server", "", MSG_END_LSTUSR);
+            tcp_socket_send_message(args->connection_fd, msg);
+        }
+        else if (msg->code == MSG_CLI_USR)
+        {
+            destination_fd = hashTableSearch(args->ht, msg->user);
+            if (destination_fd == NULL)
+            {
+                message_code_constructor(msg, "Server", "", MSG_SRV_USR_IS_NAVL);
+            }
+            else
+            {
+                strcpy(msg->text, msg->user);
+                message_code_constructor(msg, "Server", msg->text, MSG_SRV_USR_IS_AVL);
+            }
+            tcp_socket_send_message(args->connection_fd, msg);
         }
     } while (1);
     close(args->connection_fd);
 }
 
-
 int main(int argc, char **argv)
 {
+    // Thread vars
     pthread_t tid;
     pthread_mutex_t lock;
-    THashTable* ht = hashTableCreate(LISTENQ);
+
+    // Create an hashtable and a binary search tree
+    // containing the client info
+    THashTable *ht = hashTableCreate();
     TBST bst = BSTcreate();
-    hashTableInsert(ht,"Server", &ht);
-    hashTableInsert(ht,"all", &bst);
+
+    // Insert an istance for a message from the server and
+    // a special istance for the broadcast messages
+    hashTableInsert(ht, "Server", &ht);
+    hashTableInsert(ht, "all", &bst);
+
+    // Create the socket
     sock = tcp_socket_create(SERVER, "");
+
+    // Configure the server
     tcp_socket_server_listen(sock);
+
     printf("%s\n", "Server running...waiting for connections.");
-    if (signal(SIGINT, server_destroy_connection) == SIG_ERR) {
-		fprintf(stderr, "Can't catch SIGINT: %s", strerror(errno));
-		exit(1);
-	}
+    if (signal(SIGINT, server_destroy_connection) == SIG_ERR)
+    {
+        fprintf(stderr, "Can't catch SIGINT: %s", strerror(errno));
+        exit(1);
+    }
     if (pthread_mutex_init(&lock, NULL) != 0)
     {
-        fprintf(stderr,"Mutex init failed with errno %d\n", errno);
+        fprintf(stderr, "Mutex init failed with errno %d\n", errno);
         exit(2);
     }
+
     int connection_fd;
     while (1)
     {
-        if((connection_fd = tcp_socket_server_accept(sock)) < 0){
+        // Wait for a new client
+        if ((connection_fd = tcp_socket_server_accept(sock)) < 0)
+        {
             fprintf(stderr, "Accept connection error with errno %d\n", errno);
             continue;
         }
+
+        // Print the new client info
         gui_set_color(On_IWhite);
         printf("[ServerInfo]");
         gui_set_color(Default_Color);
-        printf(": request with connection_fd %d\n",connection_fd);
+        printf(": request with connection_fd %d\n", connection_fd);
         fflush(stdout);
-        ThreadArgs* t_args = malloc(sizeof(ThreadArgs));
-        if(t_args==NULL){
+
+        // Create a new thread listener for the client
+        ThreadArgs *t_args = malloc(sizeof(ThreadArgs));
+        if (t_args == NULL)
+        {
             fprintf(stderr, "No such memory to allocate\n");
             continue;
         }
@@ -185,7 +272,8 @@ int main(int argc, char **argv)
         t_args->ht = ht;
         t_args->tree = &bst;
         t_args->lock = &lock;
-        if(pthread_create(&tid, NULL, server_manage_client, (void *)t_args) != 0){
+        if (pthread_create(&tid, NULL, server_manage_client, (void *)t_args) != 0)
+        {
             fprintf(stderr, "Pthread creation error with errno %d\n", errno);
         }
     }

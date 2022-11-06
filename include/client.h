@@ -25,13 +25,15 @@
 #include <pthread.h>
 #include "hashtable.h"
 
-#ifndef QUEUE_SIZE
-    #define QUEUE_SIZE 32
-#endif
+#define GUI_MENU 0
+#define GUI_SHOW_USR 1
+#define GUI_SHOW_MSG 2
 
 typedef struct SThreadArgs{
     THashTable* ht;
     char* selectedUser;
+    char* clientUser;
+    u_int8_t* menu;
     pthread_mutex_t* lock;
 } ThreadArgs;
 

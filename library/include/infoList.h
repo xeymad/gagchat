@@ -26,22 +26,7 @@
 #ifndef INFO_LIST_H
 #define INFO_LIST_H
 
-#ifndef USR_MAXLEN
-    #define USR_MAXLEN 64 
-#endif
-
-#ifndef TXT_MAXLEN
-    #define TXT_MAXLEN 1024 
-#endif
-
-#ifndef MESSAGE_STRUCT
-    #define MESSAGE_STRUCT
-    typedef struct SMessage{
-        char user[USR_MAXLEN]; //Username is a string with a maximum length of 64 characters.
-        char text[TXT_MAXLEN]; //Message text is a string with a maximum length of 1024 characters.
-        int code; //Error code is represented by integer.
-    } Message;
-#endif
+#include "message.h"
 
 /**
  * @brief type of List
