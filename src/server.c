@@ -155,7 +155,7 @@ void *server_manage_client(void *arg)
             *(TBST *)args->tree = BSTdeleteI(*(TBST *)args->tree, username);
             pthread_mutex_unlock(args->lock);
             close(args->connection_fd);
-            message_code_constructor(msg, "Server", "Requested user not reacheable", MSG_SRV_USRNRC);
+            message_code_constructor(msg, "Server", username, MSG_SRV_USRNRC);
             server_sendToAll(args->ht, *(TBST *)args->tree, msg);
             message_destroy(msg);
             free(args);
