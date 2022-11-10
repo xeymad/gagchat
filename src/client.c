@@ -171,10 +171,9 @@ void *client_message_receiver(void *arg)
                 queueAdd(q, *msg);
             }
         }
-
+        // If the message is for all (broadcast chat)
         else if (msg->code == MSG_SRV_ALL)
         {
-
             // Search the user in the hashtable
             TQueue *q = hashTableSearch(args->ht, "all");
 
