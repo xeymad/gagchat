@@ -124,14 +124,14 @@ int queueIsEmpty(TQueue *q)
  * @brief Print all the element in the queue from the front
  *
  * @param q Pointer of the queue
- * @param user_sender Pointer to the client user
+ * @param username Pointer to the client user
  */
-void queuePrint(TQueue *q, char *user_sender)
+void queuePrint(TQueue *q, char *username)
 {
     int index = q->front;
     for (int i = 0; i < q->n_element; i++)
     {
-        gui_print_message(q->array[index], strcmp(q->array[index]->user, user_sender) == 0);
+        gui_print_message(q->array[index], strcmp(q->array[index]->user, username) != 0);
         index = (index + 1) % q->size;
     }
 }

@@ -171,6 +171,7 @@ void *server_manage_client(void *arg)
             {
                 // Forward the message to all
                 strncpy(msg->user, username, len_username);
+                msg->code = MSG_SRV_ALL;
                 server_sendToAll(args->ht, *(TBST *)args->tree, msg);
                 continue;
             }

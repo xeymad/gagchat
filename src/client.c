@@ -135,6 +135,7 @@ void *client_message_receiver(void *arg)
         // Message info
         else if (msg->code == MESSAGE)
         {
+
             // Search the user in the hashtable
             TQueue *q = hashTableSearch(args->ht, msg->user);
 
@@ -143,8 +144,47 @@ void *client_message_receiver(void *arg)
             {
                 // create a queue and insert it in the hashtable
                 pthread_mutex_lock(args->lock);
-                q = queueCreate();
+                q = queueCreate(MSG_HISTORY_MAXLEN);
                 hashTableInsert(args->ht, msg->user, q);
+                pthread_mutex_unlock(args->lock);
+
+                // If the client lies in the "show_all" pages, then update the user list
+                if (*args->menu == GUI_SHOW_USR)
+                {
+                    gui_print_list_users_header();
+                    message_code_constructor(msg, args->clientUser, "Retrieve all Users", MSG_CLI_LSTUSR);
+                    tcp_socket_send_message(sock->sockfd, msg);
+                }
+            }
+            // If the user is the selected one
+            if (strcmp(args->selectedUser, msg->user) == 0)
+            {
+                printf("\r");
+                gui_print_message(msg, true);
+                pthread_mutex_lock(args->lock);
+                queueAdd(q, *msg);
+                pthread_mutex_unlock(args->lock);
+            }
+            // If is selected anothe user, save only in the queue
+            else
+            {
+                queueAdd(q, *msg);
+            }
+        }
+
+        else if (msg->code == MSG_SRV_ALL)
+        {
+
+            // Search the user in the hashtable
+            TQueue *q = hashTableSearch(args->ht, "all");
+
+            // If is a new user
+            if (q == NULL)
+            {
+                // create a queue and insert it in the hashtable
+                pthread_mutex_lock(args->lock);
+                q = queueCreate(MSG_HISTORY_MAXLEN);
+                hashTableInsert(args->ht, "all", q);
                 pthread_mutex_unlock(args->lock);
 
                 // If the client lies in the "show_all" pages, then update the user list
@@ -165,16 +205,6 @@ void *client_message_receiver(void *arg)
                 queueAdd(q, *msg);
                 pthread_mutex_unlock(args->lock);
             }
-            // If the user is the selected one
-            else if (strcmp(args->selectedUser, msg->user) == 0)
-            {
-                printf("\r");
-                gui_print_message(msg, true);
-                pthread_mutex_lock(args->lock);
-                queueAdd(q, *msg);
-                pthread_mutex_unlock(args->lock);
-            }
-            // If is selected anothe user, save only in the queue
             else
             {
                 queueAdd(q, *msg);
@@ -355,12 +385,12 @@ int main(int argc, char **argv)
             TQueue *q = hashTableSearch(ht, selectedUser);
             if (q != NULL)
             {
-                queuePrint(q, selectedUser);
+                queuePrint(q, username);
             }
             else
             {
                 pthread_mutex_lock(&lock);
-                q = queueCreate();
+                q = queueCreate(MSG_HISTORY_MAXLEN);
                 hashTableInsert(ht, msg->user, q);
                 pthread_mutex_unlock(&lock);
             }

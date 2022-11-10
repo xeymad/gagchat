@@ -54,6 +54,7 @@
 #define MSG_SRV_USR_IS_NAVL 10 // Server response "user is not available".
 
 #define MSG_SRV_NEW_USR 11 // New user logged
+#define MSG_SRV_ALL 12 // New user logged
 /**
  * @brief struct exchanged by parties for gagchat
  *

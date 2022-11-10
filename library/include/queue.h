@@ -50,7 +50,7 @@ typedef struct
  *
  * @return TQueue* a new istance of queue
  */
-TQueue *queueCreate();
+TQueue *queueCreate(int queue_size);
 
 /**
  * @brief Destroy a queue
@@ -95,8 +95,8 @@ int queueIsEmpty(TQueue *q);
  * @brief Print all the element in the queue from the front
  *
  * @param q Pointer of the queue
- * @param user_sender Pointer to the client user
+ * @param username Pointer to the client user
  */
-void queuePrint(TQueue *q, char *user_sender);
+void queuePrint(TQueue *q, char *username);
 
 #endif
